@@ -1,10 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
-
+import Cart from './sections/Card/cart';
 function App() {
   return (
     <div className="App">
-    <h1>Hello PC</h1>
+        <Cart />
     </div>
   );
 }
