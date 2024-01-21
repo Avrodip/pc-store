@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AppBar, Toolbar, Button, Grid, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
 const PhotoGallery = ({ photos, selectedButton }) => {
   const navigate = useNavigate();
 
@@ -12,35 +13,41 @@ const PhotoGallery = ({ photos, selectedButton }) => {
   };
 
   return (
-    <Grid container spacing={2} justifyContent="center" style={{ backgroundColor: 'black', padding: '20px', borderRadius: '10px' }}>
-      {photos.map((photo, index) => (
-        <Grid item key={index} onClick={() => handleImageClick(photo.label)} style={{ cursor: 'pointer' }}>
-          <div style={{ width: '80px', height: '80px', overflow: 'hidden', borderRadius: '50%', margin: '0 auto', backgroundColor: 'white' }}>
-            <img src={photo.url} alt={photo.label} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
-          </div>
-          <p style={{ color: 'white', textAlign: 'center' }}>{photo.label}</p>
-        </Grid>
-      ))}
-      <Grid item>
-        <Typography variant="body1" style={{ color: 'white', textAlign: 'center', marginTop: '20px' }}>
-            <br/>
-          Tired of seeing just the pre-build PC options online?<br/>
-        </Typography>
-        <Typography>
-        It's time to Build It Yourself and get the highly customized configuration as per your requirement.<br/><br/>
-        </Typography>
-        <Button
-          component={Link}
-          to="/build-it-yourself"
-          color="primary"
-          variant="contained"
-          style={{ marginTop: '10px', backgroundColor: 'red', width: '200px',marginLeft:'40%' }}
-          endIcon={<ArrowForwardIcon />}
-        >
-          Build It Yourself
-        </Button>
+    <>
+    <br/>
+      <Grid container spacing={2} justifyContent="center" style={{ backgroundColor: 'black', padding: '20px', borderRadius: '10px' }}>
+        {photos.map((photo, index) => (
+          <Grid item key={index} onClick={() => handleImageClick(photo.label)} style={{ cursor: 'pointer' }}>
+            <div style={{ width: '80px', height: '80px', overflow: 'hidden', borderRadius: '50%', margin: '0 auto', backgroundColor: 'white' }}>
+              <img src={photo.url} alt={photo.label} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+            </div>
+            <p style={{ color: 'white', textAlign: 'center', wordBreak: 'break-word',minWidth: '120px',maxWidth: '120px' }}>{photo.label}</p>
+          </Grid>
+        ))}
       </Grid>
-    </Grid>
+
+      <Grid container justifyContent="center" style={{ backgroundColor: 'black', padding: '20px', borderRadius: '10px', marginTop: '20px' }}>
+        <Grid item>
+          <Typography variant="body1" style={{ color: 'white', textAlign: 'center' }}>
+            <br />
+            Tired of seeing just the pre-build PC options online?<br />
+          </Typography>
+          <Typography>
+            It's time to Build It Yourself and get the highly customized configuration as per your requirement.<br /><br />
+          </Typography>
+          <Button
+            component={Link}
+            to="/build-it-yourself"
+            color="primary"
+            variant="contained"
+            style={{ marginTop: '10px', marginLeft: '35%', backgroundColor: 'red', width: '200px' }}
+            endIcon={<ArrowForwardIcon />}
+          >
+            Build It Yourself
+          </Button>
+        </Grid>
+      </Grid>
+    </>
   );
 };
 
@@ -71,6 +78,7 @@ const MidSection = () => {
 
   return (
     <div>
+        <br/>
       <AppBar position="static" style={{ backgroundColor: '#212529' }}>
         <Toolbar style={{ justifyContent: 'center' }}>
           <Button

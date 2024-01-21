@@ -1,7 +1,7 @@
 // MainRoutes.jsx
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import MidSection from '../components/midsection';
+import MidSection from '../sections/midsection';
 import GamingPCDetails from '../components/gamingpcdetails';
 import WorkstationPCDetails from '../components/workstationpcdetails'; // Create a new component for workstation PC details
 
