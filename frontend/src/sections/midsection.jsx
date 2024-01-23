@@ -35,16 +35,6 @@ const PhotoGallery = ({ photos, selectedButton }) => {
           <Typography>
             It's time to Build It Yourself and get the highly customized configuration as per your requirement.<br /><br />
           </Typography>
-          <Button
-            component={Link}
-            to="/build-it-yourself"
-            color="primary"
-            variant="contained"
-            style={{ marginTop: '10px', marginLeft: '35%', backgroundColor: 'red', width: '200px' }}
-            endIcon={<ArrowForwardIcon />}
-          >
-            Build It Yourself
-          </Button>
         </Grid>
       </Grid>
     </>

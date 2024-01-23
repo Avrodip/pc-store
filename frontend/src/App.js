@@ -9,6 +9,7 @@ import DetailsComponent from './sections/details.jsx';
 import Quotes from './sections/quotes.jsx';
 import FocusCart from './sections/focusCart.jsx';
 import ImageSlider from './sections/ImageSlider.jsx';
+import Footer from './sections/footer.js';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <DetailsComponent />
         <FocusCart />
         <Quotes />
+        <Footer/>
       </div>
     </Router>
   );
