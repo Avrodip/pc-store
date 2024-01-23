@@ -1,69 +1,63 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import Grid from '@mui/material/Grid';
 
 const ImageSlider = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
   const images = [
-    'https://www.ant-pc.com/assets/2022-theme/images/Banner-1.webp',
-    'https://www.ant-pc.com/assets/2022-theme/images/Banner-6.webp',
-    'https://www.ant-pc.com/assets/2022-theme/images/Nvidia_RTX_470_Web_Banner.webp',
-    'https://www.ant-pc.com/assets/2022-theme/images/Workstation-content-creation.webp',
-    'https://www.ant-pc.com/assets/2022-theme/images/EMI-BannerN.webp',
-    'https://www.ant-pc.com/assets/2022-theme/images/Workstation_PC_Banner.webp',
+    '/Images/banner/Banner-2 Dark.png',
+    '/Images/banner/Banner-3-Dark.png',
+    '/Images/banner/Banner-3-High-FInal.png',
+    '/Images/banner/Banner-4-Dark.png',
+    '/Images/banner/Banner-4-High-Final.png',
+    '/Images/banner/Banner-5-High-Final.png',
+    '/Images/banner/Website Banner 1.png',
     // Add more image URLs as needed
   ];
 
+  const sliderRef = useRef(null);
+
   const goToNextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    sliderRef.current.slickNext();
   };
 
   const goToPrevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    sliderRef.current.slickPrev();
+  };
+
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
   };
 
   return (
-    <div style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
-      {images.map((image, index) => (
-        <img
-          key={index}
-          src={image}
-          alt={`Slide ${index + 1}`}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            display: index === currentIndex ? 'block' : 'none',
-          }}
-        />
-      ))}
-
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <button
-          onClick={goToPrevSlide}
-          style={{ color: 'white', fontSize: '24px', margin: '20px', backgroundColor: 'black', borderRadius: '50%', padding: '10px' }}
-        >
-          &lt;
+    <Grid style={{ position: 'relative', marginTop:"100px" }}>
+      <Slider ref={sliderRef} {...settings}>
+        {images.map((image, index) => (
+          <Grid key={index}>
+            <img
+              src={image}
+              alt={`Slide ${index + 1}`}
+              style={{ width: '100%', height: '600px', objectFit: 'cover' }}
+            />
+          </Grid>
+        ))}
+      </Slider>
+      <Grid style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <button onClick={goToPrevSlide} style={{ backgroundColor: 'black', borderRadius: '50%', padding: '10px', border: 'none', cursor: 'pointer' }}>
+          <ArrowBackIosIcon style={{ color: 'white', fontSize: '24px' }} />
         </button>
-        <button
-          onClick={goToNextSlide}
-          style={{ color: 'white', fontSize: '24px', margin: '20px', backgroundColor: 'black', borderRadius: '50%', padding: '10px' }}
-        >
-          &gt;
+        <button onClick={goToNextSlide} style={{ backgroundColor: 'black', borderRadius: '50%', padding: '10px', border: 'none', cursor: 'pointer' }}>
+          <ArrowForwardIosIcon style={{ color: 'white', fontSize: '24px' }} />
         </button>
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 };
 
