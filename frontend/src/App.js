@@ -1,9 +1,9 @@
 import './App.css';
-import FocusCart from './sections/Card/focusCart';
+import Cart from './sections/Card/cart';
 function App() {
   return (
     <div className="App">
-        <FocusCart />
+        <Cart />
     </div>
   );
 }

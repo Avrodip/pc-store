@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 
 const styles = {
   card: {
@@ -57,7 +57,6 @@ export default function ActionAreaCard() {
         onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
         onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
       >
-        <CardActionArea>
         <CardMedia
   component="img"
   height="140"
@@ -71,7 +70,6 @@ export default function ActionAreaCard() {
             </Typography>
             <Button sx={styles.viewMoreButton}>View More</Button>
           </CardContent>
-        </CardActionArea>
       </Card>
 
       <Card
@@ -80,7 +78,6 @@ export default function ActionAreaCard() {
         onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
         onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
       >
-        <CardActionArea>
           <CardMedia component="img" height="140" image="https://www.ant-pc.com/assets/2022-theme/images/gaming-sm.png" alt="green iguana" />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div" sx={styles.mainTypography}>
@@ -88,7 +85,6 @@ export default function ActionAreaCard() {
             </Typography>
             <Button sx={styles.viewMoreButton}>View More</Button>
           </CardContent>
-        </CardActionArea>
       </Card>
     </Grid>
   );
