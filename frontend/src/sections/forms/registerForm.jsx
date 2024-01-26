@@ -1,8 +1,11 @@
 import React from 'react'
 import { useFormik } from 'formik';
-import { TextField, Stack, FormControl, Button, InputLabel, OutlinedInput, FormHelperText, Grid } from "@mui/material"
+import { Stack, Button, InputLabel, OutlinedInput, FormHelperText, Grid } from "@mui/material"
 import * as Yup from 'yup';
-
+import ReCAPTCHA from "react-google-recaptcha";
+import { userRegistration } from '../../services/authService';
+import { useNavigate } from "react-router-dom";
+const captchaKEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
 
 // Form Validation Schema
 const formValidation = Yup.object({
@@ -15,11 +18,26 @@ const formValidation = Yup.object({
 });
 
 const RegisterForm = () => {
+    const navigate = useNavigate();
 
-    const customerRegister = (values) => {
-        console.log("Form Submit ", values)
+    // Google captcha
+    function onChange(value) {
+        console.log("Captcha value:", value);
     }
 
+    // User Registration
+    const customerRegister = async (values) => {
+        console.log("Form Submit ", values)
+        const result = await userRegistration(values)
+        // notify();
+        // console.log("Result : ", result.data[0].userID)
+
+        if (result.statusCode === 200) {
+            navigate("/login")
+        }
+    }
+
+    // Formik
     const formik = useFormik({
         initialValues: {
             firstName: '',
@@ -158,6 +176,7 @@ const RegisterForm = () => {
                         )}
                     </Grid>
 
+
                     <Grid item xs={12} sm={6}>
                         <Stack spacing={1}>
                             <InputLabel htmlFor="confirmPassword-signup" sx={{ color: "white" }}>Confirm Password</InputLabel>
@@ -183,8 +202,13 @@ const RegisterForm = () => {
                     </Grid>
 
                     <Grid item xs={12} sx={{ textAlign: 'center', mt: 2 }}>
+                        <ReCAPTCHA sitekey={captchaKEY} onChange={onChange} />
+                    </Grid>
+
+                    <Grid item xs={12} sx={{ textAlign: 'center', mt: 2 }}>
                         <Button type="submit" color="error" variant="contained">Sign Up</Button>
                     </Grid>
+
 
                     <Grid item xs={12} sx={{ textAlign: 'center' }}>
                         <h5>By tapping Sign Up, you acknowledge that you have read

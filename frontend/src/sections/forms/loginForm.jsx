@@ -1,7 +1,10 @@
 import React from 'react'
 import { useFormik } from 'formik';
-import { TextField, Stack, FormControl, FormHelperText, Button, InputLabel, OutlinedInput, Grid } from "@mui/material"
+import { Stack, FormHelperText, Button, InputLabel, OutlinedInput, Grid } from "@mui/material"
 import * as Yup from 'yup';
+import { userLogin } from '../../services/authService';
+import { ToastContainer } from 'react-toastify';
+import { successToast } from "../../components/reactToastify"
 
 // Form Validation Schema
 const formValidation = Yup.object({
@@ -11,8 +14,12 @@ const formValidation = Yup.object({
 
 const LoginForm = () => {
 
-    const customerRegister = (values) => {
-        console.log("Form Submit ", values)
+    const customerLogin = async (values) => {
+        const result = await userLogin(values)
+        if (result.statusCode == 200) {
+            successToast("Login Success", "top-right");
+            localStorage.setItem("userID ", result.data[0].userID)
+        }
     }
 
     const formik = useFormik({
@@ -21,7 +28,7 @@ const LoginForm = () => {
             password: '',
         },
         validationSchema: formValidation,
-        onSubmit: (values) => { customerRegister(values) }
+        onSubmit: (values) => { customerLogin(values) }
     })
 
     return (
@@ -58,6 +65,7 @@ const LoginForm = () => {
                             id="password-signin"
                             value={formik.values.password}
                             name="password"
+                            type='password'
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
                             placeholder="Enter Password"
@@ -73,6 +81,8 @@ const LoginForm = () => {
                         </FormHelperText>
                     )}
                 </Grid>
+
+                <ToastContainer />
 
                 <Grid item xs={12} sx={{ textAlign: 'center', mt: 2 }}>
                     <Button type="submit" color="error" variant="contained">Sign IN</Button>
