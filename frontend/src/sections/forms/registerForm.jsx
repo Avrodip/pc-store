@@ -1,6 +1,6 @@
 import React from 'react'
 import { useFormik } from 'formik';
-import { TextField, Stack, FormControl, Button, InputLabel, OutlinedInput, Grid } from "@mui/material"
+import { TextField, Stack, FormControl, Button, InputLabel, OutlinedInput, FormHelperText, Grid } from "@mui/material"
 import * as Yup from 'yup';
 
 
@@ -29,60 +29,157 @@ const RegisterForm = () => {
             password: '',
             confirmPassword: ''
         },
-        // validationSchema: formValidation,
+        validationSchema: formValidation,
         onSubmit: (values) => { customerRegister(values) }
     })
 
     return (
         <>
             <form onSubmit={formik.handleSubmit}>
-                <Grid container spacing={2} sx={{ p: 2 }}>
-                    <Grid item xs={12} sm={6}>
-                        <TextField name="firstName" label="First Name" placeholder='Enter First Name' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.firstName}
-                            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                            helperText={formik.touched.firstName && formik.errors.firstName} fullWidth
-                            InputProps={{ style: { color: "rgb(179, 175, 170)", border: '1px solid #ced4da' } }}
-                            InputLabelProps={{ style: { color: 'white' } }} />
+                <Grid container spacing={2} sx={{ p: 3 }}>
+                    <Grid item xs={12} md={6} >
+                        <Stack spacing={1}>
+                            <InputLabel htmlFor="firstname-signup" sx={{ color: "white" }}>First Name</InputLabel>
+                            <OutlinedInput
+                                id="firstname-login"
+                                type="text"
+                                value={formik.values.firstName}
+                                name="firstName"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder="Enter First Name"
+                                fullWidth
+                                size="small"
+                                sx={{ border: 1, color: "white" }}
+                                error={Boolean(formik.touched.firstName && formik.errors.firstName)}
+                            />
+                        </Stack>
+                        {formik.touched.firstName && formik.errors.firstName && (
+                            <FormHelperText error id="helper-text-firstname-signup">
+                                {formik.errors.firstName}
+                            </FormHelperText>
+                        )}
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                        <TextField name="lastName" label="Last Name" placeholder='Enter Last Name' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.lastName}
-                            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                            helperText={formik.touched.lastName && formik.errors.lastName} fullWidth
-                            InputProps={{ style: { color: 'white' } }}
-                            InputLabelProps={{ style: { color: 'white' } }} />
+                        <Stack spacing={1}>
+                            <InputLabel htmlFor="lastName-signup" sx={{ color: "white" }}>Last Name</InputLabel>
+                            <OutlinedInput
+                                id="LastName-signup"
+                                type="text"
+                                value={formik.values.lastName}
+                                name="lastName"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder="Enter Last Name"
+                                fullWidth
+                                size="small"
+                                sx={{ border: 1, color: "white" }}
+                                error={Boolean(formik.touched.lastName && formik.errors.lastName)}
+                            />
+                        </Stack>
+                        {formik.touched.lastName && formik.errors.lastName && (
+                            <FormHelperText error id="helper-text-lastName-signup">
+                                {formik.errors.lastName}
+                            </FormHelperText>
+                        )}
+                    </Grid>
+
+
+                    <Grid item xs={12} sm={6}>
+                        <Stack spacing={1}>
+                            <InputLabel htmlFor="email-signup" sx={{ color: "white" }}>Email</InputLabel>
+                            <OutlinedInput
+                                id="email-signup"
+                                type="text"
+                                value={formik.values.emailID}
+                                name="emailID"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder="Enter Last Name"
+                                fullWidth
+                                size="small"
+                                sx={{ border: 1, color: "white" }}
+                                error={Boolean(formik.touched.emailID && formik.errors.emailID)}
+                            />
+                        </Stack>
+                        {formik.touched.emailID && formik.errors.emailID && (
+                            <FormHelperText error id="helper-text-EMAILID-signup">
+                                {formik.errors.emailID}
+                            </FormHelperText>
+                        )}
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                        <TextField name="emailID" label="Email" placeholder='Enter Email ID' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.emailID}
-                            error={formik.touched.emailID && Boolean(formik.errors.emailID)}
-                            helperText={formik.touched.emailID && formik.errors.emailID} fullWidth
-                            InputProps={{ style: { color: 'white' } }}
-                            InputLabelProps={{ style: { color: 'white' } }} />
+                        <Stack spacing={1}>
+                            <InputLabel htmlFor="contact-signup" sx={{ color: "white" }}>Contact Number</InputLabel>
+                            <OutlinedInput
+                                id="contact-signup"
+                                type="number"
+                                value={formik.values.contactNumber}
+                                name="contactNumber"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder="Enter Contact Number"
+                                fullWidth
+                                size="small"
+                                sx={{ border: 1, color: "white" }}
+                                error={Boolean(formik.touched.contactNumber && formik.errors.contactNumber)}
+                            />
+                        </Stack>
+                        {formik.touched.contactNumber && formik.errors.contactNumber && (
+                            <FormHelperText error id="helper-text-contactNumber-signup">
+                                {formik.errors.contactNumber}
+                            </FormHelperText>
+                        )}
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                        <TextField name="contactNumber" label="Contact Number" placeholder='Enter Contact Number' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.contactNumber}
-                            error={formik.touched.contactNumber && Boolean(formik.errors.contactNumber)}
-                            helperText={formik.touched.contactNumber && formik.errors.contactNumber} fullWidth
-                            InputProps={{ style: { color: 'white' } }}
-                            InputLabelProps={{ style: { color: 'white' } }} />
+                        <Stack spacing={1}>
+                            <InputLabel htmlFor="password-signup" sx={{ color: "white" }}>Password</InputLabel>
+                            <OutlinedInput
+                                id="password-signup"
+                                type="password"
+                                value={formik.values.password}
+                                name="password"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder="Enter password"
+                                fullWidth
+                                size="small"
+                                sx={{ border: 1, color: "white" }}
+                                error={Boolean(formik.touched.password && formik.errors.password)}
+                            />
+                        </Stack>
+                        {formik.touched.password && formik.errors.password && (
+                            <FormHelperText error id="helper-text-password-signup">
+                                {formik.errors.password}
+                            </FormHelperText>
+                        )}
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                        <TextField name="password" label="Password" placeholder='Enter password' type="password" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password}
-                            error={formik.touched.password && Boolean(formik.errors.password)}
-                            helperText={formik.touched.password && formik.errors.password} fullWidth
-                            InputProps={{ style: { color: 'white' } }}
-                            InputLabelProps={{ style: { color: 'white' } }} />
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        <TextField name="confirmPassword" label="Confirm Password" placeholder='Enter Confirm Password' type="password" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.confirmPassword}
-                            error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-                            helperText={formik.touched.confirmPassword && formik.errors.confirmPassword} fullWidth
-                            InputProps={{ style: { color: 'white' } }}
-                            InputLabelProps={{ style: { color: 'white' } }} />
+                        <Stack spacing={1}>
+                            <InputLabel htmlFor="confirmPassword-signup" sx={{ color: "white" }}>Confirm Password</InputLabel>
+                            <OutlinedInput
+                                id="confirmPassword-signup"
+                                type="password"
+                                value={formik.values.confirmPassword}
+                                name="confirmPassword"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder="Enter Confirm password"
+                                fullWidth
+                                size="small"
+                                sx={{ border: 1, color: "white" }}
+                                error={Boolean(formik.touched.confirmPassword && formik.errors.confirmPassword)}
+                            />
+                        </Stack>
+                        {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                            <FormHelperText error id="helper-text-confirmPassword-signup">
+                                {formik.errors.confirmPassword}
+                            </FormHelperText>
+                        )}
                     </Grid>
 
                     <Grid item xs={12} sx={{ textAlign: 'center', mt: 2 }}>

@@ -1,7 +1,7 @@
 // MainRoutes.jsx
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import MidSection from '../sections/midsection';
+import MidSection from '../layout/midsection';
 import GamingPCDetails from '../components/gamingpcdetails';
 import WorkstationPCDetails from '../components/workstationpcdetails';
 import Register from "../sections/auth/register";
