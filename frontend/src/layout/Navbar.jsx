@@ -119,12 +119,14 @@ const Navbar = () => {
                     <Grid container alignItems="center" justifyContent="space-between">
                         {/* Logo on the Top-Left Corner */}
                         <Grid item>
-                            <img
-                                src="/Images/Logo-Idea-white.png"
-                                alt="Logo"
-                                className="logo"
-                                style={{ width: "50px", height: "auto" }}
-                            />
+                            <Link to="/">
+                                <img
+                                    src="/Images/Logo-Idea-white.png"
+                                    alt="Logo"
+                                    className="logo"
+                                    style={{ width: "50px", height: "auto" }}
+                                />
+                            </Link>
                         </Grid>
 
                         {/* Buttons with Dropdowns */}
