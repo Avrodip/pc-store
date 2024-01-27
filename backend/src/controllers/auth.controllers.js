@@ -8,15 +8,10 @@ class AuthController {
         try {
             const result = await authManager.userLogin(req);
 
-            console.log("Result : ", result)
-
-            if (result !== null) {
-                if (result.length > 0) {
-                    return apiResponse.successResponseWithData(res, "Login Successfully.", result);
-                }
-                else {
-                    return apiResponse.unauthorizedResponse(res, "Email or Password is wrong.");
-                }
+            if (result.success) {
+                return apiResponse.successResponseWithData(res, result.message, result.data);
+            } else {
+                return apiResponse.unauthorizedResponse(res, result.message);
             }
         } catch (error) {
             return apiResponse.expectationFailedResponse(res, error);
@@ -26,24 +21,20 @@ class AuthController {
 
     async userRegistration(req, res) {
         try {
+            console.log("During registration : ", req)
             const result = await authManager.userRegistration(req);
 
             console.log("Results getting : ", result)
 
-            if (result !== null) {
-                if (result > 0) {
-                    return apiResponse.conflictRequest(res, "User Already Exists.");
-                } else {
-                    return apiResponse.successResponseWithData(res, "Registration Success.", result);
-                }
+            if (result.success) {
+                return apiResponse.successResponseWithData(res, result.message, result.data);
             } else {
-                return apiResponse.forbiddenRequest(res, "Error while registeting user.");
+                return apiResponse.conflictRequest(res, result.message);
             }
         } catch (error) {
             return apiResponse.expectationFailedResponse(res, error);
         }
     }
-
 }
 
 module.exports = { AuthController };

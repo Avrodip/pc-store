@@ -39,12 +39,18 @@ const userValidation = async (req, res, next) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.emailID,
-        mobileNumber: req.body.contactNumber,
+        mobileNumber: req.body.contactNumber.toString(),
         password: req.body.password,
     };
 
+
+
     const { error } = validation.validate(payload);
+
+    console.log("During validation : ", error)
+
     if (error) {
+        console.log("Executed")
         return apiResponse.notAcceptableRequest(res, `${error.message}`);
     } else {
         next();

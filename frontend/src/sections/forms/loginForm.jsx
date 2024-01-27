@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik';
 import { Stack, FormHelperText, Button, InputLabel, OutlinedInput, Grid } from "@mui/material"
 import * as Yup from 'yup';
@@ -13,12 +13,23 @@ const formValidation = Yup.object({
 });
 
 const LoginForm = () => {
+    const [errors, setErrors] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("")
+
+    useEffect(() => {
+        setTimeout(() => {
+            setErrors(false);
+        }, 3000)
+    }, [errors])
 
     const customerLogin = async (values) => {
         const result = await userLogin(values)
         if (result.statusCode == 200) {
             successToast("Login Success", "top-right");
-            localStorage.setItem("userID ", result.data[0].userID)
+            localStorage.setItem("pc-store-token ", result.data.token)
+        } else {
+            setErrorMsg(result.message);
+            setErrors(true);
         }
     }
 
@@ -83,6 +94,18 @@ const LoginForm = () => {
                 </Grid>
 
                 <ToastContainer />
+
+                {
+                    errors && (
+                        <Grid item xs={12} >
+                            <Stack spacing={1}>
+                                <FormHelperText error>
+                                    {errorMsg}
+                                </FormHelperText>
+                            </Stack>
+                        </Grid>
+                    )
+                }
 
                 <Grid item xs={12} sx={{ textAlign: 'center', mt: 2 }}>
                     <Button type="submit" color="error" variant="contained">Sign IN</Button>

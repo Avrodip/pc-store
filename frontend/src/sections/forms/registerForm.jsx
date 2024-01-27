@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useFormik } from 'formik';
 import { Stack, Button, InputLabel, OutlinedInput, FormHelperText, Grid } from "@mui/material"
 import * as Yup from 'yup';
+import { ToastContainer } from 'react-toastify';
+import { successToast } from "../../components/reactToastify"
 import ReCAPTCHA from "react-google-recaptcha";
 import { userRegistration } from '../../services/authService';
 import { useNavigate } from "react-router-dom";
@@ -18,7 +20,15 @@ const formValidation = Yup.object({
 });
 
 const RegisterForm = () => {
+    const [errors, setErrors] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("")
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setTimeout(() => {
+            setErrors(false);
+        }, 3000)
+    }, [errors])
 
     // Google captcha
     function onChange(value) {
@@ -27,13 +37,13 @@ const RegisterForm = () => {
 
     // User Registration
     const customerRegister = async (values) => {
-        console.log("Form Submit ", values)
         const result = await userRegistration(values)
-        // notify();
-        // console.log("Result : ", result.data[0].userID)
-
-        if (result.statusCode === 200) {
+        if (result.statusCode == 200) {
+            successToast("Registration Success", "top-right");
             navigate("/login")
+        } else {
+            setErrorMsg(result.message);
+            setErrors(true);
         }
     }
 
@@ -204,6 +214,20 @@ const RegisterForm = () => {
                     <Grid item xs={12} sx={{ textAlign: 'center', mt: 2 }}>
                         <ReCAPTCHA sitekey={captchaKEY} onChange={onChange} />
                     </Grid>
+
+                    <ToastContainer />
+
+                    {
+                        errors && (
+                            <Grid item xs={12} >
+                                <Stack spacing={1}>
+                                    <FormHelperText error>
+                                        {errorMsg}
+                                    </FormHelperText>
+                                </Stack>
+                            </Grid>
+                        )
+                    }
 
                     <Grid item xs={12} sx={{ textAlign: 'center', mt: 2 }}>
                         <Button type="submit" color="error" variant="contained">Sign Up</Button>

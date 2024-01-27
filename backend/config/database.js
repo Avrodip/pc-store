@@ -1,6 +1,7 @@
 const dbConfig = require("./config.json");
 const mysql = require("mysql");
-//conncetion with database.
+
+// Connection with database.
 const db = mysql.createConnection({
     host: dbConfig.host,
     user: dbConfig.username,
@@ -8,8 +9,6 @@ const db = mysql.createConnection({
     database: dbConfig.database,
     dialect: dbConfig.dialect,
 });
-
-console.log("dbconfig", db);
 
 db.connect((err, res) => {
     if (err) {
