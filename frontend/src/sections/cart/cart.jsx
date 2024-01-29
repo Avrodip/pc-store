@@ -4,6 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, Grid } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const styles = {
     card: {
@@ -71,7 +72,9 @@ export default function ActionAreaCard() {
                         <Typography gutterBottom variant="h5" component="div" sx={styles.mainTypography}>
                             Workstation
                         </Typography>
-                        <Button sx={styles.viewMoreButton}>View More</Button>
+                        <Button sx={styles.viewMoreButton} component={Link} to="/workStationCart">
+                            View More
+                        </Button>
                     </Grid>
 
                 </CardContent>
@@ -86,12 +89,11 @@ export default function ActionAreaCard() {
                 <CardMedia component="img" height="140" image="https://www.ant-pc.com/assets/2022-theme/images/gaming-sm.png" alt="green iguana" />
                 <CardContent>
                     <Grid container direction="column" alignItems="center" justifyContent="center">
-                        <Typography gutterBottom variant="h5" component="div" sx={styles.mainTypography}>
+                        <Typography gutterBottom variant="h5" component="div" sx={styles.mainTypography} >
                             Gaming PC
                         </Typography>
-                        <Button sx={styles.viewMoreButton}>View More</Button>
+                        <Button sx={styles.viewMoreButton} component={Link} to="/workStationCart">View More</Button>
                     </Grid>
-
                 </CardContent>
             </Card>
         </Grid>

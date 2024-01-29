@@ -26,7 +26,7 @@ const styles = {
     gridContainer: {
         display: 'flex',
         position: 'relative',
-        padding:'2%',
+        padding: '2%',
         marginBottom: "2%",
         flexDirection: 'row',
         justifyContent: 'space-around'
@@ -62,27 +62,27 @@ export default function WorkStationCart() {
     return (
         <>
             <ImageSlider />
-        <Grid container sx={styles.gridContainer}>
-            <Card
-                sx={styles.card}
-                elevation={5}
-                onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
-                onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
-            >
-                    <Typography sx={{ color: 'white', fontSize:'20px',textAlign: 'center', padding:2 }}>AI AND DEEP LEARNING</Typography>
-                <Grid container sx={{ backgroundColor: 'black' }}>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
-                        alt="green iguana"
-                        sx={{ backgroundColor: 'black' }}
-                    />
-                </Grid>
-                    <Typography  sx={{padding:3}}>
-                    Push AI & ML boundaries while maintaining system stability and performance.
+            <Grid container sx={styles.gridContainer}>
+                <Card
+                    sx={styles.card}
+                    elevation={5}
+                    onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
+                    onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
+                >
+                    <Typography sx={{ color: 'white', fontSize: '20px', textAlign: 'center', padding: 2 }}>AI AND DEEP LEARNING</Typography>
+                    <Grid container sx={{ backgroundColor: 'black' }}>
+                        <CardMedia
+                            component="img"
+                            height="140"
+                            image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
+                            alt="green iguana"
+                            sx={{ backgroundColor: 'black' }}
+                        />
+                    </Grid>
+                    <Typography sx={{ padding: 3 }}>
+                        Push AI & ML boundaries while maintaining system stability and performance.
                     </Typography>
-                    <Typography sx={{backgroundColor: 'black', fontSize:'15px' ,textAlign:'center', padding:1}}>
+                    <Typography sx={{ backgroundColor: 'black', fontSize: '15px', textAlign: 'center', padding: 1 }}>
                         Ideal-For
                     </Typography>
                     <CardMedia
@@ -91,30 +91,30 @@ export default function WorkStationCart() {
                         width='50px'
                         image="https://www.ant-pc.com/workstation-assets/assets/images/TF.png"
                         alt="green iguana"
-                        sx={{ backgroundColor: '#212529', padding:2, width:'30%' }}
+                        sx={{ backgroundColor: '#212529', padding: 2, width: '30%' }}
                     />
-                    <Button sx={{backgroundColor: '#CE0101', color:'white', width: '100%'}}>View More</Button>
-            </Card>
-            <Card
-                sx={styles.card}
-                elevation={5}
-                onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
-                onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
-            >
-                    <Typography sx={{ color: 'white', fontSize:'20px',textAlign: 'center', padding:2 }}>AI AND DEEP LEARNING</Typography>
-                <Grid container sx={{ backgroundColor: 'black' }}>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
-                        alt="green iguana"
-                        sx={{ backgroundColor: 'black' }}
-                    />
-                </Grid>
-                    <Typography  sx={{padding:3}}>
-                    Push AI & ML boundaries while maintaining system stability and performance.
+                    <Button sx={{ backgroundColor: '#CE0101', color: 'white', width: '100%' }}>View More</Button>
+                </Card>
+                <Card
+                    sx={styles.card}
+                    elevation={5}
+                    onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
+                    onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
+                >
+                    <Typography sx={{ color: 'white', fontSize: '20px', textAlign: 'center', padding: 2 }}>AI AND DEEP LEARNING</Typography>
+                    <Grid container sx={{ backgroundColor: 'black' }}>
+                        <CardMedia
+                            component="img"
+                            height="140"
+                            image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
+                            alt="green iguana"
+                            sx={{ backgroundColor: 'black' }}
+                        />
+                    </Grid>
+                    <Typography sx={{ padding: 3 }}>
+                        Push AI & ML boundaries while maintaining system stability and performance.
                     </Typography>
-                    <Typography sx={{backgroundColor: 'black', fontSize:'15px' ,textAlign:'center', padding:1}}>
+                    <Typography sx={{ backgroundColor: 'black', fontSize: '15px', textAlign: 'center', padding: 1 }}>
                         Ideal-For
                     </Typography>
                     <CardMedia
@@ -123,30 +123,30 @@ export default function WorkStationCart() {
                         width='50px'
                         image="https://www.ant-pc.com/workstation-assets/assets/images/TF.png"
                         alt="green iguana"
-                        sx={{ backgroundColor: '#212529', padding:2, width:'30%' }}
+                        sx={{ backgroundColor: '#212529', padding: 2, width: '30%' }}
                     />
-                    <Button sx={{backgroundColor: '#CE0101', color:'white', width: '100%'}}>View More</Button>
-            </Card>
-            <Card
-                sx={styles.card}
-                elevation={5}
-                onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
-                onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
-            >
-                    <Typography sx={{ color: 'white', fontSize:'20px',textAlign: 'center', padding:2 }}>AI AND DEEP LEARNING</Typography>
-                <Grid container sx={{ backgroundColor: 'black' }}>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
-                        alt="green iguana"
-                        sx={{ backgroundColor: 'black' }}
-                    />
-                </Grid>
-                    <Typography  sx={{padding:3}}>
-                    Push AI & ML boundaries while maintaining system stability and performance.
+                    <Button sx={{ backgroundColor: '#CE0101', color: 'white', width: '100%' }}>View More</Button>
+                </Card>
+                <Card
+                    sx={styles.card}
+                    elevation={5}
+                    onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
+                    onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
+                >
+                    <Typography sx={{ color: 'white', fontSize: '20px', textAlign: 'center', padding: 2 }}>AI AND DEEP LEARNING</Typography>
+                    <Grid container sx={{ backgroundColor: 'black' }}>
+                        <CardMedia
+                            component="img"
+                            height="140"
+                            image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
+                            alt="green iguana"
+                            sx={{ backgroundColor: 'black' }}
+                        />
+                    </Grid>
+                    <Typography sx={{ padding: 3 }}>
+                        Push AI & ML boundaries while maintaining system stability and performance.
                     </Typography>
-                    <Typography sx={{backgroundColor: 'black', fontSize:'15px' ,textAlign:'center', padding:1}}>
+                    <Typography sx={{ backgroundColor: 'black', fontSize: '15px', textAlign: 'center', padding: 1 }}>
                         Ideal-For
                     </Typography>
                     <CardMedia
@@ -155,30 +155,30 @@ export default function WorkStationCart() {
                         width='50px'
                         image="https://www.ant-pc.com/workstation-assets/assets/images/TF.png"
                         alt="green iguana"
-                        sx={{ backgroundColor: '#212529', padding:2, width:'30%' }}
+                        sx={{ backgroundColor: '#212529', padding: 2, width: '30%' }}
                     />
-                    <Button sx={{backgroundColor: '#CE0101', color:'white', width: '100%'}}>View More</Button>
-            </Card>
-            <Card
-                sx={styles.card}
-                elevation={5}
-                onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
-                onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
-            >
-                    <Typography sx={{ color: 'white', fontSize:'20px',textAlign: 'center', padding:2 }}>AI AND DEEP LEARNING</Typography>
-                <Grid container sx={{ backgroundColor: 'black' }}>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
-                        alt="green iguana"
-                        sx={{ backgroundColor: 'black' }}
-                    />
-                </Grid>
-                    <Typography  sx={{padding:3}}>
-                    Push AI & ML boundaries while maintaining system stability and performance.
+                    <Button sx={{ backgroundColor: '#CE0101', color: 'white', width: '100%' }}>View More</Button>
+                </Card>
+                <Card
+                    sx={styles.card}
+                    elevation={5}
+                    onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
+                    onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
+                >
+                    <Typography sx={{ color: 'white', fontSize: '20px', textAlign: 'center', padding: 2 }}>AI AND DEEP LEARNING</Typography>
+                    <Grid container sx={{ backgroundColor: 'black' }}>
+                        <CardMedia
+                            component="img"
+                            height="140"
+                            image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
+                            alt="green iguana"
+                            sx={{ backgroundColor: 'black' }}
+                        />
+                    </Grid>
+                    <Typography sx={{ padding: 3 }}>
+                        Push AI & ML boundaries while maintaining system stability and performance.
                     </Typography>
-                    <Typography sx={{backgroundColor: 'black', fontSize:'15px' ,textAlign:'center', padding:1}}>
+                    <Typography sx={{ backgroundColor: 'black', fontSize: '15px', textAlign: 'center', padding: 1 }}>
                         Ideal-For
                     </Typography>
                     <CardMedia
@@ -187,30 +187,30 @@ export default function WorkStationCart() {
                         width='50px'
                         image="https://www.ant-pc.com/workstation-assets/assets/images/TF.png"
                         alt="green iguana"
-                        sx={{ backgroundColor: '#212529', padding:2, width:'30%' }}
+                        sx={{ backgroundColor: '#212529', padding: 2, width: '30%' }}
                     />
-                    <Button sx={{backgroundColor: '#CE0101', color:'white', width: '100%'}}>View More</Button>
-            </Card>
-            <Card
-                sx={styles.card}
-                elevation={5}
-                onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
-                onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
-            >
-                    <Typography sx={{ color: 'white', fontSize:'20px',textAlign: 'center', padding:2 }}>AI AND DEEP LEARNING</Typography>
-                <Grid container sx={{ backgroundColor: 'black' }}>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
-                        alt="green iguana"
-                        sx={{ backgroundColor: 'black' }}
-                    />
-                </Grid>
-                    <Typography  sx={{padding:3}}>
-                    Push AI & ML boundaries while maintaining system stability and performance.
+                    <Button sx={{ backgroundColor: '#CE0101', color: 'white', width: '100%' }}>View More</Button>
+                </Card>
+                <Card
+                    sx={styles.card}
+                    elevation={5}
+                    onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
+                    onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
+                >
+                    <Typography sx={{ color: 'white', fontSize: '20px', textAlign: 'center', padding: 2 }}>AI AND DEEP LEARNING</Typography>
+                    <Grid container sx={{ backgroundColor: 'black' }}>
+                        <CardMedia
+                            component="img"
+                            height="140"
+                            image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
+                            alt="green iguana"
+                            sx={{ backgroundColor: 'black' }}
+                        />
+                    </Grid>
+                    <Typography sx={{ padding: 3 }}>
+                        Push AI & ML boundaries while maintaining system stability and performance.
                     </Typography>
-                    <Typography sx={{backgroundColor: 'black', fontSize:'15px' ,textAlign:'center', padding:1}}>
+                    <Typography sx={{ backgroundColor: 'black', fontSize: '15px', textAlign: 'center', padding: 1 }}>
                         Ideal-For
                     </Typography>
                     <CardMedia
@@ -219,30 +219,30 @@ export default function WorkStationCart() {
                         width='50px'
                         image="https://www.ant-pc.com/workstation-assets/assets/images/TF.png"
                         alt="green iguana"
-                        sx={{ backgroundColor: '#212529', padding:2, width:'30%' }}
+                        sx={{ backgroundColor: '#212529', padding: 2, width: '30%' }}
                     />
-                    <Button sx={{backgroundColor: '#CE0101', color:'white', width: '100%'}}>View More</Button>
-            </Card>
-            <Card
-                sx={styles.card}
-                elevation={5}
-                onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
-                onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
-            >
-                    <Typography sx={{ color: 'white', fontSize:'20px',textAlign: 'center', padding:2 }}>AI AND DEEP LEARNING</Typography>
-                <Grid container sx={{ backgroundColor: 'black' }}>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
-                        alt="green iguana"
-                        sx={{ backgroundColor: 'black' }}
-                    />
-                </Grid>
-                    <Typography  sx={{padding:3}}>
-                    Push AI & ML boundaries while maintaining system stability and performance.
+                    <Button sx={{ backgroundColor: '#CE0101', color: 'white', width: '100%' }}>View More</Button>
+                </Card>
+                <Card
+                    sx={styles.card}
+                    elevation={5}
+                    onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
+                    onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
+                >
+                    <Typography sx={{ color: 'white', fontSize: '20px', textAlign: 'center', padding: 2 }}>AI AND DEEP LEARNING</Typography>
+                    <Grid container sx={{ backgroundColor: 'black' }}>
+                        <CardMedia
+                            component="img"
+                            height="140"
+                            image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
+                            alt="green iguana"
+                            sx={{ backgroundColor: 'black' }}
+                        />
+                    </Grid>
+                    <Typography sx={{ padding: 3 }}>
+                        Push AI & ML boundaries while maintaining system stability and performance.
                     </Typography>
-                    <Typography sx={{backgroundColor: 'black', fontSize:'15px' ,textAlign:'center', padding:1}}>
+                    <Typography sx={{ backgroundColor: 'black', fontSize: '15px', textAlign: 'center', padding: 1 }}>
                         Ideal-For
                     </Typography>
                     <CardMedia
@@ -251,30 +251,30 @@ export default function WorkStationCart() {
                         width='50px'
                         image="https://www.ant-pc.com/workstation-assets/assets/images/TF.png"
                         alt="green iguana"
-                        sx={{ backgroundColor: '#212529', padding:2, width:'30%' }}
+                        sx={{ backgroundColor: '#212529', padding: 2, width: '30%' }}
                     />
-                    <Button sx={{backgroundColor: '#CE0101', color:'white', width: '100%'}}>View More</Button>
-            </Card>
-            <Card
-                sx={styles.card}
-                elevation={5}
-                onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
-                onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
-            >
-                    <Typography sx={{ color: 'white', fontSize:'20px',textAlign: 'center', padding:2 }}>AI AND DEEP LEARNING</Typography>
-                <Grid container sx={{ backgroundColor: 'black' }}>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
-                        alt="green iguana"
-                        sx={{ backgroundColor: 'black' }}
-                    />
-                </Grid>
-                    <Typography  sx={{padding:3}}>
-                    Push AI & ML boundaries while maintaining system stability and performance.
+                    <Button sx={{ backgroundColor: '#CE0101', color: 'white', width: '100%' }}>View More</Button>
+                </Card>
+                <Card
+                    sx={styles.card}
+                    elevation={5}
+                    onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
+                    onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
+                >
+                    <Typography sx={{ color: 'white', fontSize: '20px', textAlign: 'center', padding: 2 }}>AI AND DEEP LEARNING</Typography>
+                    <Grid container sx={{ backgroundColor: 'black' }}>
+                        <CardMedia
+                            component="img"
+                            height="140"
+                            image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
+                            alt="green iguana"
+                            sx={{ backgroundColor: 'black' }}
+                        />
+                    </Grid>
+                    <Typography sx={{ padding: 3 }}>
+                        Push AI & ML boundaries while maintaining system stability and performance.
                     </Typography>
-                    <Typography sx={{backgroundColor: 'black', fontSize:'15px' ,textAlign:'center', padding:1}}>
+                    <Typography sx={{ backgroundColor: 'black', fontSize: '15px', textAlign: 'center', padding: 1 }}>
                         Ideal-For
                     </Typography>
                     <CardMedia
@@ -283,30 +283,30 @@ export default function WorkStationCart() {
                         width='50px'
                         image="https://www.ant-pc.com/workstation-assets/assets/images/TF.png"
                         alt="green iguana"
-                        sx={{ backgroundColor: '#212529', padding:2, width:'30%' }}
+                        sx={{ backgroundColor: '#212529', padding: 2, width: '30%' }}
                     />
-                    <Button sx={{backgroundColor: '#CE0101', color:'white', width: '100%'}}>View More</Button>
-            </Card>
-            <Card
-                sx={styles.card}
-                elevation={5}
-                onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
-                onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
-            >
-                    <Typography sx={{ color: 'white', fontSize:'20px',textAlign: 'center', padding:2 }}>AI AND DEEP LEARNING</Typography>
-                <Grid container sx={{ backgroundColor: 'black' }}>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
-                        alt="green iguana"
-                        sx={{ backgroundColor: 'black' }}
-                    />
-                </Grid>
-                    <Typography  sx={{padding:3}}>
-                    Push AI & ML boundaries while maintaining system stability and performance.
+                    <Button sx={{ backgroundColor: '#CE0101', color: 'white', width: '100%' }}>View More</Button>
+                </Card>
+                <Card
+                    sx={styles.card}
+                    elevation={5}
+                    onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
+                    onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
+                >
+                    <Typography sx={{ color: 'white', fontSize: '20px', textAlign: 'center', padding: 2 }}>AI AND DEEP LEARNING</Typography>
+                    <Grid container sx={{ backgroundColor: 'black' }}>
+                        <CardMedia
+                            component="img"
+                            height="140"
+                            image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
+                            alt="green iguana"
+                            sx={{ backgroundColor: 'black' }}
+                        />
+                    </Grid>
+                    <Typography sx={{ padding: 3 }}>
+                        Push AI & ML boundaries while maintaining system stability and performance.
                     </Typography>
-                    <Typography sx={{backgroundColor: 'black', fontSize:'15px' ,textAlign:'center', padding:1}}>
+                    <Typography sx={{ backgroundColor: 'black', fontSize: '15px', textAlign: 'center', padding: 1 }}>
                         Ideal-For
                     </Typography>
                     <CardMedia
@@ -315,13 +315,13 @@ export default function WorkStationCart() {
                         width='50px'
                         image="https://www.ant-pc.com/workstation-assets/assets/images/TF.png"
                         alt="green iguana"
-                        sx={{ backgroundColor: '#212529', padding:2, width:'30%' }}
+                        sx={{ backgroundColor: '#212529', padding: 2, width: '30%' }}
                     />
-                    <Button sx={{backgroundColor: '#CE0101', color:'white', width: '100%'}}>View More</Button>
-            </Card>
-            <OurClientSlide />
-            <QualitySupport />
-        </Grid>
+                    <Button sx={{ backgroundColor: '#CE0101', color: 'white', width: '100%' }}>View More</Button>
+                </Card>
+                <OurClientSlide />
+                <QualitySupport />
+            </Grid>
         </>
     );
 }
