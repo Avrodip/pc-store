@@ -1,33 +1,32 @@
-// App.jsx
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import Midsection from './sections/midsection.jsx'; 
-import Navbar from './sections/navbar.jsx';
-import MainRoutes from './routes/MainRoutes.jsx';
-import Cart from './sections/cart/cart.jsx';
-import DetailsComponent from './sections/details.jsx';
-import Quotes from './sections/quotes.jsx';
-import FocusCart from './sections/cart/focusCart.jsx';
-import ImageSlider from './sections/ImageSlider.jsx';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from "./layout/Navbar.jsx"
 import WorkStationCart from './sections/cart/workStationCart/index.jsx';
-import Footer from './sections/footer.js';
+import Footer from './layout/footer.jsx';
+import Register from './sections/auth/register.jsx';
+import LoginAuth from './sections/auth/loginAuth.jsx';
+import { Box } from '@mui/material';
+import HomeSection from './layout/homeSection.jsx';
 
 function App() {
-  return (
-    <Router>
-      <div className="App" style={{ backgroundColor: 'black', color: 'white' }}>
-        <Navbar />
-        {/* <ImageSlider /> */}
-        {/* <Cart />
-        <Midsection />
-        <DetailsComponent />
-        <FocusCart />
-        <Quotes /> */}
-        <WorkStationCart/>
-        <Footer/>
-      </div>
-    </Router>
-  );
+
+    return (
+        <Router>
+            <Box sx={{ background: "black", color: "white" }}>
+                <Navbar />
+                <Routes>
+                    <Route path='/' element={<HomeSection />} />
+                    <Route path='/workStationCart' element={<WorkStationCart />} />
+
+                    <Route path='/login' element={<LoginAuth />} />
+                    <Route path='/register' element={<Register />} />
+
+                </Routes>
+                <Footer />
+            </Box>
+
+        </Router>
+    );
 }
 
 export default App;

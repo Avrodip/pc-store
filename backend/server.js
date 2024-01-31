@@ -1,8 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const apiRouter = require("./src/routes/api.routes");
 var bodyParser = require('body-parser');
-// var apiRouter = require("./src/routes/api.routes");
 const app = express();
 global.__basedir = __dirname;
 
@@ -13,9 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(cookieParser());
 //To allow cross-origin requests
 app.use(cors());
-app.use("/api/", (req,res)=>{
-    res.send("Cool you can defined your route here")
-});
+app.use("/api/", apiRouter);
 
 // for parsing multipart/form-data
 // app.use(upload.array());
@@ -25,4 +23,3 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
-

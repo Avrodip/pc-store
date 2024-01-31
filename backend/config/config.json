@@ -1,13 +1,13 @@
 {
-  "username": "root",
-  "password": "password",
-  "database": "pc-store",
-  "host": "127.0.0.1",
-  "dialect": "mysql",
-  "pool": {
-    "max": 5,
-    "min": 0,
-    "acquire": 3600000,
-    "idle": 3600000
-  }
+    "username": "",
+    "password": "",
+    "database": "pc-store",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "pool": {
+        "max": 5,
+        "min": 0,
+        "acquire": 3600000,
+        "idle": 3600000
+    }
 }
