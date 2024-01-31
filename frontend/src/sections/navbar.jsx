@@ -77,7 +77,7 @@ const Navbar = () => {
   };
 
   return (
-    <Grid style={{ marginBottom: 0, padding: 0 }}>
+    <Grid style={{ margin: 0, padding: 0 }}>
       {/* First Navbar */}
       <AppBar position="fixed" style={{ backgroundColor: "#171717", height: "35px" }}>
         <Toolbar>
