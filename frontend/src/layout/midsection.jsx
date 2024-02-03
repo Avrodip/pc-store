@@ -68,7 +68,6 @@ const MidSection = () => {
             <AppBar position="static" style={{ backgroundColor: '#212529' }}>
                 <Toolbar style={{ justifyContent: 'center' }}>
                     <Button
-                        component={Link}
                         color={selectedButton === gameCategories.gaming ? 'error' : 'inherit'}
                         sx={{
                             marginRight: '10px',
@@ -95,7 +94,6 @@ const MidSection = () => {
                     </Button>
 
                     <Button
-                        component={Link}
                         color={selectedButton === gameCategories.workstation ? 'error' : 'inherit'}
                         sx={{
                             marginRight: '10px',

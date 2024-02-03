@@ -8,7 +8,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Link } from 'react-router-dom';
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 const Navbar = () => {
     const [isHovered3, setIsHovered3] = React.useState(false);
@@ -40,6 +40,7 @@ const Navbar = () => {
                         position: "absolute",
                         paddingLeft: "60px",
                         top: "60px",
+                        border: "2px solid red",
                         backgroundColor: "#171717",
                         width: "100%",
                         height: "400px",
@@ -54,7 +55,7 @@ const Navbar = () => {
                     onMouseLeave={() => handleMouseLeave(3)}
                 >
                     <Box sx={{ marginRight: "20px", marginLeft: "20px", maxWidth: "25%", height: "200px" }}>
-                        <h3>AI & DEEP LEARNING</h3>
+                        <Typography component="h3">AI & DEEP LEARNING</Typography>
                         <Box sx={{ display: "flex", alignItems: "center" }}>
                             <Box>
                                 <img
@@ -232,43 +233,31 @@ const Navbar = () => {
     };
 
     return (
-        <Grid style={{ margin: 0, padding: 0 }}>
+        <Grid container style={{ margin: 0, padding: 0 }}>
+
             {/* First Navbar */}
             <AppBar position="fixed" style={{ backgroundColor: "#171717", height: "35px" }}>
-                <Toolbar>
-                    <Grid container alignItems="center" justifyContent="space-between">
-                        {/* Logo on the Top-Left Corner */}
-                        <Grid item style={{ textAlign: "center" }}>
-                            {/* <img src="path-to-your-logo" alt="Logo" className="logo" /> */}
-                        </Grid>
-
-                        {/* Top Right corner Section */}
-                        <Grid
-                            item
-                            container
-                            xs={8}
-                            justifyContent="flex-end"
-                            style={{ marginBottom: "25px" }}
-                        >
-                            <Button color="inherit" component={Link} to="/register">
-                                Register
-                            </Button>
-                            <Button color="inherit" component={Link} to="/login">
-                                Login
-                            </Button>
-                            <IconButton color="inherit">
-                                <SearchIcon />
-                            </IconButton>
-                            <IconButton color="inherit">
-                                <ShoppingCartIcon />
-                            </IconButton>
-                        </Grid>
+                <Grid container justifyContent="space-between" alignItems="center">
+                    {/* Left side logo */}
+                    <Grid item>
+                        {/* Uncomment and customize your logo if needed */}
+                        {/* <img src="path-to-your-logo" alt="Logo" className="logo" /> */}
                     </Grid>
-                </Toolbar>
+
+                    {/* Right side buttons and icons */}
+                    <Grid item sx={{ pr: 1 }}>
+                        <>
+                            <Button color="inherit" component={Link} to="/register">Register</Button>
+                            <Button color="inherit" component={Link} to="/login">Login</Button>
+                            <IconButton color="inherit"><SearchIcon /></IconButton>
+                            <IconButton color="inherit"><ShoppingCartIcon /></IconButton>
+                        </>
+                    </Grid>
+                </Grid>
             </AppBar>
 
             {/* Second Navbar */}
-            <AppBar position="fixed" color="primary" style={{ backgroundColor: "#000000", top: '35px' }}>
+            <AppBar position="fixed" color="primary" sx={{ backgroundColor: "#000000", top: '35px', width: "100%" }}>
                 <Toolbar>
                     <Grid container alignItems="center" justifyContent="space-between">
                         {/* Logo on the Top-Left Corner */}
@@ -284,12 +273,7 @@ const Navbar = () => {
                         </Grid>
 
                         {/* Buttons with Dropdowns */}
-                        <Grid
-                            item
-                            container
-                            xs={8}
-                            justifyContent="flex-end"
-                        >
+                        <Grid item container xs={8} justifyContent="flex-end">
                             <Button
                                 color="inherit"
                                 onClick={() => renderDropdownContent(3)}
@@ -331,9 +315,11 @@ const Navbar = () => {
                         </Grid>
                     </Grid>
                 </Toolbar>
-            </AppBar>
-        </Grid>
+            </AppBar >
+
+        </Grid >
     );
 };
 
 export default Navbar;
+

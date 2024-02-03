@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import { Stack, Button, InputLabel, OutlinedInput, Select, FormHelperText, Grid, Typography, MenuItem, CardMedia } from "@mui/material"
 import { ArrowRightOutlined, DownloadOutlined, ShoppingCartOutlined, ShareAltOutlined } from "@ant-design/icons"
 import 'animate.css';
+import CartProductSpecs from './CartProductSpecs';
 
 const ConfigureCartProduct = () => {
     const [isChangeForm, setIsChangeForm] = useState(true);
@@ -48,17 +49,18 @@ const ConfigureCartProduct = () => {
 
     return (
         <form onSubmit={formik.handleSubmit}>
-            <Grid sx={{ py: 10, display: "flex", gap: 2, m: 4 }}>
-                <Grid sx={{ width: "40%", pt: 2 }}>
+            <Grid container sx={{ pt: 14, px: { xs: 0, sm: 1, md: 3 } }}>
+
+                <Grid item xs={12} md={6} lg={6} >
                     <Grid item sx={{ textAlign: "center" }}>
-                        <Typography sx={{ fontSize: "25px" }}>ANT PC Pharaoh RL500</Typography>
+                        <Typography sx={{ fontSize: "25px", fontWeight: "bold" }}>ANT PC Pharaoh RL500</Typography>
                     </Grid>
 
-                    <Grid item sx={{ display: "flex", p: 6 }}>
-
-                        <Grid >
+                    <Grid item sx={{ display: "flex", alignItems: "center", p: 6 }}>
+                        <Grid item xs={8} >
                             <CardMedia component="img" sx={{
-                                width: "80%", transition: "transform .2s",
+                                width: "100%",
+                                transition: "transform .2s",
                                 ':hover': {
                                     transform: "scale(1.2)",
                                 },
@@ -66,27 +68,25 @@ const ConfigureCartProduct = () => {
                                 src={selectedImage} />
                         </Grid>
 
-                        <Grid sx={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: 5 }}>
-                            <CardMedia component="img" sx={{ width: "60px", cursor: "pointer", transition: "transform .2s", ':hover': { transform: "scale(1.2)" } }}
+                        <Grid item xs={4} sx={{ display: "flex", alignItems: "center", flexDirection: "column", mx: "auto", gap: 4 }}>
+                            <CardMedia component="img" sx={{ width: { xs: "50%" }, cursor: "pointer", transition: "transform .2s", ':hover': { transform: "scale(1.2)" } }}
                                 src={images[0]} onClick={() => setSelectedImage(images[0])} />
 
-                            <CardMedia component="img" sx={{ width: "60px", cursor: "pointer", transition: "transform .2s", ':hover': { transform: "scale(1.2)" } }}
+                            <CardMedia component="img" sx={{ width: { xs: "50%" }, cursor: "pointer", transition: "transform .2s", ':hover': { transform: "scale(1.2)" } }}
                                 src={images[1]} onClick={() => setSelectedImage(images[1])} />
 
-                            <CardMedia component="img" sx={{ width: "60px", cursor: "pointer", transition: "transform .2s", ':hover': { transform: "scale(1.2)" } }}
+                            <CardMedia component="img" sx={{ width: { xs: "50%" }, cursor: "pointer", transition: "transform .2s", ':hover': { transform: "scale(1.2)" } }}
                                 src={images[2]} onClick={() => setSelectedImage(images[2])} />
                         </Grid>
                     </Grid>
 
-                    <Grid item sx={{ textAlign: "center" }}>
+                    <Grid item sx={{ textAlign: "center", pb: { xs: 4, sm: 4, md: 0 } }}>
                         <Typography sx={{ fontSize: "25px", fontWeight: "bold" }}>₹ 33,339.10</Typography>
                         <Typography sx={{ fontSize: "11px", fontWeight: "bold" }}>(Inclusive Of All Taxes)</Typography>
                     </Grid>
-
                 </Grid>
 
-                <Grid sx={{ background: "#171717", width: "60%" }}>
-
+                <Grid item xs={12} md={6} lg={6} sx={{ background: "#171717" }}>
                     <Grid item sx={{ display: "flex" }}>
                         <Grid item sm={6} md={6} sx={{ width: "50%" }}>
                             <Stack spacing={1}>
@@ -506,20 +506,22 @@ const ConfigureCartProduct = () => {
                             )
                     }
 
-                    <Grid container sx={{ display: "flex", justifyContent: "space-between" }}>
-                        <Grid item sx={{ py: 2, pl: 4 }}>
+                    <Grid container sx={{ display: { sm: "flex" }, flexDirection: { xs: 'column', sm: 'row' }, justifyContent: { sm: "space-between", md: 'space-evenly' }, px: { xs: 2, sm: 0 }, pb: { xs: 1, sm: 0 } }}>
+                        <Grid item sx={{ py: { sm: 2 }, pl: { sm: 2 } }}>
                             <Typography>
                                 Expected date of Dispatch : Feb 12, 2024
                             </Typography>
                         </Grid>
-                        <Grid item sx={{ py: 2, pr: 4 }}>
+                        <Grid item sx={{ py: { sm: 2 }, pr: { sm: 2 } }}>
                             <Typography>
                                 Share this configuration <ShareAltOutlined />
                             </Typography>
                         </Grid>
                     </Grid>
-
                 </Grid>
+
+                <CartProductSpecs />
+
             </Grid>
         </form >
     )
