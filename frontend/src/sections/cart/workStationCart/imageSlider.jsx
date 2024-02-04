@@ -3,12 +3,12 @@ import { Paper, Button, Grid, Typography } from '@mui/material';
 import { Slide } from '@mui/material';
 
 const images = [
-  'https://via.placeholder.com/800x400?text=Image1',
-  'https://via.placeholder.com/800x400?text=Image2',
-  'https://via.placeholder.com/800x400?text=Image3',
-  'https://via.placeholder.com/800x400?text=Image4',
-  'https://via.placeholder.com/800x400?text=Image5',
-];
+    'https://www.ant-pc.com/workstation/engineering.jpg',
+    'https://www.ant-pc.com/workstation/ai-and-deep-learning.jpg',
+    'https://www.ant-pc.com/workstation/animation.jpg',
+    'https://www.ant-pc.com/workstation/rendering.jpg',
+    'https://via.placeholder.com/800x400?text=Image5',
+  ];
 
 const sliderContainerStyle = {
   width: '100%',

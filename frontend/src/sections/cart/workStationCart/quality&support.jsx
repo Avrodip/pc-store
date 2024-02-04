@@ -5,30 +5,45 @@ import 'slick-carousel/slick/slick-theme.css';
 import { Typography, Card, CardContent, Container, Link, Grid } from '@mui/material';
 
 const QualitySupport = () => {
-    const icons = [
-        { src: 'https://www.ant-pc.com/workstation-assets/assets/images/client-logo/client-6.png', link: 'https://www.microsoft.com/en-in' },
-        { src: 'https://www.ant-pc.com/workstation-assets/assets/images/client-logo/client-7.png', link: 'https://gailonline.com/' },
-        { src: 'https://www.ant-pc.com/assets/images/client-logo/client-8.png', link: 'https://www.samsung.com/in/smartphones/galaxy-s24-ultra/?page=home' },
-        { src: 'https://www.ant-pc.com/workstation-assets/assets/images/client-logo/client-9.png', link: 'https://www.ricoh.co.in/' },
-        { src: 'https://www.ant-pc.com/workstation-assets/assets/images/client-logo/client-10.png', link: 'https://www.techmahindra.com/en-in/?f=2019600127' },
-        { src: 'https://www.ant-pc.com/workstation-assets/assets/images/client-logo/client-11.png', link: 'https://www.thapar.edu/' },
-    ];
     return (
-        <Grid sx={{ width: '99%', backgroundColor: '#212529',marginBottom: '1%' }}>
+        <Grid sx={{ width: '99%', backgroundColor: '#000000' }}>
             <Container>
                 <Typography variant="h4" color='white' textAlign='center' fontSize='30px' gutterBottom>
                     Quality & Support
                 </Typography>
-                <Grid justifyContent='center' marginLeft = '25%' width='60%' >
-                <Typography color='white' textAlign = 'center'>
-                    To enhance your ownership experience, our systems go through rigorous testing procedures.
-                    Further sweetening the deal, we also provide unmatched hassle-free support options.
-                </Typography>
-                </Grid>                
+                <Grid justifyContent='center' marginLeft='25%' width='60%' >
+                    <Typography color='white' textAlign='center'>
+                        To enhance your ownership experience, our systems go through rigorous testing procedures.
+                        Further sweetening the deal, we also provide unmatched hassle-free support options.
+                    </Typography>
+                </Grid>
             </Container>
-            <Container sx={{ position: 'relative' }}>
-
-            </Container>
+            <Grid container display='flex' direction='row' marginTop='5%' width='80%' marginLeft='15%'>
+                <Grid item container direction="column" alignItems="center" xs={3}>
+                    <img src="https://www.ant-pc.com/workstation-assets/assets/images/icon-svg/Technical-Support-w.svg" style={{ width: '40%', height: '40%' }} alt="Technical Support icon" />
+                    <Typography color='white' textAlign='center' padding='5%'>
+                        Lifetime Technical Support
+                    </Typography>
+                </Grid>
+                <Grid item container direction="column" alignItems="center" xs={3}>
+                    <img src="https://www.ant-pc.com/workstation-assets/assets/images/icon-svg/Clock-w.svg" style={{ width: '40%', height: '40%' }} alt="Clock icon" />
+                    <Typography color='white' textAlign='center' padding='5%'>
+                        24 Hour Burn-In-Test
+                    </Typography>
+                </Grid>
+                <Grid item container direction="column" alignItems="center" xs={3}>
+                    <img src="https://www.ant-pc.com/workstation-assets/assets/images/icon-svg/Check-w.svg" style={{ width: '40%', height: '40%' }} alt="Check icon" />
+                    <Typography color='white' textAlign='center' padding='5%'>
+                        80+ Quality Check
+                    </Typography>
+                </Grid>
+                <Grid item container direction="column" alignItems="center" xs={3}>
+                    <img src="https://www.ant-pc.com/workstation-assets/assets/images/icon-svg/Location-w.svg" style={{ width: '40%', height: '40%' }} alt="Location icon" />
+                    <Typography color='white' textAlign='center' padding='5%'>
+                        3 Year Onsite Warranty*
+                    </Typography>
+                </Grid>
+            </Grid>
         </Grid>
     );
 };

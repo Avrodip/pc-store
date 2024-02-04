@@ -92,7 +92,7 @@ export default function ActionAreaCard() {
                         <Typography gutterBottom variant="h5" component="div" sx={styles.mainTypography} >
                             Gaming PC
                         </Typography>
-                        <Button sx={styles.viewMoreButton} component={Link} to="/workStationCart">View More</Button>
+                        <Button sx={styles.viewMoreButton} component={Link} to="/gaming-pc">View More</Button>
                     </Grid>
                 </CardContent>
             </Card>
