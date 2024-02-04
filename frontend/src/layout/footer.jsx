@@ -5,7 +5,7 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import "../css/footer.css"
-import Copyright from "./Copyright";
+import Copyright from "./copyright";
 
 const styles = {
     footerContact: {
