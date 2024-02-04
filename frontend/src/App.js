@@ -5,8 +5,8 @@ import Navbar from "./layout/Navbar.jsx"
 import WorkStationCart from './sections/cart/workStationCart/index.jsx';
 import GamingPc from './sections/cart/gamePcCart/index.jsx'
 import Footer from './layout/footer.jsx';
-import Register from './sections/auth/register.jsx';
-import LoginAuth from './sections/auth/loginAuth.jsx';
+import Register from './sections/auth/Register.jsx';
+import LoginAuth from './sections/auth/LoginAuth.jsx';
 import { Box, Grid } from '@mui/material';
 import HomeSection from './layout/homeSection.jsx';
 import DorylusPage from './sections/subsection/gaming/dorylusPage.jsx';

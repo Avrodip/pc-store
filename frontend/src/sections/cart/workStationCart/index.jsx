@@ -8,6 +8,7 @@ import OurClientSlide from './ourClientSlide'
 import QualitySupport from './quality&support'
 import ImageSlider from './imageSlider';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const styles = {
     card: {
@@ -61,6 +62,11 @@ const styles = {
 
 export default function WorkStationCart() {
     const [animate, setAnimate] = useState(true);
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
     useEffect(() => {
         // Set animate to false after a short delay (adjust the delay as needed)

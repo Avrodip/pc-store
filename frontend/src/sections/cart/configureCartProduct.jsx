@@ -4,9 +4,15 @@ import { Stack, Button, InputLabel, OutlinedInput, Select, FormHelperText, Grid,
 import { ArrowRightOutlined, DownloadOutlined, ShoppingCartOutlined, ShareAltOutlined } from "@ant-design/icons"
 import 'animate.css';
 import CartProductSpecs from './CartProductSpecs';
+import { useLocation } from 'react-router-dom';
 
 const ConfigureCartProduct = () => {
     const [isChangeForm, setIsChangeForm] = useState(true);
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
     const images = [
         'https://www.ant-pc.com/Case/Corsair_3000D_RGB_Airflow1.png',

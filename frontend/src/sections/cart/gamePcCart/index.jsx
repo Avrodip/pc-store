@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, Grid } from '@mui/material';
 import ImageSlider from '../workStationCart/imageSlider';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const styles = {
     card: {
@@ -58,6 +59,12 @@ const styles = {
 
 export default function WorkStationCart() {
     const [animate, setAnimate] = useState(true);
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
 
     useEffect(() => {
         // Set animate to false after a short delay (adjust the delay as needed)
@@ -99,7 +106,7 @@ export default function WorkStationCart() {
                         <Typography sx={{ fontSize: '20px', fontWeight: '400', marginTop: 3, marginLeft: 3 }}>
                             BUDGET GAMING
                         </Typography>
-                        <Typography sx={{ marginLeft: 3, marginTop:1 }}>
+                        <Typography sx={{ marginLeft: 3, marginTop: 1 }}>
                             Enjoy all your favourite latest games without breaking the bank.
                         </Typography>
                     </Grid>
@@ -131,7 +138,7 @@ export default function WorkStationCart() {
                         <Typography sx={{ fontSize: '20px', fontWeight: '400', marginTop: 3, marginLeft: 3 }}>
                             ENTHUSIAST GAMING
                         </Typography>
-                        <Typography sx={{ marginLeft: 3, marginTop:1 }}>
+                        <Typography sx={{ marginLeft: 3, marginTop: 1 }}>
                             Series that smashes 1080p and can handle 1440p with a few tweaks.
                         </Typography>
                     </Grid>
@@ -163,7 +170,7 @@ export default function WorkStationCart() {
                         <Typography sx={{ fontSize: '20px', fontWeight: '400', marginTop: 3, marginLeft: 3 }}>
                             EXTREME GAMING
                         </Typography>
-                        <Typography sx={{ marginLeft: 3, marginTop:1}}>
+                        <Typography sx={{ marginLeft: 3, marginTop: 1 }}>
                             Extreme grade with high-end 4k and VR gaming experience.
                         </Typography>
                     </Grid>
@@ -195,7 +202,7 @@ export default function WorkStationCart() {
                         <Typography sx={{ fontSize: '20px', fontWeight: '400', marginTop: 3, marginLeft: 3 }}>
                             STREAMING
                         </Typography>
-                        <Typography sx={{ marginLeft: 3, marginTop:1}}>
+                        <Typography sx={{ marginLeft: 3, marginTop: 1 }}>
                             Top of the line Streaming ready gaming system.
                         </Typography>
                     </Grid>

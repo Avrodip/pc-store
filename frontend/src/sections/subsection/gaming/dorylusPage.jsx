@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Button, Grid, Box, CardMedia, Card, styled, Typography } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const styles = {
     card: {
@@ -66,6 +67,11 @@ const data = [
 const DorylusPage = () => {
     // const { category, subCategory } = useParams();
 
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
 
     let category = "gaming-pc";
