@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Button, Grid, Typography } from '@mui/material';
+import { AppBar, Toolbar, Button, Grid, Typography, Box } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { gameCategories } from '../utils/contant';
 
 const PhotoGallery = ({ photos, selectedButton }) => {
     const navigate = useNavigate();
 
     const handleImageClick = (label) => {
-        const basePath = selectedButton === 'gaming' ? '/gaming-pc' : '/workstation';
-        const formattedLabel = label.replace(/\s/g, ''); // Remove spaces
-        navigate(`${basePath}/${formattedLabel}`);
+        const category = selectedButton === gameCategories.gaming ? '/gaming-pc' : '/workstation';
+        const subCategory = label.replace(/\s/g, '');
+        navigate(`${category}/${subCategory}`);
     };
 
     return (
         <>
-            <br />
-            <Grid container spacing={2} justifyContent="center" style={{ backgroundColor: 'black', padding: '20px', borderRadius: '10px' }}>
+            <Grid container spacing={2} style={{ display: "flex", justifyContent: "center", backgroundColor: 'black', padding: '20px', borderRadius: '10px' }}>
                 {photos.map((photo, index) => (
-                    <Grid item key={index} onClick={() => handleImageClick(photo.label)} style={{ cursor: 'pointer' }}>
+                    <Grid item key={index} class="animate__animated animate__slideInUp" onClick={() => handleImageClick(photo.label)} style={{ cursor: 'pointer' }}>
                         <div style={{ width: '80px', height: '80px', overflow: 'hidden', borderRadius: '50%', margin: '0 auto', backgroundColor: 'white' }}>
                             <img src={photo.url} alt={photo.label} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
                         </div>
@@ -42,10 +41,10 @@ const PhotoGallery = ({ photos, selectedButton }) => {
 };
 
 const MidSection = () => {
-    const [selectedButton, setSelectedButton] = useState(null);
+    const [selectedButton, setSelectedButton] = useState(gameCategories.gaming);
 
-    const handleButtonClick = (button) => {
-        setSelectedButton(button);
+    const handleButtonClick = (category) => {
+        setSelectedButton(category);
     };
 
     const gamingPhotos = [
@@ -60,42 +59,73 @@ const MidSection = () => {
         { url: 'https://www.ant-pc.com/assets/2022-theme/images/Architecture-Engineering-h.png', label: 'Architecture & Engineering' },
         { url: 'https://www.ant-pc.com/assets/2022-theme/images/Visual-Designing-h.png', label: 'Visual Designing & Effects' },
         { url: 'https://www.ant-pc.com/assets/2022-theme/images/trading-pc.png', label: 'Trading PC' },
-        { url: 'https://www.ant-pc.com/assets/2022-theme/images/digital-audio-h.png', label: 'Audio Production' },
-        // Add more workstation photos as needed
     ];
 
-    const photos = selectedButton === 'gaming' ? gamingPhotos : workstationPhotos;
+    const photos = selectedButton === gameCategories.gaming ? gamingPhotos : workstationPhotos;
 
     return (
-        <div>
-            <br />
+        <Grid sx={{ my: 4 }}>
             <AppBar position="static" style={{ backgroundColor: '#212529' }}>
                 <Toolbar style={{ justifyContent: 'center' }}>
                     <Button
-                        component={Link}
-                        to="/gaming-pc"
-                        color={selectedButton === 'gaming' ? 'secondary' : 'inherit'}
-                        style={{ color: selectedButton === 'gaming' ? 'red' : 'white', marginRight: '10px' }}
-                        onClick={() => handleButtonClick('gaming')}
+                        color={selectedButton === gameCategories.gaming ? 'error' : 'inherit'}
+                        sx={{
+                            marginRight: '10px',
+                            position: 'relative',
+                            ':hover:before': {
+                                width: '100%',
+                            },
+                            ':before': {
+                                content: '""',
+                                position: 'absolute',
+                                width: '0',
+                                height: '2px',
+                                bottom: '0',
+                                left: '0',
+                                backgroundColor: 'red',
+                                visibility: 'visible',
+                                transition: 'all 0.3s',
+                            },
+                        }}
+                        onMouseOver={() => handleButtonClick(gameCategories.gaming)}
+                        onClick={() => handleButtonClick(gameCategories.gaming)}
                     >
                         Gaming
                     </Button>
+
                     <Button
-                        component={Link}
-                        to="/workstation-pc"
-                        color={selectedButton === 'workstation' ? 'secondary' : 'inherit'}
-                        style={{ color: selectedButton === 'workstation' ? 'red' : 'white', marginLeft: '10px' }}
-                        onClick={() => handleButtonClick('workstation')}
+                        color={selectedButton === gameCategories.workstation ? 'error' : 'inherit'}
+                        sx={{
+                            marginRight: '10px',
+                            position: 'relative',
+                            ':hover:before': {
+                                width: '100%',
+                            },
+                            ':before': {
+                                content: '""',
+                                position: 'absolute',
+                                width: '0',
+                                height: '2px',
+                                bottom: '0',
+                                left: '0',
+                                backgroundColor: 'red',
+                                visibility: 'visible',
+                                transition: 'all 0.3s',
+                            },
+                        }}
+                        onMouseOver={() => handleButtonClick(gameCategories.workstation)}
+                        onClick={() => handleButtonClick(gameCategories.workstation)}
                     >
                         Workstation
                     </Button>
+
                 </Toolbar>
             </AppBar>
 
             <Grid container justifyContent="center" style={{ marginTop: '20px', backgroundColor: 'black' }}>
                 <PhotoGallery photos={photos} selectedButton={selectedButton} />
             </Grid>
-        </div>
+        </Grid>
     );
 };
 

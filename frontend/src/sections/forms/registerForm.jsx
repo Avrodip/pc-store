@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { Stack, Button, InputLabel, OutlinedInput, FormHelperText, Grid } from "@mui/material"
 import * as Yup from 'yup';
 import { ToastContainer } from 'react-toastify';
-import { successToast } from "../../components/reactToastify"
+import { successToast } from "../../components/ReactToastify"
 import ReCAPTCHA from "react-google-recaptcha";
 import { userRegistration } from '../../services/authService';
 import { useNavigate } from "react-router-dom";
