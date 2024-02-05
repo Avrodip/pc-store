@@ -6,7 +6,7 @@ import 'animate.css';
 import CartProductSpecs from './CartProductSpecs';
 import { useLocation } from 'react-router-dom';
 
-const ConfigureCartProduct = () => {
+const ConfigureCartGaming = () => {
     const [isChangeForm, setIsChangeForm] = useState(true);
     const { pathname } = useLocation();
 
@@ -533,4 +533,4 @@ const ConfigureCartProduct = () => {
     )
 }
 
-export default ConfigureCartProduct
+export default ConfigureCartGaming;

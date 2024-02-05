@@ -5,13 +5,14 @@ import Navbar from "./layout/Navbar.jsx"
 import WorkStationCart from './sections/cart/workStationCart/index.jsx';
 import GamingPc from './sections/cart/gamePcCart/index.jsx'
 import Footer from './layout/footer.jsx';
-import Register from './sections/auth/Register.jsx';
-import LoginAuth from './sections/auth/LoginAuth.jsx';
+import Register from './sections/auth/register.jsx';
+import LoginAuth from './sections/auth/loginAuth.jsx';
 import { Box, Grid } from '@mui/material';
 import HomeSection from './layout/homeSection.jsx';
 import DorylusPage from './sections/subsection/gaming/dorylusPage.jsx';
-import ConfigureCartProduct from './sections/cart/configureCartProduct.jsx';
+import ConfigureCartGaming from './sections/cart/ConfigureCartGaming.jsx';
 import CartProductSpecs from './sections/cart/CartProductSpecs.jsx';
+import ConfigureCartWorkstation from './sections/cart/ConfigureCartWorkstation.jsx';
 
 function App() {
 
@@ -28,8 +29,9 @@ function App() {
                     <Route path='/register' element={<Register />} />
 
                     {/* To do the routing based on the Categories, SubCategories and Products*/}
-                    <Route path="/:category/:subCategory" element={<DorylusPage />} />
-                    <Route path="/:category/:subcategory/:product" element={<ConfigureCartProduct />} />
+                    {/* <Route path="/:category/:subCategory" element={<DorylusPage />} /> */}
+                    <Route path="/gaming-pc/:subcategory/:product" element={<ConfigureCartGaming />} />
+                    <Route path="/workstation/:subcategory/:product" element={<ConfigureCartWorkstation />} />
 
                 </Routes>
                 <Footer />
