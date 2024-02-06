@@ -6,6 +6,7 @@ const processorController = new ProcessorController();
 
 const router = express.Router();
 
-router.post("/getGamingProcessorCpu", processorController.getGamingProcessorCpu)
+router.post("/getGamingPcDetails", processorController.getGamingPcDetails)
+router.post("/getGamingCpuList/",processorController.getGamingCpuList)
 
 module.exports = router;
