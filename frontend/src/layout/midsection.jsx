@@ -49,17 +49,18 @@ const MidSection = () => {
     };
 
     const gamingPhotos = [
-        { url: 'https://www.ant-pc.com/assets/2022-theme/images/dorylus-series-h.png', label: 'Dorylus Series' },
-        { url: 'https://www.ant-pc.com/assets/2022-theme/images/pharaoh series-h.png', label: 'Pharaoh Series' },
-        { url: 'https://www.ant-pc.com/assets/2022-theme/images/solenopsis series-h.png', label: 'Solenopsis Series' },
-        { url: 'https://www.ant-pc.com/assets/2022-theme/images/NZXT_H7_Elite_White_Edition1.png', label: 'Metallica Series' },
+        { url: 'https://www.ant-pc.com/assets/2022-theme/images/dorylus-series-h.png', label: 'Predator' },
+        { url: 'https://www.ant-pc.com/assets/2022-theme/images/pharaoh series-h.png', label: 'Kraken' },
+        { url: 'https://www.ant-pc.com/assets/2022-theme/images/solenopsis series-h.png', label: 'Behemoth' },
+        { url: 'https://www.ant-pc.com/assets/2022-theme/images/NZXT_H7_Elite_White_Edition1.png', label: 'Slayer' },
     ];
 
     const workstationPhotos = [
         { url: 'https://www.ant-pc.com/assets/2022-theme/images/ai-series-h.png', label: 'AI & Deep Learning' },
-        { url: 'https://www.ant-pc.com/assets/2022-theme/images/Architecture-Engineering-h.png', label: 'Architecture & Engineering' },
-        { url: 'https://www.ant-pc.com/assets/2022-theme/images/Visual-Designing-h.png', label: 'Visual Designing & Effects' },
-        { url: 'https://www.ant-pc.com/assets/2022-theme/images/trading-pc.png', label: 'Trading PC' },
+        { url: 'https://www.ant-pc.com/assets/2022-theme/images/Architecture-Engineering-h.png', label: 'Home' },
+        { url: 'https://www.ant-pc.com/assets/2022-theme/images/Visual-Designing-h.png', label: 'Editing' },
+        { url: 'https://www.ant-pc.com/assets/2022-theme/images/trading-pc.png', label: 'Trading' },
+        { url: 'https://www.ant-pc.com/assets/2022-theme/images/trading-pc.png', label: 'CAD' },
     ];
 
     const photos = selectedButton === gameCategories.gaming ? gamingPhotos : workstationPhotos;
