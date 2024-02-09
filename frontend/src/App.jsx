@@ -13,6 +13,8 @@ import DorylusPage from './sections/subsection/gaming/dorylusPage.jsx';
 import ConfigureCartGaming from './sections/cart/ConfigureCartGaming.jsx';
 import CartProductSpecs from './sections/cart/CartProductSpecs.jsx';
 import ConfigureCartWorkstation from './sections/cart/ConfigureCartWorkstation.jsx';
+import Cart from "./sections/cart/cart.jsx"
+import CartProductDetails from './sections/cart/CartProductDetails.jsx';
 
 function App() {
 
@@ -21,6 +23,7 @@ function App() {
         <Router>
             <Box sx={{ background: "black", color: "white" }}>
                 <Navbar />
+
                 <Routes>
                     <Route path='/' element={<HomeSection />} />
                     <Route path='/workStationCart' element={<WorkStationCart />} />
@@ -33,7 +36,9 @@ function App() {
                     <Route path="/gaming-pc/:subcategory/:product" element={<ConfigureCartGaming />} />
                     <Route path="/workstation/:subcategory/:product" element={<ConfigureCartWorkstation />} />
 
+                    <Route path='/cart' element={<CartProductDetails />} />
                 </Routes>
+
                 <Footer />
             </Box>
         </Router>

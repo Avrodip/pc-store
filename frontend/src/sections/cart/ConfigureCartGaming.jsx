@@ -3,8 +3,9 @@ import { useFormik } from 'formik';
 import { Stack, Button, InputLabel, OutlinedInput, Select, FormHelperText, Grid, Typography, MenuItem, CardMedia } from "@mui/material"
 import { ArrowRightOutlined, DownloadOutlined, ShoppingCartOutlined, ShareAltOutlined } from "@ant-design/icons"
 import 'animate.css';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CartProductSpecs from './CartProductSpecs';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const ConfigureCartGaming = () => {
@@ -24,18 +25,14 @@ const ConfigureCartGaming = () => {
         const fetchData = async () => {
             const requestedData = { "type_id": 1 }
             const response = await axios.post("http://localhost:5050/api/processor/getGamingCpuList", requestedData);
-            console.log("Response received : ", response.data.data[0]);
             setProcessorList(response.data.data[0])
         }
         fetchData();
     }, [])
 
-    console.log("Print ", cpuID)
-
     useEffect(() => {
         if (processorList.length > 0) {
             const fetchData = async () => {
-                console.log("CPU ID : ", cpuID)
                 const requestedData2 = { "cpu_id": cpuID == '' ? 1 : cpuID }
                 const getOtherDetails = await axios.post("http://localhost:5050/api/processor/getGamingPcDetails", requestedData2);
                 console.log("Motherboard : ", getOtherDetails.data.data)
@@ -50,15 +47,6 @@ const ConfigureCartGaming = () => {
 
     }, [tempData])
 
-
-    // useEffect(() => {
-    //     if (loading) {
-    //         const timeoutId = setTimeout(() => {
-    //             setLoading(false);
-    //         }, 500);
-    //         return () => clearTimeout(timeoutId);
-    //     }
-    // }, [loading]);
 
     const images = [
         'https://www.ant-pc.com/Case/Corsair_3000D_RGB_Airflow1.png',
@@ -238,6 +226,7 @@ const ConfigureCartGaming = () => {
                                                             size="small"
                                                             inputProps={{ 'aria-label': 'Without label' }}
                                                             sx={{ border: 1, color: 'white', width: '100%' }}
+                                                            IconComponent={() => <ExpandMoreIcon style={{ color: 'white' }} />}
                                                         >
                                                             {
                                                                 otherSpecs.length > 0 && otherSpecs[2]?.map((specs) => (
@@ -607,10 +596,9 @@ const ConfigureCartGaming = () => {
                                                                 <Button variant="contained" color="error" >Download Quote  <DownloadOutlined style={{ fontSize: '20px', paddingLeft: 5 }} /></Button>
                                                             </Stack>
                                                         </Grid>
-
                                                         <Grid item>
                                                             <Stack spacing={1}>
-                                                                <Button variant="contained" color='error'>Add to Cart <ShoppingCartOutlined style={{ fontSize: '20px', paddingLeft: 5 }} /></Button>
+                                                                <Button component={Link} to="/cart" variant="contained" color='error'>Add to Cart <ShoppingCartOutlined style={{ fontSize: '20px', paddingLeft: 5 }} /></Button>
                                                             </Stack>
                                                         </Grid>
                                                     </Grid>

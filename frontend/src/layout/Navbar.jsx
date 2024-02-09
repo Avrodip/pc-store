@@ -250,7 +250,7 @@ const Navbar = () => {
                             <Button color="inherit" component={Link} to="/register">Register</Button>
                             <Button color="inherit" component={Link} to="/login">Login</Button>
                             <IconButton color="inherit"><SearchIcon /></IconButton>
-                            <IconButton color="inherit"><ShoppingCartIcon /></IconButton>
+                            <IconButton component={Link} to="/cart" color="inherit"><ShoppingCartIcon /></IconButton>
                         </>
                     </Grid>
                 </Grid>
