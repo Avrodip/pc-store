@@ -2,7 +2,7 @@
     "development": {
         "host": "127.0.0.1",
         "user": "root",
-        "password": "root",
-        "database": "pc_store0"
+        "password": "password",
+        "database": "pc-store"
     }
 }
