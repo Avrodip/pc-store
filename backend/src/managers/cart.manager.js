@@ -24,10 +24,6 @@ class CartManager {
                 ram,
                 ramQuantity,
                 graphicCard,
-                graphicCardQuantity,
-                ssd,
-                ssdQuantity,
-                hdd,
                 hddQuantity,
                 price,
                 quantity,
@@ -39,6 +35,7 @@ class CartManager {
                 support,
                 os,
                 monitor,
+                monitorQuantity,
                 keyboard,
                 mouse,
                 wifi,
@@ -50,7 +47,7 @@ class CartManager {
                 throw new Error("Database object is undefined");
             }
 
-            const [rows, fields] = await db.promise().execute('CALL updateCart(?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            const [rows, fields] = await db.promise().execute('CALL updateCart(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                 [
                     actionType,
                     id,
@@ -59,10 +56,6 @@ class CartManager {
                     ram,
                     ramQuantity,
                     graphicCard,
-                    graphicCardQuantity,
-                    ssd,
-                    ssdQuantity,
-                    hdd,
                     hddQuantity,
                     price,
                     quantity,
@@ -74,6 +67,7 @@ class CartManager {
                     support,
                     os,
                     monitor,
+                    monitorQuantity,
                     keyboard,
                     mouse,
                     wifi,
