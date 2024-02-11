@@ -1,6 +1,13 @@
-import React, { useState } from 'react'
-import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, OutlinedInput, Button, Stack, TextField, FormControl, Typography, Select, MenuItem, Box, useMediaQuery } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, OutlinedInput, Button, Stack, TextField, FormControl, Typography, Select, MenuItem, Box, useMediaQuery, DialogContent, IconButton, DialogTitle, FormHelperText } from '@mui/material'
 import { DeleteOutlined, ArrowRightOutlined, ArrowLeftOutlined, DownOutlined } from '@ant-design/icons';
+import CloseIcon from '@mui/icons-material/Close';
+import { deleteCartProduct, displayCartProductDetails, createProductCart } from '../../services/configureCart';
+import DialogActions from '@mui/material/DialogActions';
+import { useFormik } from 'formik';
+import Dialog from '@mui/material/Dialog';
+import { styled } from '@mui/material/styles';
+import LoginForm from '../forms/loginForm';
 
 const styles = {
     section: {
@@ -11,30 +18,176 @@ const styles = {
     },
 }
 
-const data = [
-    { label: 'PROCESSOR:', value: 'Intel Core i3 10100 (4 Core, 8 Threads, Up to 4.3 GHz)' },
-    { label: 'MOTHERBOARD:', value: 'MSI H510M-A Pro' },
-    { label: 'RAM::', value: 'MSI H510M-A Pro' },
-    { label: 'RAM QTY:', value: '8GB G.Skill Ripjaws V DDR4 3200MHz' },
-    { label: 'GRAPHIC CARD:', value: 'Integrated Graphics' },
-    { label: 'GRAPHIC CARD QTY:', value: '1' },
-    { label: 'SSD:', value: '256GB ADATA XPG ASX6000 Pro' },
-    { label: 'SSD Qty:', value: '1' },
-    { label: 'HDD:', value: 'None' },
-    { label: 'HDD QTY:', value: '1' },
-    { label: 'POWERSUPPLY:', value: 'Deepcool PF550' },
-    { label: 'CPU COOLER:', value: 'CPU Stock Cooler' },
-    { label: 'CABINET:', value: 'ANT Esports 211 Air Black' },
-    { label: 'OS:', value: 'Microsoft Windows 11 Home 64-Bit Trial' },
-    { label: 'SUPPORT:', value: 'Standard - 3 years RTB (offsite) part replacement/repair warranty from Ant PC with Lifetime technical support (Remotely) & 7 Days DOA Policy.' },
-    { label: 'DISPATCH DATE:', value: 'Feb 18, 2024' }
-
-];
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+        padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+        padding: theme.spacing(1),
+    },
+}));
 
 const CartProductDetails = () => {
     const isBelow420px = useMediaQuery('(max-width:420px)');
     const is1200To1260px = useMediaQuery('(min-width: 1200px) and (max-width: 1260px)');
-    const [isViewMore, setViewMore] = useState(false);
+    const [cartProductDetails, setCartProductDetails] = useState([]);
+    const [openSignIn, setOpenSignIn] = useState(false);
+    const [hasToken, setHasToken] = useState(false);
+    const [expandedProducts, setExpandedProducts] = useState({});
+
+    // Function to toggle the "View more" state for a specific product
+    const toggleViewMore = (productId) => {
+        setExpandedProducts(prevState => ({
+            ...prevState,
+            [productId]: !prevState[productId]
+        }));
+    };
+
+    // JSX for rendering the "View more" section based on the expanded state
+    const renderViewMoreSection = (data) => {
+        if (expandedProducts[data.id]) {
+            return (
+                <Table className="animate__animated animate__zoomIn animate__slow-400ms">
+                    <TableBody sx={{ border: "1px solid #3e3e3e" }}>
+                        <TableRow>
+                            <TableCell style={styles.section}>PROCESSOR:</TableCell>
+                            <TableCell style={styles.section}>{data?.processor}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell style={styles.section}>MOTHERBOARD:</TableCell>
+                            <TableCell style={styles.section}>{data?.motherBoard}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell style={styles.section}>RAM:</TableCell>
+                            <TableCell style={styles.section}>{data?.ram}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell style={styles.section}>RAM QTY:</TableCell>
+                            <TableCell style={styles.section}>{data?.ramQuantity}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell style={styles.section}>GRAPHIC CARD:</TableCell>
+                            <TableCell style={styles.section}>{data?.graphicCard}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell style={styles.section}>SSD:</TableCell>
+                            <TableCell style={styles.section}>{data?.primaryStorage}</TableCell>
+                        </TableRow>
+
+                        <TableRow>
+                            <TableCell style={styles.section}>HDD:</TableCell>
+                            <TableCell style={styles.section}>{data?.secondaryStorage}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell style={styles.section}>HDD QTY:</TableCell>
+                            <TableCell style={styles.section}>{data?.hddQuantity}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell style={styles.section}>POWERSUPPLY:</TableCell>
+                            <TableCell style={styles.section}>{data?.psu}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell style={styles.section}>CPU COOLER:</TableCell>
+                            <TableCell style={styles.section}>{data?.cpuCooler}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell style={styles.section}>CABINET:</TableCell>
+                            <TableCell style={styles.section}>{data?.casse}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell style={styles.section}>OS:</TableCell>
+                            <TableCell style={styles.section}>{data?.os}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell style={styles.section}>SUPPORT:</TableCell>
+                            <TableCell style={styles.section}>{data?.support}</TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            );
+        }
+        return null;
+    };
+
+    const handleClickOpen = () => {
+        console.log("Handle Click is called")
+        setOpenSignIn(!openSignIn);
+    }
+
+    useEffect(() => {
+        const token = localStorage.getItem('pc-store');
+        if (token) {
+            setHasToken(true);
+        } else {
+            setHasToken(false);
+        }
+    }, [])
+
+    useEffect(() => {
+        fetchData()
+    }, []);
+    const fetchData = async () => {
+        try {
+            const response = await displayCartProductDetails();
+            // console.log("Response : ", response)
+            setCartProductDetails(response.data[0]);
+        } catch (error) {
+            console.log("Some thing error happenned : ", error.message)
+        }
+    };
+
+    const deleteProduct = async (productID) => {
+        const response = await deleteCartProduct({ id: productID });
+        console.log("Response : after delete : ", response)
+    }
+
+    const formik = useFormik({
+        initialValues: {
+            prodQuantity: 1
+        }
+    })
+
+    const handleQuantityChange = async (productId, newQuantity) => {
+
+        const productIndex = cartProductDetails.findIndex(product => product.id === productId);
+
+        if (productIndex !== -1) {
+            const updatedCartProductDetails = [...cartProductDetails];
+            console.log("Product Index : ", updatedCartProductDetails)
+
+            const productData = {
+                user: 123,
+                productType: 1,
+                actionType: 2,
+
+                id: updatedCartProductDetails[productIndex].id,
+                processor: updatedCartProductDetails[productIndex].processor,
+                motherBoard: updatedCartProductDetails[productIndex].motherBoard,
+                ram: updatedCartProductDetails[productIndex].ram,
+                ramQuantity: updatedCartProductDetails[productIndex].ramQuantity,
+                graphicCard: updatedCartProductDetails[productIndex].graphicCard,
+                hddQuantity: updatedCartProductDetails[productIndex].hddQuantity,
+                price: updatedCartProductDetails[productIndex].price,
+                quantity: newQuantity,
+                primaryStorage: updatedCartProductDetails[productIndex].primaryStorage,
+                secondaryStorage: updatedCartProductDetails[productIndex].secondaryStorage,
+                casse: updatedCartProductDetails[productIndex].casse,
+                cpuCooler: updatedCartProductDetails[productIndex].cpuCooler,
+                psu: updatedCartProductDetails[productIndex].psu,
+                support: updatedCartProductDetails[productIndex].support,
+                os: updatedCartProductDetails[productIndex].os,
+                monitor: updatedCartProductDetails[productIndex].monitor,
+                monitorQuantity: updatedCartProductDetails[productIndex].monitorQuantity,
+                keyboard: updatedCartProductDetails[productIndex].keyboard,
+                mouse: updatedCartProductDetails[productIndex].mouse,
+                wifi: updatedCartProductDetails[productIndex].wifi,
+                customCable: updatedCartProductDetails[productIndex].customCable,
+            };
+
+            const response = await createProductCart(productData);
+            console.log("Response received : ", response)
+        }
+    }
 
     return (
         <>
@@ -60,59 +213,52 @@ const CartProductDetails = () => {
                             </TableHead>
 
                             <TableBody>
-                                <TableRow>
-                                    <TableCell sx={{ color: "white", textAlign: 'left', width: "100px" }}>
-                                        <img src='https://www.ant-pc.com/Case/ANT_Esports_211_Air_Black.png' style={{ height: "100px", width: "100px" }} />
-                                    </TableCell>
+                                {
+                                    cartProductDetails?.map((data) => (
+                                        <TableRow>
+                                            <TableCell sx={{ color: "white", textAlign: 'left', width: "100px" }}>
+                                                <img src='https://www.ant-pc.com/Case/ANT_Esports_211_Air_Black.png' style={{ height: "100px", width: "100px" }} />
+                                            </TableCell>
 
-                                    <TableCell sx={{ color: "white", textAlign: 'left' }}>
-                                        <Typography>
-                                            ANT PC DORYLUS CL940N
-                                        </Typography>
-                                        <Typography component="h6" color="error" sx={{ cursor: "pointer", fontSize: "12px", fontWeight: "bold" }} onClick={() => setViewMore(!isViewMore)}>
-                                            View more <DownOutlined style={{ fontSize: "10px" }} />
-                                        </Typography>
+                                            <TableCell sx={{ color: "white", textAlign: 'left' }}>
+                                                <Typography>
+                                                    ANT PC DORYLUS CL940N
+                                                </Typography>
+                                                <Typography component="h6" color="error" sx={{ cursor: "pointer", fontSize: "12px", fontWeight: "bold", width: "80px" }} onClick={() => toggleViewMore(data.id)}>
+                                                    View more <DownOutlined style={{ fontSize: "10px" }} />
+                                                </Typography>
 
-                                        {
-                                            isViewMore && (
-                                                <Table className="animate__animated animate__zoomIn animate__slow-400ms">
-                                                    <TableBody sx={{ border: "1px solid #3e3e3e" }}>
-                                                        {
-                                                            data.map((d) => (
-                                                                <TableRow >
-                                                                    <TableCell style={styles.section}>{d?.label}</TableCell>
-                                                                    <TableCell style={styles.section}>{d?.value}</TableCell>
-                                                                </TableRow>
-                                                            ))
-                                                        }
-                                                    </TableBody>
-                                                </Table>
-                                            )
-                                        }
+                                                {renderViewMoreSection(data)}
 
-                                    </TableCell>
+                                            </TableCell>
 
-                                    <TableCell sx={{ color: "white", textAlign: 'center' }}>₹28,309.00</TableCell>
-                                    <TableCell sx={{ color: "white", textAlign: 'center' }}>
-                                        <Select
-                                            value={10}
-                                            displayEmpty
-                                            inputProps={{ 'aria-label': 'Without label' }}
-                                        >
-                                            <MenuItem value="">
-                                                <em>None</em>
-                                            </MenuItem>
-                                            <MenuItem value={10}>Ten</MenuItem>
-                                            <MenuItem value={20}>Twenty</MenuItem>
-                                            <MenuItem value={30}>Thirty</MenuItem>
-                                        </Select>
-                                    </TableCell>
-                                    <TableCell sx={{ color: "white", textAlign: 'center' }}>₹56,618</TableCell>
-                                    <TableCell sx={{ color: "white", textAlign: 'center' }} >
-                                        <DeleteOutlined style={{ color: 'red' }} />
-                                    </TableCell>
-                                </TableRow>
+                                            <TableCell sx={{ color: "white", textAlign: 'center' }}>{data?.price}</TableCell>
 
+                                            <TableCell sx={{ color: "white", textAlign: 'center' }}>
+                                                <Select
+                                                    value={data.quantity}
+                                                    onChange={(e) => {
+                                                        formik.handleChange(e);
+                                                        handleQuantityChange(data.id, parseInt(e.target.value));
+                                                    }}
+                                                    size="small"
+                                                    inputProps={{ 'aria-label': 'Without label' }}
+                                                    sx={{ border: 1, color: "white", width: "80px" }}
+                                                    IconComponent={() => <DownOutlined style={{ color: 'white', marginRight: "7px" }} />}
+                                                >
+                                                    {[1, 2, 3, 4, 5].map(quantity => (
+                                                        <MenuItem key={quantity} value={quantity}>{quantity}</MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </TableCell>
+
+                                            <TableCell sx={{ color: "white", textAlign: 'center' }}>₹{data?.price * formik.values.prodQuantity}</TableCell>
+                                            <TableCell sx={{ color: "white", textAlign: 'center' }} >
+                                                <DeleteOutlined style={{ color: 'red' }} onClick={() => deleteProduct(data.id)} />
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -136,9 +282,39 @@ const CartProductDetails = () => {
                                 width: { xs: "300px", sm: "auto" },
                             }}>
                             <Stack spacing={1}>
-                                <Button variant="contained" color='error'>Proceed to Checkout<ArrowRightOutlined style={{ fontSize: "16px" }} /></Button>
+                                <Button variant="contained" color='error' onClick={handleClickOpen}>Proceed to Checkout<ArrowRightOutlined style={{ fontSize: "16px" }} /></Button>
                             </Stack>
                         </Grid>
+                    </Grid>
+
+                    <Grid>
+                        {
+                            openSignIn && hasToken === false && (
+                                <BootstrapDialog
+                                    onClose={false}
+                                    aria-labelledby="customized-dialog-title"
+                                    open={true}
+                                >
+                                    <Box sx={{ border: 2 }}>
+                                        <DialogTitle sx={{ m: 0, p: 2, color: "white", background: "black", textAlign: "center" }} id="customized-dialog-title">
+                                            SIGN IN
+                                        </DialogTitle>
+                                        <IconButton
+                                            aria-label="close"
+                                            onClick={() => setOpenSignIn(false)}
+                                            sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}
+                                        >
+                                            <CloseIcon />
+                                        </IconButton>
+                                        <DialogContent dividers sx={{ background: "black" }}>
+
+                                            <LoginForm location={"/cart"} />
+
+                                        </DialogContent>
+                                    </Box>
+                                </BootstrapDialog>
+                            )
+                        }
                     </Grid>
 
                 </Grid>

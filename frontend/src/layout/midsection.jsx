@@ -10,6 +10,7 @@ const PhotoGallery = ({ photos, selectedButton }) => {
         const category = selectedButton === gameCategories.gaming ? '/gaming-pc' : '/workstation';
         const subCategory = label.replace(/\s/g, '');
         const product = 12345
+        console.log("Printed details : ", category, "   ", subCategory, "   ", product)
         navigate(`${category}/${subCategory}/${product}`);
     };
 

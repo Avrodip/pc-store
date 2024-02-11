@@ -11,6 +11,8 @@ export const apiRoutes = {
     // End
 
     // Configure Cart
-    addUpdateCart: "api/cart/updateCart"
+    addUpdateCart: "api/cart/updateCart",
+    cartProductList: "api/cart/getCartList",
+    deleteCartProduct: "api/cart/deleteCart"
     // End
 }

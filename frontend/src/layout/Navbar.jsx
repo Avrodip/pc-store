@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -7,12 +7,19 @@ import Grid from "@mui/material/Grid";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Box, Typography } from "@mui/material";
 
 const Navbar = () => {
     const [isHovered3, setIsHovered3] = React.useState(false);
     const [isHovered4, setIsHovered4] = React.useState(false);
+    const [hasToken, setHasToken] = React.useState(false);
+
+    React.useEffect(() => {
+        const token = localStorage.getItem('pc-store');
+        setHasToken(!!token);
+    }, []);
+
 
     const handleMouseEnter = (buttonNumber) => {
         if (buttonNumber === 3) {
@@ -232,6 +239,11 @@ const Navbar = () => {
         return null;
     };
 
+    const handleLogout = () => {
+        localStorage.clear();
+        window.location.href = "/";
+    }
+
     return (
         <Grid container style={{ margin: 0, padding: 0 }}>
 
@@ -247,8 +259,21 @@ const Navbar = () => {
                     {/* Right side buttons and icons */}
                     <Grid item sx={{ pr: 1 }}>
                         <>
-                            <Button color="inherit" component={Link} to="/register">Register</Button>
-                            <Button color="inherit" component={Link} to="/login">Login</Button>
+                            {
+                                hasToken ? (
+                                    <>
+                                        <Button color="inherit" component={Link} to="/dashboard">Dashboard</Button>
+                                        <Button color="inherit" onClick={() => handleLogout()}>Logout</Button>
+                                    </>
+                                )
+                                    :
+                                    (
+                                        <>
+                                            <Button color="inherit" component={Link} to="/register">Register</Button>
+                                            <Button color="inherit" component={Link} to="/login">Login</Button>
+                                        </>
+                                    )
+                            }
                             <IconButton color="inherit"><SearchIcon /></IconButton>
                             <IconButton component={Link} to="/cart" color="inherit"><ShoppingCartIcon /></IconButton>
                         </>

@@ -12,7 +12,7 @@ const formValidation = Yup.object({
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
 });
 
-const LoginForm = () => {
+const LoginForm = ({ location }) => {
     const [errors, setErrors] = useState(false);
     const [errorMsg, setErrorMsg] = useState("")
 
@@ -26,7 +26,8 @@ const LoginForm = () => {
         const result = await userLogin(values)
         if (result.statusCode == 200) {
             successToast("Login Success", "top-right");
-            localStorage.setItem("pc-store-token ", result.data.token)
+            localStorage.setItem("pc-store", result.data.token)
+            window.location.href = location;
         } else {
             setErrorMsg(result.message);
             setErrors(true);
@@ -43,8 +44,8 @@ const LoginForm = () => {
     })
 
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={2} sx={{ p: 2 }}>
+        <form onSubmit={formik.handleSubmit} >
+            <Grid container spacing={2} sx={{ p: 2, backgroundColor: "black" }}>
 
                 <Grid item xs={12}>
                     <Stack spacing={1}>

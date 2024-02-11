@@ -15,6 +15,8 @@ import CartProductSpecs from './sections/cart/CartProductSpecs.jsx';
 import ConfigureCartWorkstation from './sections/cart/ConfigureCartWorkstation.jsx';
 import Cart from "./sections/cart/cart.jsx"
 import CartProductDetails from './sections/cart/CartProductDetails.jsx';
+import ProtectedRoute from "./routes/ProtectedRoute.js"
+import Dashboard from './layout/Dashboard.jsx';
 
 function App() {
 
@@ -32,11 +34,14 @@ function App() {
                     <Route path='/register' element={<Register />} />
 
                     {/* To do the routing based on the Categories, SubCategories and Products*/}
-                    {/* <Route path="/:category/:subCategory" element={<DorylusPage />} /> */}
                     <Route path="/gaming-pc/:subcategory/:product" element={<ConfigureCartGaming />} />
                     <Route path="/workstation/:subcategory/:product" element={<ConfigureCartWorkstation />} />
 
+                    {/* <ProtectedRoute isAuthenticated={isAuthenticated}>
+                    </ProtectedRoute> */}
+
                     <Route path='/cart' element={<CartProductDetails />} />
+                    <Route path='/dashboard' element={<Dashboard />} />
                 </Routes>
 
                 <Footer />

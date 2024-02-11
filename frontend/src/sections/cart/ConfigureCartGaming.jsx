@@ -5,10 +5,9 @@ import { ArrowRightOutlined, DownloadOutlined, ShoppingCartOutlined, ShareAltOut
 import 'animate.css';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CartProductSpecs from './CartProductSpecs';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createProductCart } from '../../services/configureCart';
 import axios from 'axios';
-import { successToast } from '../../components/ReactToastify';
 
 const ConfigureCartGaming = () => {
     const [isChangeForm, setIsChangeForm] = useState(true);
@@ -16,9 +15,25 @@ const ConfigureCartGaming = () => {
     const [otherSpecs, setOtherSpecs] = useState([]);
     const [cpuID, setCpuID] = useState(1);
     const [tempData, setTempData] = useState([])
-    const [loading, setLoading] = useState(false);
     const { pathname } = useLocation();
+    const params = useParams();
     const navigate = useNavigate();
+
+    const getSubCategoryID = (subcategory) => {
+        switch (subcategory) {
+            case 'Predator':
+                return 1;
+            case 'Kraken':
+                return 2;
+            case 'Behemoth':
+                return 3;
+            case 'Slayer':
+                return 4;
+            default:
+                return 1;
+        }
+    };
+    const subCategoryID = getSubCategoryID(params.subcategory);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -26,7 +41,7 @@ const ConfigureCartGaming = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const requestedData = { "type_id": 1 }
+            const requestedData = { "type_id": subCategoryID }
             const response = await axios.post("http://localhost:5050/api/processor/getGamingCpuList", requestedData);
             setProcessorList(response.data.data[0])
         }
@@ -72,51 +87,46 @@ const ConfigureCartGaming = () => {
             }
         }
         createCart();
-
     }
 
     // Formik
     const formik = useFormik({
         initialValues: {
+            actionType: 1,
             id: null,
             user: null,
-            actionType: 1,
+            productType: 1,
 
-            // Below is the Components
-            processor: '',
-            motherBoard: '',
-            ram: '',
-            ramQuantity: '',
-            graphicCard: '',
-            graphicCardQuantity: 1,
-            ssd: '',
-            ssdQuantity: 1,
-            hdd: 'xyzabc',
-            hddQuantity: 1,
-            casse: '',
-            cpuCooler: '',
-            psu: '',
+            // Component Part
+            processor: "",
+            motherBoard: "",
+            ram: "",
+            ramQuantity: "",
+            graphicCard: "",
+            primaryStorage: "",
+            secondaryStorage: "",
+            hddQuantity: "",
+            casse: "",
+            cpuCooler: "",
+            psu: "",
             support: "",
 
-            // Below is the ADD-ONS 
-            os: "Operating System",
-            monitor: "Monitor Model",
-            keyboard: "Keyboard Model",
-            mouse: "Mouse Model",
-            wifi: "WiFi Adapter Model",
-            customCable: "Custom Cable Model",
+            // Add-on Part
+            os: "cbcg",
+            monitor: "gfhfg",
+            monitorQuantity: 1,
+            keyboard: "fghfgh",
+            mouse: "fghgfxh",
+            wifi: "fghfgh",
+            customCable: "fxhftytf",
 
-            user: null,
-            productType: 1
+            price: "",
+            quantity: 5,
         },
         onSubmit: (values) => {
             manageCartProductSpecs(values)
         }
     })
-
-    // console.log("It is changing : ", formik.values)
-
-    // console.log("Other specs : ", otherSpecs)
 
     useEffect(() => {
         if (otherSpecs.length > 0) {
