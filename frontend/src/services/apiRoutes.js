@@ -13,6 +13,10 @@ export const apiRoutes = {
     // Configure Cart
     addUpdateCart: "api/cart/updateCart",
     cartProductList: "api/cart/getCartList",
-    deleteCartProduct: "api/cart/deleteCart"
+    deleteCartProduct: "api/cart/deleteCart",
     // End
+
+    // Checkout
+    addUpdateAddress: "api/billingAddress/updateBillingAddress",
+    // END
 }
