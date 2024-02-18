@@ -8,9 +8,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Link, useNavigate } from 'react-router-dom';
-import { Box, Typography } from "@mui/material";
+import { Badge, Box, Typography } from "@mui/material";
+import { } from "@mui/base";
 
 const Navbar = () => {
+
+    const totalItems = 10;
+
     const [isHovered3, setIsHovered3] = React.useState(false);
     const [isHovered4, setIsHovered4] = React.useState(false);
     const [hasToken, setHasToken] = React.useState(false);
@@ -275,7 +279,11 @@ const Navbar = () => {
                                     )
                             }
                             <IconButton color="inherit"><SearchIcon /></IconButton>
-                            <IconButton component={Link} to="/cart" color="inherit"><ShoppingCartIcon /></IconButton>
+                            <IconButton component={Link} to="/cart" color="inherit">
+                                <Badge badgeContent={totalItems} color="secondary">
+                                    <ShoppingCartIcon />
+                                </Badge>
+                            </IconButton>
                         </>
                     </Grid>
                 </Grid>

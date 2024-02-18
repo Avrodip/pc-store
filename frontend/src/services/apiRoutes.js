@@ -17,6 +17,10 @@ export const apiRoutes = {
     // End
 
     // Checkout
-    addUpdateAddress: "api/billingAddress/updateBillingAddress",
+    addUpdateBillingAddress: "api/billingAddress/updateBillingAddress",
+    addUpdateShippingAddress: "api/shippingAddress/updateShippingAddress",
+
+    getBillingAddressList: "api/billingAddress/getBillingAddressList",
+    getShippingAddressList: "api/shippingAddress/getShippingAddressList",
     // END
 }

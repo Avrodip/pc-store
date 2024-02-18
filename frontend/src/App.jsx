@@ -18,6 +18,7 @@ import CartProductDetails from './sections/cart/CartProductDetails.jsx';
 import ProtectedRoute from "./routes/ProtectedRoute.js"
 import Dashboard from './layout/Dashboard.jsx';
 import Checkout from './sections/cart/Checkout.jsx';
+import ConfirmCheckout from './sections/cart/ConfirmCheckout.jsx';
 
 function App() {
 
@@ -25,8 +26,7 @@ function App() {
 
         <Router>
             <Box sx={{ background: "black", color: "white" }}>
-                {/* <Navbar /> */}
-                <Checkout />
+                <Navbar />
 
                 <Routes>
                     <Route path='/' element={<HomeSection />} />
@@ -44,6 +44,9 @@ function App() {
 
                     <Route path='/cart' element={<CartProductDetails />} />
                     <Route path='/dashboard' element={<Dashboard />} />
+
+                    <Route path='/checkout' element={<Checkout />} />
+                    <Route path='/confirmCheckout' element={<ConfirmCheckout />} />
                 </Routes>
 
                 <Footer />

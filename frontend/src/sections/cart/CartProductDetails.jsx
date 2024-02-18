@@ -8,6 +8,7 @@ import { useFormik } from 'formik';
 import Dialog from '@mui/material/Dialog';
 import { styled } from '@mui/material/styles';
 import LoginForm from '../forms/loginForm';
+import { useNavigate } from 'react-router-dom';
 
 const styles = {
     section: {
@@ -34,6 +35,8 @@ const CartProductDetails = () => {
     const [openSignIn, setOpenSignIn] = useState(false);
     const [hasToken, setHasToken] = useState(false);
     const [expandedProducts, setExpandedProducts] = useState({});
+    const [cartTotal, setCartTotal] = useState(0);
+    const navigate = useNavigate();
 
     // Function to toggle the "View more" state for a specific product
     const toggleViewMore = (productId) => {
@@ -112,6 +115,7 @@ const CartProductDetails = () => {
     const handleClickOpen = () => {
         console.log("Handle Click is called")
         setOpenSignIn(!openSignIn);
+        navigate("/checkout")
     }
 
     useEffect(() => {
@@ -129,7 +133,7 @@ const CartProductDetails = () => {
     const fetchData = async () => {
         try {
             const response = await displayCartProductDetails();
-            // console.log("Response : ", response)
+            console.log("Response : ", response.data[0])
             setCartProductDetails(response.data[0]);
         } catch (error) {
             console.log("Some thing error happenned : ", error.message)
@@ -139,6 +143,7 @@ const CartProductDetails = () => {
     const deleteProduct = async (productID) => {
         const response = await deleteCartProduct({ id: productID });
         console.log("Response : after delete : ", response)
+        fetchData();
     }
 
     const formik = useFormik({
@@ -254,7 +259,7 @@ const CartProductDetails = () => {
 
                                             <TableCell sx={{ color: "white", textAlign: 'center' }}>₹{data?.price * formik.values.prodQuantity}</TableCell>
                                             <TableCell sx={{ color: "white", textAlign: 'center' }} >
-                                                <DeleteOutlined style={{ color: 'red' }} onClick={() => deleteProduct(data.id)} />
+                                                <DeleteOutlined style={{ color: 'red' }} onClick={() => { deleteProduct(data.id); }} />
                                             </TableCell>
                                         </TableRow>
                                     ))
