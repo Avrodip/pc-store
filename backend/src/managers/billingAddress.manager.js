@@ -4,10 +4,13 @@ class BillingAddressManager {
 
     async getbillingAddressList(req, res) {
         try {
+            const {
+                userID
+            } = req.body;
             if (!db) {
                 throw new Error("Database object is undefined");
             }
-            const [rows, fields] = await db.promise().query('CALL getbillingAddressList()');
+            const [rows, fields] = await db.promise().query('CALL getbillingAddressList(?)',[userID]);
             return rows;
         } catch (error) {
             console.error("Error occurred:", error);
