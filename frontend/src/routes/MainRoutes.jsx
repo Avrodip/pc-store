@@ -6,7 +6,7 @@ import GamingPCDetails from '../components/gamingpcdetails';
 import WorkstationPCDetails from '../components/workstationpcdetails';
 import Register from "../sections/auth/register";
 import LoginAuth from '../sections/auth/loginAuth';
-
+import Payment from '../sections/payment/Payment';
 const MainRoutes = () => {
     return (
         <Routes>
@@ -20,6 +20,7 @@ const MainRoutes = () => {
             <Route path="/register" element={<Register />} />
             <Route path='/login' element={<LoginAuth />} />
             {/* END Auth Section Routes  */}
+            <Route path='/payment' element= {<Payment />} />
         </Routes>
     );
 };

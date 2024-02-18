@@ -17,7 +17,7 @@ import Cart from "./sections/cart/cart.jsx"
 import CartProductDetails from './sections/cart/CartProductDetails.jsx';
 import ProtectedRoute from "./routes/ProtectedRoute.js"
 import Dashboard from './layout/Dashboard.jsx';
-
+import Payment from './sections/payment/Payment.jsx'
 function App() {
 
     return (
@@ -25,7 +25,6 @@ function App() {
         <Router>
             <Box sx={{ background: "black", color: "white" }}>
                 <Navbar />
-
                 <Routes>
                     <Route path='/' element={<HomeSection />} />
                     <Route path='/workStationCart' element={<WorkStationCart />} />
@@ -42,6 +41,7 @@ function App() {
 
                     <Route path='/cart' element={<CartProductDetails />} />
                     <Route path='/dashboard' element={<Dashboard />} />
+                    <Route path='/payment' element={<Payment />} />
                 </Routes>
 
                 <Footer />
