@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useFormik } from 'formik';
 import { Stack, FormHelperText, Button, InputLabel, OutlinedInput, Grid } from "@mui/material"
 import * as Yup from 'yup';
 import { userLogin } from '../../services/authService';
 import { ToastContainer } from 'react-toastify';
 import { successToast } from "../../components/ReactToastify"
+import { UserContext } from '../../context-api/userContext';
+
 
 // Form Validation Schema
 const formValidation = Yup.object({
@@ -15,6 +17,7 @@ const formValidation = Yup.object({
 const LoginForm = ({ location }) => {
     const [errors, setErrors] = useState(false);
     const [errorMsg, setErrorMsg] = useState("")
+    const { login } = useContext(UserContext);
 
     useEffect(() => {
         setTimeout(() => {
@@ -25,9 +28,11 @@ const LoginForm = ({ location }) => {
     const customerLogin = async (values) => {
         const result = await userLogin(values)
         if (result.statusCode == 200) {
+            console.log("Result", result.data)
+            login(result.data.userID);
             successToast("Login Success", "top-right");
             localStorage.setItem("pc-store", result.data.token)
-            window.location.href = location;
+            // window.location.href = location;
         } else {
             setErrorMsg(result.message);
             setErrors(true);
