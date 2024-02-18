@@ -162,8 +162,8 @@ const CartProductDetails = () => {
 
             const productData = {
                 user: 123,
-                productType: 1,
                 actionType: 2,
+                productType: 1,
 
                 id: updatedCartProductDetails[productIndex].id,
                 processor: updatedCartProductDetails[productIndex].processor,
@@ -191,6 +191,9 @@ const CartProductDetails = () => {
 
             const response = await createProductCart(productData);
             console.log("Response received : ", response)
+            if (response.statusCode === 200) {
+                fetchData();
+            }
         }
     }
 

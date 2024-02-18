@@ -120,8 +120,8 @@ const ConfigureCartGaming = () => {
             wifi: "fghfgh",
             customCable: "fxhftytf",
 
-            price: "",
-            quantity: 5,
+            price: 1200,
+            quantity: 1,
         },
         onSubmit: (values) => {
             manageCartProductSpecs(values)
