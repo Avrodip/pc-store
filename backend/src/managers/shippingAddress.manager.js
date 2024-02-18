@@ -26,13 +26,14 @@ class ShippingAddressManager {
                 city,
                 state,
                 country,
-                zipcode
+                zipcode,
+                userID
             } = req.body;
             if (!db) {
                 throw new Error("Database object is undefined");
             }
 
-            const [rows, fields] = await db.promise().execute('CALL updateShippingAddress(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            const [rows, fields] = await db.promise().execute('CALL updateShippingAddress(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                 [
                     actionType,
                     id,
@@ -43,7 +44,8 @@ class ShippingAddressManager {
                     city,
                     state,
                     country,
-                    zipcode
+                    zipcode,
+                    userID
                 ]
             );
             return rows;
