@@ -27,7 +27,6 @@ function App() {
         <Router>
             <Box sx={{ background: "black", color: "white" }}>
                 <Navbar />
-
                 <Routes>
                     <Route path='/' element={<HomeSection />} />
                     <Route path='/workStationCart' element={<WorkStationCart />} />
