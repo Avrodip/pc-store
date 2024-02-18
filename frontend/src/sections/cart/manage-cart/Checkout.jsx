@@ -3,16 +3,15 @@ import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 import { DeleteOutlined, ArrowRightOutlined, ArrowLeftOutlined, DownOutlined } from '@ant-design/icons';
 import { useFormik } from 'formik';
 import ShippingAddress from './ShippingAddress';
-import { getBillingAddressList } from '../../services/checkout';
+import { getBillingAddressList } from '../../../services/checkout';
 import BillingAddress from './BillingAddress';
-import { indianStates, countries } from "../../utils/contant";
+import { indianStates, countries } from "../../../utils/contant";
 // import Radio from '@mui/joy/Radio';
 
 
 const Checkout = () => {
     const isBelow420px = useMediaQuery('(max-width:420px)');
     const is1200To1260px = useMediaQuery('(min-width: 1200px) and (max-width: 1260px)');
-    const [cartProductDetails, setCartProductDetails] = useState([]);
     const [openSignIn, setOpenSignIn] = useState(false);
     const [hasToken, setHasToken] = useState(false);
     const [isChangeForm, setIsChangeForm] = useState(true);
@@ -64,7 +63,7 @@ const Checkout = () => {
                 <Typography sx={{ color: "white", textAlign: "center", fontSize: "25px", fontWeight: "bold" }}>Billing & Shipping Address</Typography>
             </Grid>
 
-            <Grid container sx={{ gap: { xs: 1, lg: 5 }, backgroundColor: "black", px: { xs: 1, sm: 2, md: 4 }, py: 8, display: "flex", justifyContent: "center" }}>
+            <Grid container sx={{ backgroundColor: "black", py: 8, display: "flex", justifyContent: "center" }}>
 
                 <Grid item xs={12} lg={7} >
 
@@ -109,13 +108,13 @@ const Checkout = () => {
                                                             <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>
                                                                 <Radio align={"center"} key={index} value={address?.id} onChange={() => handleBillingID(address?.id)} name="radio-buttons-group" sx={{ color: "white" }} />
                                                             </TableCell>
-                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>{address?.fullName}</TableCell>
-                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>{address?.email}</TableCell>
-                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>{address?.streetAddress}</TableCell>
-                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>{address?.city}</TableCell>
-                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>{address?.state}</TableCell>
-                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>{address?.zipCode}</TableCell>
-                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>{address?.telephoneNumber}</TableCell>
+                                                            <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.fullName}</TableCell>
+                                                            <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.email}</TableCell>
+                                                            <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.streetAddress}</TableCell>
+                                                            <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.city}</TableCell>
+                                                            <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.state}</TableCell>
+                                                            <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.zipCode}</TableCell>
+                                                            <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.telephoneNumber}</TableCell>
                                                         </TableRow>
                                                     ))}
                                                 </TableBody>
@@ -166,33 +165,6 @@ const Checkout = () => {
                     </Grid>
 
                 </Grid>
-
-                <Grid item xs={12} lg={4} sx={{ pt: 4, bgcolor: "#171717" }}>
-                    <Grid item >
-                        <Box sx={{ pb: 2 }}>
-                            <Typography align='center'>ORDER DETAILS</Typography>
-                        </Box>
-
-                        <Grid item sx={{ px: 2 }}>
-                            <Box sx={{ borderBottom: "1px solid rgba(255,255,255,.2)", display: "flex", justifyContent: "space-between", mb: "10px", pb: "4px" }}>
-                                <Typography>ANT PC PHARAOH RZ500X X 1</Typography>
-                                <Typography>₹ 137394</Typography>
-                            </Box>
-                            <Box sx={{ borderBottom: "1px solid rgba(255,255,255,.2)", display: "flex", justifyContent: "space-between", mb: "10px", pb: "4px" }}>
-                                <Typography>Sub Total</Typography>
-                                <Typography>₹ 1800</Typography>
-                            </Box>
-                            <Box sx={{ borderBottom: "1px solid rgba(255,255,255,.2)", display: "flex", justifyContent: "space-between", mb: "10px", pb: "4px" }}>
-                                <Typography>Shipping Charges</Typography>
-                                <Typography>₹ 1800</Typography>
-                            </Box>
-                            <Box sx={{ borderBottom: "1px solid rgba(255,255,255,.2)", display: "flex", justifyContent: "space-between", mb: "10px", pb: "4px" }}>
-                                <Typography>Total</Typography>
-                                <Typography>₹ 139194</Typography>
-                            </Box>
-                        </Grid>
-                    </Grid>
-                </Grid >
             </Grid >
         </>
     )

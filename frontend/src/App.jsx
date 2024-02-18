@@ -7,18 +7,14 @@ import GamingPc from './sections/cart/gamePcCart/index.jsx'
 import Footer from './layout/footer.jsx';
 import Register from './sections/auth/register.jsx';
 import LoginAuth from './sections/auth/loginAuth.jsx';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import HomeSection from './layout/homeSection.jsx';
-import DorylusPage from './sections/subsection/gaming/dorylusPage.jsx';
-import ConfigureCartGaming from './sections/cart/ConfigureCartGaming.jsx';
-import CartProductSpecs from './sections/cart/CartProductSpecs.jsx';
-import ConfigureCartWorkstation from './sections/cart/ConfigureCartWorkstation.jsx';
-import Cart from "./sections/cart/cart.jsx"
-import CartProductDetails from './sections/cart/CartProductDetails.jsx';
-import ProtectedRoute from "./routes/ProtectedRoute.js"
+import ConfigureCartGaming from "./sections/cart/add-to-cart/ConfigureCartGaming"
+import ConfigureCartWorkstation from './sections/cart/add-to-cart/ConfigureCartWorkstation';
+import CartProductDetails from './sections/cart/manage-cart/CartProductDetails';
 import Dashboard from './layout/Dashboard.jsx';
-import Checkout from './sections/cart/Checkout.jsx';
-import ConfirmCheckout from './sections/cart/ConfirmCheckout.jsx';
+import Checkout from './sections/cart/manage-cart/Checkout.jsx';
+import ConfirmCheckout from './sections/cart/manage-cart/ConfirmCheckout.jsx';
 
 function App() {
 

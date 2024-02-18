@@ -15,8 +15,6 @@ import { UserContext } from "../context-api/userContext"
 const Navbar = () => {
     const { user, login, logout } = useContext(UserContext);
 
-    console.log("User logged : ", user)
-
     const totalItems = 10;
 
     const [isHovered3, setIsHovered3] = React.useState(false);
