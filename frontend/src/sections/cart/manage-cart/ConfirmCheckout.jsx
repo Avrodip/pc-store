@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, OutlinedInput, Button, Stack, TextField, FormControl, Typography, Select, MenuItem, Box, useMediaQuery, DialogContent, IconButton, DialogTitle, FormHelperText } from '@mui/material'
-import { DeleteOutlined, ArrowRightOutlined, ArrowLeftOutlined, DownOutlined } from '@ant-design/icons';
-import CloseIcon from '@mui/icons-material/Close';
-import { deleteCartProduct, displayCartProductDetails, createProductCart } from '../../../services/configureCart';
-import DialogActions from '@mui/material/DialogActions';
-import { useFormik } from 'formik';
-import Dialog from '@mui/material/Dialog';
-import { styled } from '@mui/material/styles';
-import LoginForm from '../../forms/loginForm';
+import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Stack, Typography, Box, useMediaQuery } from '@mui/material'
+import { ArrowRightOutlined, ArrowLeftOutlined, DownOutlined } from '@ant-design/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoneyBill, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
+import { getBillingAddressByID, getShippingAddressByID } from '../../../services/address';
+import { displayCartProductDetails } from '../../../services/configureCart';
 
 const styles = {
     section: {
@@ -28,7 +25,27 @@ const ConfirmCheckout = () => {
     const [cartTotal, setCartTotal] = useState(0);
     const [billingAddress, setBillingAddress] = useState([])
     const [shippingAddress, setShippingAddress] = useState([])
+    const [selectedAddress, setSelectedAddress] = useState(true);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        getBilling();
+        getShipping();
+    }, [])
+    const getBilling = async () => {
+        const response = await getBillingAddressByID({ "userID": 5 });
+        // console.log("Billing Address : ", response.data[0][0])
+        if (response.success) {
+            setBillingAddress(response.data[0][0]);
+        }
+    }
+    const getShipping = async () => {
+        const response = await getShippingAddressByID({ "userID": 2 });
+        // console.log("Shipping Address : ", response.data[0][0])
+        if (response.success) {
+            setShippingAddress(response.data[0][0]);
+        }
+    }
 
     // Function to toggle the "View more" state for a specific product
     const toggleViewMore = (productId) => {
@@ -37,17 +54,6 @@ const ConfirmCheckout = () => {
             [productId]: !prevState[productId]
         }));
     };
-
-    useEffect(() => {
-        getBilling();
-        getShipping();
-    }, [])
-    const getBilling = () => {
-
-    }
-    const getShipping = () => {
-    }
-
 
     // JSX for rendering the "View more" section based on the expanded state
     const renderViewMoreSection = (data) => {
@@ -145,19 +151,6 @@ const ConfirmCheckout = () => {
         }
     };
 
-
-    const deleteProduct = async (productID) => {
-        const response = await deleteCartProduct({ id: productID });
-        console.log("Response : after delete : ", response)
-        fetchData();
-    }
-
-    const formik = useFormik({
-        initialValues: {
-            prodQuantity: 1
-        }
-    })
-
     return (
         <>
             <Grid sx={{ mt: 15, p: 5, bgcolor: "#171717" }}>
@@ -182,8 +175,8 @@ const ConfirmCheckout = () => {
 
                             <TableBody>
                                 {
-                                    cartProductDetails?.map((data) => (
-                                        <TableRow>
+                                    cartProductDetails?.map((data, index) => (
+                                        <TableRow key={index}>
                                             <TableCell sx={{ color: "white", textAlign: 'left', width: "100px" }}>
                                                 <img src='https://www.ant-pc.com/Case/ANT_Esports_211_Air_Black.png' style={{ height: "100px", width: "100px" }} />
                                             </TableCell>
@@ -209,13 +202,14 @@ const ConfirmCheckout = () => {
                                                 <Typography sx={{ fontWeight: "bold" }}>{data?.quantity}</Typography>
                                             </TableCell>
 
-                                            <TableCell sx={{ color: "white", textAlign: 'center' }}>₹{data?.price * formik.values.prodQuantity}</TableCell>
+                                            <TableCell sx={{ color: "white", textAlign: 'center' }}>₹{data?.price * data?.quantity}</TableCell>
                                         </TableRow>
                                     ))
                                 }
                             </TableBody>
                         </Table>
                     </TableContainer>
+
                     <TableContainer >
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
@@ -263,13 +257,10 @@ const ConfirmCheckout = () => {
                                 width: { xs: "300px", sm: "auto" },
                             }}>
                             <Stack spacing={1}>
-                                <Button variant="contained" color='error' onClick={handlePayment}>Payment By Razorpay<ArrowRightOutlined style={{ fontSize: "16px" }} /></Button>
+                                <Button variant="contained" color='error' onClick={handlePayment}>Confirm to Pay<ArrowRightOutlined style={{ fontSize: "16px" }} /></Button>
                             </Stack>
                         </Grid>
                     </Grid>
-
-
-
                 </Grid>
 
                 <Grid item xs={12} lg={4} sx={{ pt: 4, bgcolor: "#202020" }}>
@@ -280,23 +271,66 @@ const ConfirmCheckout = () => {
                     <Grid item sx={{ display: "flex", justifyContent: "space-between", flexDirection: isBelow420px ? 'column' : is1200To1260px ? 'column' : 'row', px: 4, gap: 2 }}>
                         <Grid sx={{ width: "100%" }}>
                             <Stack spacing={1}>
-                                <Button variant="contained" sx={{ background: "black", fontSize: "14px", px: 4, py: 2 }}>Shipping Details</Button>
+                                <Button variant="contained" sx={{
+                                    background: "black", fontSize: "14px", px: 4, py: 2,
+                                    backgroundColor: selectedAddress ? '#ce0101' : '#171717',
+                                    '&:hover': {
+                                        backgroundColor: selectedAddress ? '#ce0101' : '#171717',
+                                    },
+                                }} onClick={() => setSelectedAddress(true)}>Shipping Details</Button>
                             </Stack>
                         </Grid>
 
                         <Grid sx={{ width: "100%" }}>
                             <Stack spacing={1}>
-                                <Button variant="contained" sx={{ background: "black", fontSize: "14px", px: 4, py: 2 }}>Billing Details</Button>
+                                <Button variant="contained" sx={{
+                                    background: "black", fontSize: "14px", px: 4, py: 2,
+                                    backgroundColor: selectedAddress ? '#171717' : '#ce0101',
+                                    '&:hover': {
+                                        backgroundColor: selectedAddress ? '#171717' : '#ce0101',
+                                    },
+                                }} onClick={() => setSelectedAddress(false)}>Billing Details</Button>
                             </Stack>
                         </Grid>
                     </Grid>
 
-                    <Grid>
+                    {/* Shipping Address */}
+                    {selectedAddress && (
+                        <Grid item sx={{ border: 1, m: 3, display: "flex", flexDirection: { xs: "column", sm: "row" } }}>
+                            <Grid sx={{ width: { xs: "100%", sm: "30%" }, borderRight: 1, borderBottom: { xs: 1, sm: 0 }, display: "flex", justifyContent: "center", alignItems: "center", p: { xs: 1, sm: 0 } }}>
+                                <FontAwesomeIcon icon={faTruck} size="4x" />
+                            </Grid>
+                            <Grid sx={{ width: { xs: "100%", sm: "70%" }, pl: 2, py: 1 }}>
+                                <Typography sx={{ fontSize: "13px" }}>{shippingAddress?.name}</Typography>
+                                <Typography sx={{ fontSize: "13px" }}>{shippingAddress?.address}</Typography>
+                                <Typography sx={{ fontSize: "13px" }}>{shippingAddress?.city}-{shippingAddress?.zipCode}</Typography>
+                                <Typography sx={{ fontSize: "13px" }}>{shippingAddress?.state}, India</Typography>
+                                <br />
+                                <Typography sx={{ fontSize: "13px" }}>{shippingAddress?.contactNumber}</Typography>
+                                <Typography sx={{ fontSize: "13px" }}>{shippingAddress?.email}</Typography>
+                                <Typography sx={{ fontSize: "13px" }}>GST: {billingAddress?.gst}</Typography>
+                            </Grid>
+                        </Grid>
+                    )}
 
-                    </Grid>
-
-
-
+                    {/* Billing Address */}
+                    {!selectedAddress && (
+                        <Grid item sx={{ border: 1, m: 3, display: "flex", flexDirection: { xs: "column", sm: "row" } }}>
+                            <Grid sx={{ width: { xs: "100%", sm: "30%" }, borderRight: 1, borderBottom: { xs: 1, sm: 0 }, display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                <FontAwesomeIcon icon={faMoneyBill} size="4x" />
+                            </Grid>
+                            <Grid sx={{ width: { xs: "100%", sm: "70%" }, pl: 2, py: 1 }}>
+                                <Typography sx={{ fontSize: "13px" }}>{billingAddress?.fullName}</Typography>
+                                <Typography sx={{ fontSize: "13px" }}>{billingAddress?.streetAddress}</Typography>
+                                <Typography sx={{ fontSize: "13px" }}>{billingAddress?.city}-{billingAddress?.zipCode}</Typography>
+                                <Typography sx={{ fontSize: "13px" }}>{billingAddress?.state}, India</Typography>
+                                <br />
+                                <Typography sx={{ fontSize: "13px" }}>{billingAddress?.telephoneNumber}</Typography>
+                                <Typography sx={{ fontSize: "13px" }}>{billingAddress?.email}</Typography>
+                                <Typography sx={{ fontSize: "13px" }}>GST: {billingAddress?.gst}</Typography>
+                            </Grid>
+                        </Grid>
+                    )}
                 </Grid >
             </Grid >
         </>
