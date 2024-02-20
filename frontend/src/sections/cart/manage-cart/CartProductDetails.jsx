@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, OutlinedInput, Button, Stack, TextField, FormControl, Typography, Select, MenuItem, Box, useMediaQuery, DialogContent, IconButton, DialogTitle, FormHelperText } from '@mui/material'
 import { DeleteOutlined, ArrowRightOutlined, ArrowLeftOutlined, DownOutlined } from '@ant-design/icons';
 import CloseIcon from '@mui/icons-material/Close';
-import { deleteCartProduct, displayCartProductDetails, createProductCart } from '../../services/configureCart';
+import { deleteCartProduct, displayCartProductDetails, createProductCart } from '../../../services/configureCart';
 import DialogActions from '@mui/material/DialogActions';
 import { useFormik } from 'formik';
 import Dialog from '@mui/material/Dialog';
 import { styled } from '@mui/material/styles';
-import LoginForm from '../forms/loginForm';
-import { useNavigate } from 'react-router-dom';
+import LoginForm from '../../forms/loginForm';
+import { Link, useNavigate } from 'react-router-dom';
 
 const styles = {
     section: {
@@ -132,13 +132,18 @@ const CartProductDetails = () => {
     }, []);
     const fetchData = async () => {
         try {
-            const response = await displayCartProductDetails();
-            console.log("Response : ", response.data[0])
+            const response = await displayCartProductDetails({ "userID": 11 });
+            let totalPrice = 0;
+            response.data[0]?.forEach((data) => {
+                totalPrice += data?.price * data?.quantity;
+            });
+            setCartTotal(totalPrice);
             setCartProductDetails(response.data[0]);
         } catch (error) {
-            console.log("Some thing error happenned : ", error.message)
+            console.log("Something error happened : ", error.message);
         }
     };
+
 
     const deleteProduct = async (productID) => {
         const response = await deleteCartProduct({ id: productID });
@@ -278,7 +283,7 @@ const CartProductDetails = () => {
                                 width: { xs: "300px", sm: "auto" },
                             }}>
                             <Stack spacing={1}>
-                                <Button variant="contained" color="error"><ArrowLeftOutlined style={{ fontSize: "16px" }} />Continue Shopping</Button>
+                                <Button component={Link} to="/" variant="contained" color="error"><ArrowLeftOutlined style={{ fontSize: "16px" }} />Continue Shopping</Button>
                             </Stack>
                         </Grid>
 
@@ -381,7 +386,7 @@ const CartProductDetails = () => {
                         <Grid item sx={{ px: 2 }}>
                             <Box sx={{ borderBottom: "1px solid rgba(255,255,255,.2)", display: "flex", justifyContent: "space-between", mb: "10px", pb: "4px" }}>
                                 <Typography>Product Total</Typography>
-                                <Typography>₹ 137394</Typography>
+                                <Typography>₹ {cartTotal}</Typography>
                             </Box>
                             <Box sx={{ borderBottom: "1px solid rgba(255,255,255,.2)", display: "flex", justifyContent: "space-between", mb: "10px", pb: "4px" }}>
                                 <Typography>Shipping Charges</Typography>
@@ -389,7 +394,7 @@ const CartProductDetails = () => {
                             </Box>
                             <Box sx={{ borderBottom: "1px solid rgba(255,255,255,.2)", display: "flex", justifyContent: "space-between", mb: "10px", pb: "4px" }}>
                                 <Typography>Total</Typography>
-                                <Typography>₹ 139194</Typography>
+                                <Typography>₹ {cartTotal + 1800}</Typography>
                             </Box>
 
                             <Grid item sx={{ display: "flex", justifyContent: "center" }}>

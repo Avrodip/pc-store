@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -9,9 +9,11 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Link, useNavigate } from 'react-router-dom';
 import { Badge, Box, Typography } from "@mui/material";
-import { } from "@mui/base";
+import { UserContext } from "../context-api/userContext"
+
 
 const Navbar = () => {
+    const { user, login, logout } = useContext(UserContext);
 
     const totalItems = 10;
 
@@ -19,7 +21,7 @@ const Navbar = () => {
     const [isHovered4, setIsHovered4] = React.useState(false);
     const [hasToken, setHasToken] = React.useState(false);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const token = localStorage.getItem('pc-store');
         setHasToken(!!token);
     }, []);
@@ -244,6 +246,7 @@ const Navbar = () => {
     };
 
     const handleLogout = () => {
+        logout();
         localStorage.clear();
         window.location.href = "/";
     }

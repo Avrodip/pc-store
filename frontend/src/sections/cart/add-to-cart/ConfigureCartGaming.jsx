@@ -4,9 +4,9 @@ import { Stack, Button, InputLabel, OutlinedInput, Select, FormHelperText, Grid,
 import { ArrowRightOutlined, DownloadOutlined, ShoppingCartOutlined, ShareAltOutlined } from "@ant-design/icons"
 import 'animate.css';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CartProductSpecs from './CartProductSpecs';
+// import CartProductSpecs from './CartProductSpecs';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { createProductCart } from '../../services/configureCart';
+import { createProductCart } from '../../../services/configureCart';
 import axios from 'axios';
 
 const ConfigureCartGaming = () => {
@@ -76,7 +76,7 @@ const ConfigureCartGaming = () => {
             values.processor = processorList[0]?.cpu_name
         }
 
-        console.log("Values : ", values)
+        console.log("Values we are passing : ", values)
 
         const createCart = async () => {
             const result = await createProductCart(values)
@@ -94,7 +94,7 @@ const ConfigureCartGaming = () => {
         initialValues: {
             actionType: 1,
             id: null,
-            user: null,
+            userID: 11,
             productType: 1,
 
             // Component Part
@@ -678,7 +678,7 @@ const ConfigureCartGaming = () => {
                         </Grid>
                     </Grid>
 
-                    <CartProductSpecs />
+                    {/* <CartProductSpecs /> */}
                 </Grid>
             </form >
         </>
