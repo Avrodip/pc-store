@@ -17,6 +17,19 @@ class CartController {
             return apiResponse.expectationFailedResponse(res, error);
         }
     }
+    async getProductByID(req, res) {
+        try {
+            const result = await cartManager.getProductByID(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
     async updateCart(req, res) {
         try {
             const result = await cartManager.updateCart(req, res);
