@@ -23,7 +23,7 @@ class AuthManager {
                     }
 
                     try {
-                        data.token = jwt.sign(jwtPayload, SecretKey, { expiresIn: expiresIn });
+                        data.token = jwt.sign(jwtPayload, SecretKey, { expiresIn: '2hr' });
                         return { success: true, message: 'Login successful', data: data };
                     } catch (err) {
                         return { success: false, message: 'Some error occurred during token generation.' };

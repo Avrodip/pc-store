@@ -1,23 +1,53 @@
-import { createContext, useState } from "react";
-export const UserContext = createContext();
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import axios from 'axios';
 
-export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState({
-        loggedIn: false,
-        userID: 1,
-    });
+// Create the context
+export const AuthContext = createContext();
 
-    const login = (id) => {
-        setUser({ ...user, loggedIn: true, userID: id });
+// Create the provider component
+export const AuthProvider = ({ children }) => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        checkTokenValidity();
+    }, []);
+
+    const checkTokenValidity = async () => {
+        const token = localStorage.getItem('pc-store');
+        if (token) {
+            try {
+                const response = await axios.post('http://localhost:5050/api/auth/validateToken', { token });
+                if (response.data.valid) {
+                    setIsLoggedIn(true);
+                } else {
+                    setIsLoggedIn(false);
+                    localStorage.removeItem('pc-store');
+                    localStorage.removeItem('pc-store-user');
+                }
+            } catch (error) {
+                console.error('Error validating token:', error);
+                setIsLoggedIn(false);
+                localStorage.removeItem('pc-store');
+                localStorage.removeItem('pc-store-user');
+            }
+        }
+        setIsLoading(false);
+    };
+
+    const login = (token, userID) => {
+        setIsLoggedIn(true);
+        localStorage.setItem('pc-store', token);
+        localStorage.setItem('pc-store-user', userID);
     };
 
     const logout = () => {
-        setUser({ ...user, loggedIn: false, userID: null });
+        setIsLoggedIn(false);
+        localStorage.removeItem('pc-store');
+        localStorage.removeItem('pc-store-user');
     };
 
     return (
-        <UserContext.Provider value={{ user, setUser, login, logout }}>
-            {children}
-        </UserContext.Provider>
+        <AuthContext.Provider value={{ isLoggedIn, login, logout, isLoading, checkTokenValidity }}>{children}</AuthContext.Provider>
     );
-}
+};

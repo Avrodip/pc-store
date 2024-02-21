@@ -5,8 +5,9 @@ import * as Yup from 'yup';
 import { userLogin } from '../../services/authService';
 import { ToastContainer } from 'react-toastify';
 import { successToast } from "../../components/ReactToastify"
-import { UserContext } from '../../context-api/userContext';
-
+import { AuthContext } from '../../context-api/userContext';
+import { useNavigate } from 'react-router-dom';
+import { StatusCode } from '../../utils/contant';
 
 // Form Validation Schema
 const formValidation = Yup.object({
@@ -17,7 +18,8 @@ const formValidation = Yup.object({
 const LoginForm = ({ location }) => {
     const [errors, setErrors] = useState(false);
     const [errorMsg, setErrorMsg] = useState("")
-    const { login } = useContext(UserContext);
+    const navigate = useNavigate()
+    const { login } = useContext(AuthContext)
 
     useEffect(() => {
         setTimeout(() => {
@@ -27,12 +29,10 @@ const LoginForm = ({ location }) => {
 
     const customerLogin = async (values) => {
         const result = await userLogin(values)
-        if (result.statusCode == 200) {
-            console.log("Result", result.data)
-            login(result.data.userID);
+        if (result.statusCode == StatusCode.success) {
+            login(result.data.token, result.data.userID);
             successToast("Login Success", "top-right");
-            localStorage.setItem("pc-store", result.data.token)
-            // window.location.href = location;
+            navigate("/")
         } else {
             setErrorMsg(result.message);
             setErrors(true);

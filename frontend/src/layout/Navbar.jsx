@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -9,23 +9,14 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Link, useNavigate } from 'react-router-dom';
 import { Badge, Box, Typography } from "@mui/material";
-import { UserContext } from "../context-api/userContext"
-
+import { AuthContext } from "../context-api/userContext";
 
 const Navbar = () => {
-    const { user, login, logout } = useContext(UserContext);
-
+    const [isHovered3, setIsHovered3] = useState(false);
+    const [isHovered4, setIsHovered4] = useState(false);
+    const { isLoggedIn, logout } = useContext(AuthContext);
+    const navigate = useNavigate()
     const totalItems = 10;
-
-    const [isHovered3, setIsHovered3] = React.useState(false);
-    const [isHovered4, setIsHovered4] = React.useState(false);
-    const [hasToken, setHasToken] = React.useState(false);
-
-    useEffect(() => {
-        const token = localStorage.getItem('pc-store');
-        setHasToken(!!token);
-    }, []);
-
 
     const handleMouseEnter = (buttonNumber) => {
         if (buttonNumber === 3) {
@@ -247,8 +238,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         logout();
-        localStorage.clear();
-        window.location.href = "/";
+        navigate("/")
     }
 
     return (
@@ -267,7 +257,7 @@ const Navbar = () => {
                     <Grid item sx={{ pr: 1 }}>
                         <>
                             {
-                                hasToken ? (
+                                isLoggedIn ? (
                                     <>
                                         <Button color="inherit" component={Link} to="/dashboard">Dashboard</Button>
                                         <Button color="inherit" onClick={() => handleLogout()}>Logout</Button>
