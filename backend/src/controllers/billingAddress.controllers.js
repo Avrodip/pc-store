@@ -17,6 +17,19 @@ class BillingAddressController {
             return apiResponse.expectationFailedResponse(res, error);
         }
     }
+    async getbillingAddressByID(req, res) {
+        try {
+            const result = await billingAddressManager.getbillingAddressByID(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
     async updateBillingAddress(req, res) {
         try {
             const result = await billingAddressManager.updateBillingAddress(req, res);

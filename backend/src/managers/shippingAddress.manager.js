@@ -17,6 +17,22 @@ class ShippingAddressManager {
             throw error;
         }
     }
+    async getShippingAddressByID(req, res) {
+        try {
+            const {
+                id,
+                userID
+            } = req.body;
+            if (!db) {
+                throw new Error("Database object is undefined");
+            }
+            const [rows, fields] = await db.promise().query('CALL getShippingAddressByID(?,?)',[id,userID]);
+            return rows;
+        } catch (error) {
+            console.error("Error occurred:", error);
+            throw error;
+        }
+    }
     async updateShippingAddress(req, res) {
         try {
             const {

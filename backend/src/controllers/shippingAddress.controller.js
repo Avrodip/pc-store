@@ -17,6 +17,19 @@ class ShippingAddressController {
             return apiResponse.expectationFailedResponse(res, error);
         }
     }
+    async getShippingAddressByID(req, res) {
+        try {
+            const result = await shippingAddressManager.getShippingAddressByID(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
     async updateShippingAddress(req, res) {
         try {
             const result = await shippingAddressManager.updateShippingAddress(req, res);
