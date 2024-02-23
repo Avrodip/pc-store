@@ -3,6 +3,10 @@ export const gameCategories = {
     workstation: "workstation"
 }
 
+export const StatusCode = {
+    success: 200
+}
+
 export const indianStates = [
     { name: 'Andhra Pradesh', code: 'AP' },
     { name: 'Arunachal Pradesh', code: 'AR' },

@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import 'animate.css';
 import './index.css'
-import { UserProvider } from "./context-api/userContext.jsx";
+import { AuthProvider } from './context-api/userContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <UserProvider>
+        <AuthProvider>
             <App />
-        </UserProvider>
+        </AuthProvider>
     </React.StrictMode>,
 )

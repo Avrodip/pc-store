@@ -6,6 +6,7 @@ import { faMoneyBill, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { getBillingAddressByID, getShippingAddressByID } from '../../../services/address';
 import { displayCartProductDetails } from '../../../services/configureCart';
+import Payment from '../../payment/Payment';
 
 const styles = {
     section: {
@@ -26,6 +27,7 @@ const ConfirmCheckout = () => {
     const [billingAddress, setBillingAddress] = useState([])
     const [shippingAddress, setShippingAddress] = useState([])
     const [selectedAddress, setSelectedAddress] = useState(true);
+    const [isPayment, setIsPayment] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -122,7 +124,7 @@ const ConfirmCheckout = () => {
     };
 
     const handlePayment = () => {
-        console.log("Handle Payment is called")
+        setIsPayment(true);
     }
 
     useEffect(() => {
@@ -333,6 +335,7 @@ const ConfirmCheckout = () => {
                     )}
                 </Grid >
             </Grid >
+            {isPayment && <Payment />}
         </>
     )
 }
