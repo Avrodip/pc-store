@@ -5,12 +5,13 @@ class CartManager {
     async getCartList(req, res) {
         try {
             const {
-                userID
+                userID,
+                id
             } = req.body;
             if (!db) {
                 throw new Error("Database object is undefined");
             }
-            const [rows, fields] = await db.promise().query('CALL getCartList(?)',[userID]);
+            const [rows, fields] = await db.promise().query('CALL getCartList(?, ?)', [userID, id]);
             return rows;
         } catch (error) {
             console.error("Error occurred:", error);
@@ -25,7 +26,7 @@ class CartManager {
             if (!db) {
                 throw new Error("Database object is undefined");
             }
-            const [rows, fields] = await db.promise().query('CALL getProductByID(?)',[id]);
+            const [rows, fields] = await db.promise().query('CALL getProductByID(?)', [id]);
             return rows;
         } catch (error) {
             console.error("Error occurred:", error);

@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, OutlinedInput, Button, Stack, TextField, FormControl, Typography, Select, MenuItem, Box, useMediaQuery, DialogContent, IconButton, DialogTitle, FormHelperText, InputLabel, Radio, RadioGroup } from '@mui/material'
-import { DeleteOutlined, ArrowRightOutlined, ArrowLeftOutlined, DownOutlined } from '@ant-design/icons';
-import { useFormik } from 'formik';
 import ShippingAddress from './ShippingAddress';
 import { getBillingAddressList } from '../../../services/checkout';
 import BillingAddress from './BillingAddress';
-import { indianStates, countries } from "../../../utils/contant";
-// import Radio from '@mui/joy/Radio';
-
 
 const Checkout = () => {
     const isBelow420px = useMediaQuery('(max-width:420px)');
@@ -17,45 +12,32 @@ const Checkout = () => {
     const [isChangeForm, setIsChangeForm] = useState(true);
     const [isOpenAddress, setIsOpenAddress] = useState(false);
     const [isOpenShipping, setIsOpenShipping] = useState(false);
-    const [isBillingAddress, setIsBillingAddress] = useState([]);
     const [selectedBillingID, setSelectedBillingID] = useState(null);
+    const [isBillingAddress, setIsBillingAddress] = useState([]);
+    const [isBillingPresent, setIsBillingPresent] = useState(false);
+
+    const userID = localStorage.getItem('pc-store-user')
+
+    useEffect(() => {
+        fetchBillingAddress();
+    }, [])
+    const fetchBillingAddress = async () => {
+        const response = await getBillingAddressList({ "userID": userID });
+        if (response.success) {
+            setIsBillingAddress(response.data[0]);
+            setIsBillingPresent(response.data[0].length > 0 ? true : false);
+        }
+    }
 
     const handleBillingID = (id) => {
-        console.log("ID : ", id);
         setSelectedBillingID(id);
+        setIsBillingPresent(true);
     }
 
     const handleBillingAddressOpen = () => {
         setIsOpenAddress(!isOpenAddress);
+        fetchBillingAddress()
     }
-
-    useEffect(() => {
-        const fetchBillingAddress = async () => {
-            const response = await getBillingAddressList();
-            if (response.success) {
-                // console.log(response.data[0][0]);
-                setIsBillingAddress(response.data[0]);
-            }
-        }
-        fetchBillingAddress();
-    }, [])
-
-    const formik = useFormik({
-        initialValues: {
-            fullName: '',
-            contactNumber: '',
-            email: '',
-            gst: '',
-            address: '',
-            city: '',
-            state: indianStates[0].name,
-            country: countries[0].name,
-            zipCode: '',
-        },
-        onSubmit: values => {
-            console.log(values);
-        }
-    })
 
     return (
         <>
@@ -81,12 +63,12 @@ const Checkout = () => {
                                 <Grid item>
                                     <Typography sx={{ fontSize: "20px" }}>Select Address</Typography>
                                 </Grid>
-                                <Grid item>
+                                <Grid item mb={2}>
                                     <Button onClick={() => handleBillingAddressOpen()} variant="contained" color='error' sx={{ mr: 2 }}>Add New Address</Button>
                                 </Grid>
                             </Grid>
                             {
-                                !isOpenAddress && (
+                                !isOpenAddress && isBillingPresent && (
                                     <Grid container sx={{ mt: 2, pb: 2 }}>
                                         <TableContainer sx={{ pr: 2 }}>
                                             <Table aria-label="simple table">
@@ -123,11 +105,21 @@ const Checkout = () => {
                                     </Grid>
                                 )
                             }
+
+                            {
+                                !isOpenAddress && !isBillingPresent && (
+                                    <Typography variant="h6" color="error" pb={2} align="center" sx={{ marginTop: 2 }}>
+                                        Please add a new address to proceed.
+                                    </Typography>
+                                )
+                            }
                         </Grid>
 
                         <Grid item > {isOpenAddress && (<BillingAddress handleBillingAddressOpen={handleBillingAddressOpen} />)} </Grid>
 
                     </Grid>
+
+                    {isBillingPresent && !selectedBillingID && isOpenShipping && (<Grid item> <FormHelperText error sx={{ textAlign: "center", pt: 2 }}>Please Select or Add New Billing Address</FormHelperText></Grid>)}
 
                     <br />
 
@@ -159,7 +151,7 @@ const Checkout = () => {
                         </Grid>
 
                         <Grid item>
-                            {isOpenShipping && (<ShippingAddress setIsOpenShipping={setIsOpenShipping} />)}
+                            {selectedBillingID && isOpenShipping && (<ShippingAddress setIsOpenShipping={setIsOpenShipping} selectedBillingID={selectedBillingID} />)}
                         </Grid>
 
                     </Grid>

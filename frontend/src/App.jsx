@@ -15,6 +15,8 @@ import CartProductDetails from './sections/cart/manage-cart/CartProductDetails';
 import Dashboard from './layout/Dashboard.jsx';
 import Checkout from './sections/cart/manage-cart/Checkout.jsx';
 import ConfirmCheckout from './sections/cart/manage-cart/ConfirmCheckout.jsx';
+import WrongAddress from './error/WrongAddress.jsx';
+import ProtectedRoute from './sections/auth/ProtectedRoute.jsx';
 
 function App() {
 
@@ -40,8 +42,12 @@ function App() {
                     <Route path='/cart' element={<CartProductDetails />} />
                     <Route path='/dashboard' element={<Dashboard />} />
 
-                    <Route path='/checkout' element={<Checkout />} />
-                    <Route path='/confirmCheckout' element={<ConfirmCheckout />} />
+                    <Route element={<ProtectedRoute />} >
+                        <Route path='checkout' element={<Checkout />} />
+                        <Route path="/confirmCheckout/:billing/:shipping" element={<ConfirmCheckout />} />
+                        <Route path="/wrongAddress" element={<WrongAddress />} />
+                    </Route>
+
                 </Routes>
 
                 <Footer />

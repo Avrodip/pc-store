@@ -14,9 +14,15 @@ import { AuthContext } from "../context-api/userContext";
 const Navbar = () => {
     const [isHovered3, setIsHovered3] = useState(false);
     const [isHovered4, setIsHovered4] = useState(false);
+    const [cartSize, setCartSize] = useState(0);
     const { isLoggedIn, logout } = useContext(AuthContext);
     const navigate = useNavigate()
-    const totalItems = 10;
+
+    useEffect(() => {
+        let products = localStorage.getItem('prodID')
+        products = JSON.parse(products)
+        setCartSize(products?.length)
+    }, [])
 
     const handleMouseEnter = (buttonNumber) => {
         if (buttonNumber === 3) {
@@ -273,7 +279,7 @@ const Navbar = () => {
                             }
                             <IconButton color="inherit"><SearchIcon /></IconButton>
                             <IconButton component={Link} to="/cart" color="inherit">
-                                <Badge badgeContent={totalItems} color="secondary">
+                                <Badge badgeContent={cartSize} color="secondary">
                                     <ShoppingCartIcon />
                                 </Badge>
                             </IconButton>

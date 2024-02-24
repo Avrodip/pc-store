@@ -5,10 +5,11 @@ import { ArrowRightOutlined, DownloadOutlined, ShoppingCartOutlined, ShareAltOut
 import 'animate.css';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 // import CartProductSpecs from './CartProductSpecs';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createProductCart } from '../../../services/configureCart';
 import axios from 'axios';
 
+const userID = localStorage.getItem('pc-store-user')
 const ConfigureCartGaming = () => {
     const [isChangeForm, setIsChangeForm] = useState(true);
     const [processorList, setProcessorList] = useState([])
@@ -70,17 +71,31 @@ const ConfigureCartGaming = () => {
     ];
     const [selectedImage, setSelectedImage] = useState(images[0]);
 
+    const handleAddToCart = (prodID) => {
+        var products = JSON.parse(localStorage.getItem('prodID')) || [];
+        function addProduct(productId) {
+            if (!products.includes(productId)) {
+                products.push(productId);
+                localStorage.setItem('prodID', JSON.stringify(products));
+                console.log("Executed")
+                return;
+            } else {
+                console.log('Product already exists.');
+            }
+        }
+        addProduct(prodID);
+    }
+
     const manageCartProductSpecs = (values) => {
         values.processor = processorList.find((pro => pro.cpu_id === values.processor))?.cpu_name
         if (values.processor === undefined) {
             values.processor = processorList[0]?.cpu_name
         }
 
-        console.log("Values we are passing : ", values)
-
         const createCart = async () => {
-            const result = await createProductCart(values)
-            if (result.statusCode == 200) {
+            const response = await createProductCart(values)
+            if (response.statusCode == 200) {
+                handleAddToCart(response.data[0][0].id)
                 navigate('/cart');
             } else {
                 console.log("Something error happened")
@@ -94,7 +109,7 @@ const ConfigureCartGaming = () => {
         initialValues: {
             actionType: 1,
             id: null,
-            userID: 11,
+            userID: userID ? userID : null,
             productType: 1,
 
             // Component Part

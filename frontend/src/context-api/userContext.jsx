@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 // Create the context
@@ -20,10 +20,12 @@ export const AuthProvider = ({ children }) => {
                 const response = await axios.post('http://localhost:5050/api/auth/validateToken', { token });
                 if (response.data.valid) {
                     setIsLoggedIn(true);
+                    return true;
                 } else {
                     setIsLoggedIn(false);
                     localStorage.removeItem('pc-store');
                     localStorage.removeItem('pc-store-user');
+                    return false;
                 }
             } catch (error) {
                 console.error('Error validating token:', error);
@@ -34,6 +36,14 @@ export const AuthProvider = ({ children }) => {
         }
         setIsLoading(false);
     };
+
+    useEffect(() => {
+        checkTokenValidity().finally(() => setIsLoading(false));
+    }, []);
+
+    const getCartSize = () => {
+
+    }
 
     const login = (token, userID) => {
         setIsLoggedIn(true);
@@ -48,6 +58,8 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, login, logout, isLoading, checkTokenValidity }}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{ isLoggedIn, login, logout, isLoading, checkTokenValidity }}>
+            {children}
+        </AuthContext.Provider>
     );
 };

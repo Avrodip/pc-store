@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react'
-import { Box, Typography, Grid, Button } from '@mui/material';
+// import { Box, Typography, Grid, Button } from '@mui/material';
 import axios from "axios";
 
-const Payment = () => {
+const Payment = ({ userID, amount }) => {
+    const data = {
+        userID: userID,
+        amount: amount
+    }
     const handleClick = async () => {
-        const response = await axios.post("http://localhost:5050/api/payment/checkout", {
-            amount: 1000,
-        });
+        const response = await axios.post("http://localhost:5050/api/payment/checkout", data);
+
         console.log("Fdata", response.data);
         const options = {
             key: "rzp_test_QOkfFrm4AWGKax",
@@ -35,20 +38,6 @@ const Payment = () => {
     }
     return (
         <>
-            {/* <Grid item xs={12} sm={12} md={4} lg={4} color="primary"
-                sx={{
-                    background: "#171717",
-                    color: "white",
-                    position: "relative",
-                    width: "100%",
-                    padding: "180px 0 100px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    margin: "0 auto"
-                }}>
-                <Button onClick={handleClick}>Add Cart Payment</Button>
-            </Grid > */}
             {handleClick()}
         </>
     )

@@ -18,7 +18,7 @@ export const createUpdateBillingAddress = async (req) => {
 
 export const getBillingAddressList = async (req) => {
     try {
-        const response = await axios.post(baseURL + apiRoutes.getBillingAddressList, req);
+        const response = await axios.post(baseURL + apiRoutes.getBillingAddressByID, req);
         return response.data;
     } catch (error) {
         if (error.response) {
@@ -31,7 +31,7 @@ export const getBillingAddressList = async (req) => {
 
 export const getShippingAddressList = async (req) => {
     try {
-        const response = await axios.post(baseURL + apiRoutes.getShippingAddressList, req);
+        const response = await axios.post(baseURL + apiRoutes.getShippingAddressByID, req);
         return response.data;
     } catch (error) {
         if (error.response) {

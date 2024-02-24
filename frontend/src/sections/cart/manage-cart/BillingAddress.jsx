@@ -1,39 +1,50 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Grid, OutlinedInput, Stack, InputLabel, Select, MenuItem, Button, FormHelperText } from '@mui/material'
 import { useFormik } from 'formik';
-import { indianStates, countries } from "../../../utils/contant";
+import { indianStates, countries, StatusCode } from "../../../utils/contant";
 import { ArrowRightOutlined } from '@ant-design/icons';
 import * as Yup from 'yup';
+import { createUpdateBillingAddress } from '../../../services/checkout';
 
 
 const validationSchema = Yup.object({
     fullName: Yup.string().required('This field is Required'),
-    contactNumber: Yup.string().required('This field is Required'),
+    telephoneNumber: Yup.string().required('This field is Required'),
     email: Yup.string().required('This field is Required'),
     gst: Yup.string().required('This field is Required'),
-    address: Yup.string().required('This field is Required'),
+    streetAddress: Yup.string().required('This field is Required'),
     city: Yup.string().required('This field is Required'),
     state: Yup.string().required('This field is Required'),
     country: Yup.string().required('This field is Required'),
-    zipCode: Yup.string().required('This field is Required'),
+    zipcode: Yup.string().required('This field is Required'),
 })
+
+const userID = localStorage.getItem('pc-store-user')
 const BillingAddress = ({ handleBillingAddressOpen }) => {
 
     const formik = useFormik({
         initialValues: {
+            actionType: 1,
+            userID: userID,
+            id: null,
+
             fullName: '',
-            contactNumber: '',
+            telephoneNumber: '',
             email: '',
+            pan: null,
             gst: '',
-            address: '',
+            streetAddress: '',
             city: '',
-            state: indianStates[0].name,
             country: countries[0].name,
-            zipCode: '',
+            state: indianStates[0].name,
+            zipcode: '',
         },
         validationSchema,
-        onSubmit: values => {
-            console.log(values);
+        onSubmit: async (values) => {
+            const response = await createUpdateBillingAddress(values);
+            if (response.statusCode === StatusCode.success) {
+                handleBillingAddressOpen();
+            }
         }
     })
 
@@ -60,14 +71,14 @@ const BillingAddress = ({ handleBillingAddressOpen }) => {
                         <Stack spacing={1}>
                             <InputLabel sx={{ color: 'white', fontSize: "13px" }}>Contact Number</InputLabel>
                             <OutlinedInput
-                                name='contactNumber'
-                                value={formik.values.contactNumber}
+                                name='telephoneNumber'
+                                value={formik.values.telephoneNumber}
                                 onChange={formik.handleChange}
                                 size='small'
                                 sx={{ width: "100%", color: "white", border: 1 }}
                                 placeholder='Enter Contact Number'
                             />
-                            <FormHelperText sx={{ color: "red" }}>{formik.touched.contactNumber && formik.errors.contactNumber ? formik.errors.contactNumber : null}</FormHelperText>
+                            <FormHelperText sx={{ color: "red" }}>{formik.touched.telephoneNumber && formik.errors.telephoneNumber ? formik.errors.telephoneNumber : null}</FormHelperText>
                         </Stack>
                     </Grid>
 
@@ -105,14 +116,14 @@ const BillingAddress = ({ handleBillingAddressOpen }) => {
                         <Stack spacing={1}>
                             <InputLabel sx={{ color: 'white', fontSize: "13px" }}>Address</InputLabel>
                             <OutlinedInput
-                                name='address'
-                                value={formik.values.address}
+                                name='streetAddress'
+                                value={formik.values.streetAddress}
                                 onChange={formik.handleChange}
                                 size='small'
                                 sx={{ width: "100%", color: "white", border: 1 }}
                                 placeholder='Enter Address'
                             />
-                            <FormHelperText sx={{ color: "red" }}>{formik.touched.address && formik.errors.address ? formik.errors.address : null}</FormHelperText>
+                            <FormHelperText sx={{ color: "red" }}>{formik.touched.streetAddress && formik.errors.streetAddress ? formik.errors.streetAddress : null}</FormHelperText>
                         </Stack>
                     </Grid>
 
@@ -166,14 +177,14 @@ const BillingAddress = ({ handleBillingAddressOpen }) => {
                         <Stack spacing={1}>
                             <InputLabel sx={{ color: 'white', fontSize: "13px" }}>ZIP code</InputLabel>
                             <OutlinedInput
-                                name='zipCode'
-                                value={formik.values.zipCode}
+                                name='zipcode'
+                                value={formik.values.zipcode}
                                 onChange={formik.handleChange}
                                 size='small'
                                 sx={{ width: "100%", color: "white", border: 1 }}
                                 placeholder='Enter ZIP code'
                             />
-                            <FormHelperText sx={{ color: "red" }}>{formik.touched.zipCode && formik.errors.zipCode ? formik.errors.zipCode : null}</FormHelperText>
+                            <FormHelperText sx={{ color: "red" }}>{formik.touched.zipcode && formik.errors.zipcode ? formik.errors.zipcode : null}</FormHelperText>
                         </Stack>
                     </Grid>
 

@@ -9,6 +9,7 @@ import Dialog from '@mui/material/Dialog';
 import { styled } from '@mui/material/styles';
 import LoginForm from '../../forms/loginForm';
 import { Link, useNavigate } from 'react-router-dom';
+import { StatusCode } from '../../../utils/contant';
 
 const styles = {
     section: {
@@ -28,6 +29,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
+const userID = localStorage.getItem('pc-store-user')
+const prodIdsString = localStorage.getItem('prodID');
+const prodIds = JSON.parse(prodIdsString);
 const CartProductDetails = () => {
     const isBelow420px = useMediaQuery('(max-width:420px)');
     const is1200To1260px = useMediaQuery('(min-width: 1200px) and (max-width: 1260px)');
@@ -36,6 +40,7 @@ const CartProductDetails = () => {
     const [hasToken, setHasToken] = useState(false);
     const [expandedProducts, setExpandedProducts] = useState({});
     const [cartTotal, setCartTotal] = useState(0);
+    const [cartSize, setCartSize] = useState(0);
     const navigate = useNavigate();
 
     // Function to toggle the "View more" state for a specific product
@@ -48,7 +53,8 @@ const CartProductDetails = () => {
 
     // JSX for rendering the "View more" section based on the expanded state
     const renderViewMoreSection = (data) => {
-        if (expandedProducts[data.id]) {
+        console.log("Data : ", data.id)
+        if (expandedProducts[data?.id]) {
             return (
                 <Table className="animate__animated animate__zoomIn animate__slow-400ms">
                     <TableBody sx={{ border: "1px solid #3e3e3e" }}>
@@ -128,27 +134,56 @@ const CartProductDetails = () => {
     }, [])
 
     useEffect(() => {
-        fetchData()
-    }, []);
-    const fetchData = async () => {
+        fetchData(prodIds);
+    }, [prodIds]);
+    const fetchData = async (prodIds) => {
         try {
-            const response = await displayCartProductDetails({ "userID": 11 });
-            let totalPrice = 0;
-            response.data[0]?.forEach((data) => {
-                totalPrice += data?.price * data?.quantity;
-            });
-            setCartTotal(totalPrice);
-            setCartProductDetails(response.data[0]);
+            const tempNewCartProductDetails = [];
+            for (const prodId of prodIds) {
+                const response = await getProductDetails(prodId);
+                tempNewCartProductDetails.push(response);
+            }
+            setCartProductDetails(tempNewCartProductDetails);
+            setCartSize()
         } catch (error) {
             console.log("Something error happened : ", error.message);
         }
     };
 
+    const getProductDetails = async (prodId) => {
+        try {
+            const response = await displayCartProductDetails({ "id": prodId });
+            return response.data[0][0];
+        } catch (error) {
+            throw error
+        }
+    };
+
+    const handleLocalCart = (productId) => {
+        var products = JSON.parse(localStorage.getItem('prodID')) || [];
+
+        function removeProduct(productId) {
+            const index = products.indexOf(productId);
+            if (index !== -1) {
+                products.splice(index, 1);
+                localStorage.setItem('prodID', JSON.stringify(products));
+            } else {
+                console.log('Product not found.');
+            }
+        }
+
+        removeProduct(productId);
+
+        let productID = localStorage.getItem("prodID")
+        return productID = JSON.stringify(productID)
+    };
 
     const deleteProduct = async (productID) => {
         const response = await deleteCartProduct({ id: productID });
-        console.log("Response : after delete : ", response)
-        fetchData();
+        if (response.statusCode === StatusCode.success) {
+            const productID = handleLocalCart(productID)
+            fetchData(productID);
+        }
     }
 
     const formik = useFormik({
@@ -195,9 +230,8 @@ const CartProductDetails = () => {
             };
 
             const response = await createProductCart(productData);
-            console.log("Response received : ", response)
             if (response.statusCode === 200) {
-                fetchData();
+                fetchData(prodIds);
             }
         }
     }
