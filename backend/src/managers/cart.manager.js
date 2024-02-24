@@ -20,9 +20,20 @@ class CartManager {
     }
     async getProductByID(req, res) {
         try {
-            const {
-                id
-            } = req.body;
+           const {id} = req.body;
+            if (!db) {
+                throw new Error("Database object is undefined");
+            }
+            const [rows, fields] = await db.promise().query('CALL getProductByID(?)',[id]);
+            return rows;
+        } catch (error) {
+            console.error("Error occurred:", error);
+            throw error;
+        }
+    }
+    async getProductByArrayList(req, res) {
+        try {
+           const id = req;
             if (!db) {
                 throw new Error("Database object is undefined");
             }

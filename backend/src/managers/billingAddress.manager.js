@@ -47,13 +47,14 @@ class BillingAddressManager {
                 city,
                 state,
                 zipcode,
+                orderID,
                 userID
             } = req.body;
             if (!db) {
                 throw new Error("Database object is undefined");
             }
 
-            const [rows, fields] = await db.promise().execute('CALL updateBillingAddress(?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?)',
+            const [rows, fields] = await db.promise().execute('CALL updateBillingAddress(?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?,?, ?)',
                 [
                     actionType,
                     id,
@@ -66,6 +67,7 @@ class BillingAddressManager {
                     city,
                     state,
                     zipcode,
+                    orderID,
                     userID
                 ]
             );

@@ -19,8 +19,24 @@ class CartController {
     }
     async getProductByID(req, res) {
         try {
-            const result = await cartManager.getProductByID(req, res);
-
+               const  result = await cartManager.getProductByID(req, res)
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
+    async getProductByArrayList(req, res) {
+        try {
+            let data = null;
+            let result = []
+            for(let i = 0; i<req.body.data.length; i++){
+                 data = await cartManager.getProductByArrayList(req.body.data[i], res)
+                 result.push(data[0][0]);
+            }
             if (result.length > 0) {
                 return apiResponse.successResponseWithData(res, result.message, result);
             } else {
