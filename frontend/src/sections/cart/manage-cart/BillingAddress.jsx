@@ -27,6 +27,7 @@ const BillingAddress = ({ handleBillingAddressOpen }) => {
             actionType: 1,
             userID: userID,
             id: null,
+            orderID: null,
 
             fullName: '',
             telephoneNumber: '',

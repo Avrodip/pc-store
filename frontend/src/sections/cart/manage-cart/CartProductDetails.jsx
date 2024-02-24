@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, OutlinedInput, Button, Stack, TextField, FormControl, Typography, Select, MenuItem, Box, useMediaQuery, DialogContent, IconButton, DialogTitle, FormHelperText } from '@mui/material'
+import React, { useContext, useEffect, useState } from 'react'
+import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, OutlinedInput, Button, Stack, FormControl, Typography, Select, MenuItem, Box, useMediaQuery } from '@mui/material'
 import { DeleteOutlined, ArrowRightOutlined, ArrowLeftOutlined, DownOutlined } from '@ant-design/icons';
-import CloseIcon from '@mui/icons-material/Close';
 import { deleteCartProduct, displayCartProductDetails, createProductCart } from '../../../services/configureCart';
-import DialogActions from '@mui/material/DialogActions';
 import { useFormik } from 'formik';
-import Dialog from '@mui/material/Dialog';
-import { styled } from '@mui/material/styles';
-import LoginForm from '../../forms/loginForm';
 import { Link, useNavigate } from 'react-router-dom';
 import { StatusCode } from '../../../utils/contant';
+import { AuthContext } from '../../../context-api/userContext';
 
 const styles = {
     section: {
@@ -20,27 +16,15 @@ const styles = {
     },
 }
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    '& .MuiDialogContent-root': {
-        padding: theme.spacing(2),
-    },
-    '& .MuiDialogActions-root': {
-        padding: theme.spacing(1),
-    },
-}));
-
 const userID = localStorage.getItem('pc-store-user')
-const prodIdsString = localStorage.getItem('prodID');
-const prodIds = JSON.parse(prodIdsString);
 const CartProductDetails = () => {
     const isBelow420px = useMediaQuery('(max-width:420px)');
     const is1200To1260px = useMediaQuery('(min-width: 1200px) and (max-width: 1260px)');
-    const [cartProductDetails, setCartProductDetails] = useState([]);
-    const [openSignIn, setOpenSignIn] = useState(false);
-    const [hasToken, setHasToken] = useState(false);
+    const [cartProductDetails, setCartProductDetails] = useState(null);
     const [expandedProducts, setExpandedProducts] = useState({});
     const [cartTotal, setCartTotal] = useState(0);
     const [cartSize, setCartSize] = useState(0);
+    const { checkTokenValidity } = useContext(AuthContext);
     const navigate = useNavigate();
 
     // Function to toggle the "View more" state for a specific product
@@ -53,7 +37,6 @@ const CartProductDetails = () => {
 
     // JSX for rendering the "View more" section based on the expanded state
     const renderViewMoreSection = (data) => {
-        console.log("Data : ", data.id)
         if (expandedProducts[data?.id]) {
             return (
                 <Table className="animate__animated animate__zoomIn animate__slow-400ms">
@@ -119,70 +102,40 @@ const CartProductDetails = () => {
     };
 
     const handleClickOpen = () => {
-        console.log("Handle Click is called")
-        setOpenSignIn(!openSignIn);
-        navigate("/checkout")
+        checkTokenValidity().then((isValid) => {
+            if (isValid) {
+                navigate("/checkout")
+            } else {
+                navigate('/login')
+            }
+        })
     }
 
     useEffect(() => {
-        const token = localStorage.getItem('pc-store');
-        if (token) {
-            setHasToken(true);
-        } else {
-            setHasToken(false);
-        }
-    }, [])
-
-    useEffect(() => {
-        fetchData(prodIds);
-    }, [prodIds]);
-    const fetchData = async (prodIds) => {
+        fetchData();
+    }, []);
+    const fetchData = async () => {
         try {
-            const tempNewCartProductDetails = [];
-            for (const prodId of prodIds) {
-                const response = await getProductDetails(prodId);
-                tempNewCartProductDetails.push(response);
-            }
-            setCartProductDetails(tempNewCartProductDetails);
-            setCartSize()
+            const data = { userID: userID }
+            const response = await displayCartProductDetails(data);
+            setCartProductDetails(response?.data[0]);
+            setCartSize(response?.data[0]?.length)
+            let productTotal = 0;
+            response?.data[0].forEach(d => {
+                productTotal += d.price * d.quantity
+            })
+            setCartTotal(productTotal)
+            // setCartSize()
         } catch (error) {
             console.log("Something error happened : ", error.message);
         }
     };
 
-    const getProductDetails = async (prodId) => {
-        try {
-            const response = await displayCartProductDetails({ "id": prodId });
-            return response.data[0][0];
-        } catch (error) {
-            throw error
-        }
-    };
-
-    const handleLocalCart = (productId) => {
-        var products = JSON.parse(localStorage.getItem('prodID')) || [];
-
-        function removeProduct(productId) {
-            const index = products.indexOf(productId);
-            if (index !== -1) {
-                products.splice(index, 1);
-                localStorage.setItem('prodID', JSON.stringify(products));
-            } else {
-                console.log('Product not found.');
-            }
-        }
-
-        removeProduct(productId);
-
-        let productID = localStorage.getItem("prodID")
-        return productID = JSON.stringify(productID)
-    };
-
     const deleteProduct = async (productID) => {
         const response = await deleteCartProduct({ id: productID });
         if (response.statusCode === StatusCode.success) {
-            const productID = handleLocalCart(productID)
-            fetchData(productID);
+            // const productID = handleLocalCart(productID)
+            fetchData();
         }
     }
 
@@ -198,7 +151,6 @@ const CartProductDetails = () => {
 
         if (productIndex !== -1) {
             const updatedCartProductDetails = [...cartProductDetails];
-            console.log("Product Index : ", updatedCartProductDetails)
 
             const productData = {
                 user: 123,
@@ -231,7 +183,7 @@ const CartProductDetails = () => {
 
             const response = await createProductCart(productData);
             if (response.statusCode === 200) {
-                fetchData(prodIds);
+                fetchData();
             }
         }
     }
@@ -242,206 +194,180 @@ const CartProductDetails = () => {
                 <Typography sx={{ color: "white", textAlign: "center", fontSize: "25px", fontWeight: "bold" }}>CART PRODUCT DETAILS</Typography>
             </Grid>
 
-            <Grid container
-                sx={{ gap: { xs: 1, lg: 5 }, backgroundColor: "black", px: { xs: 1, sm: 2, md: 4 }, py: 8, display: "flex", justifyContent: "center" }}>
+            {!cartSize ? (
+                <h2>CART IS EMPTY</h2>
+            )
+                :
+                <Grid container
+                    sx={{ gap: { xs: 1, lg: 5 }, backgroundColor: "black", px: { xs: 1, sm: 2, md: 4 }, py: 8, display: "flex", justifyContent: "center" }}>
 
-                <Grid item xs={12} lg={7} >
-                    <TableContainer >
-                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                            <TableHead>
-                                <TableRow sx={{ borderTop: 1 }} >
-                                    <TableCell sx={{ fontWeight: "bold", textAlign: 'left', color: "white", pl: 5 }}>Product</TableCell>
-                                    <TableCell sx={{ fontWeight: "bold", textAlign: 'left', color: "white" }}>&nbsp;</TableCell>
-                                    <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Price</TableCell>
-                                    <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Quantity</TableCell>
-                                    <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Total</TableCell>
-                                    <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>&nbsp;</TableCell>
-                                </TableRow>
-                            </TableHead>
+                    <Grid item xs={12} lg={7} >
+                        <TableContainer >
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow sx={{ borderTop: 1 }} >
+                                        <TableCell sx={{ fontWeight: "bold", textAlign: 'left', color: "white", pl: 5 }}>Product</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold", textAlign: 'left', color: "white" }}>&nbsp;</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Price</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Quantity</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Total</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>&nbsp;</TableCell>
+                                    </TableRow>
+                                </TableHead>
 
-                            <TableBody>
-                                {
-                                    cartProductDetails?.map((data) => (
-                                        <TableRow>
-                                            <TableCell sx={{ color: "white", textAlign: 'left', width: "100px" }}>
-                                                <img src='https://www.ant-pc.com/Case/ANT_Esports_211_Air_Black.png' style={{ height: "100px", width: "100px" }} />
-                                            </TableCell>
+                                <TableBody>
+                                    {
+                                        cartProductDetails && cartProductDetails?.map((data) => (
+                                            <TableRow>
+                                                <TableCell sx={{ color: "white", textAlign: 'left', width: "100px" }}>
+                                                    <img src='https://www.ant-pc.com/Case/ANT_Esports_211_Air_Black.png' style={{ height: "100px", width: "100px" }} />
+                                                </TableCell>
 
-                                            <TableCell sx={{ color: "white", textAlign: 'left' }}>
-                                                <Typography>
-                                                    ANT PC DORYLUS CL940N
-                                                </Typography>
-                                                <Typography component="h6" color="error" sx={{ cursor: "pointer", fontSize: "12px", fontWeight: "bold", width: "80px" }} onClick={() => toggleViewMore(data.id)}>
-                                                    View more <DownOutlined style={{ fontSize: "10px" }} />
-                                                </Typography>
+                                                <TableCell sx={{ color: "white", textAlign: 'left' }}>
+                                                    <Typography>
+                                                        ANT PC DORYLUS CL940N
+                                                    </Typography>
+                                                    <Typography component="h6" color="error" sx={{ cursor: "pointer", fontSize: "12px", fontWeight: "bold", width: "80px" }} onClick={() => toggleViewMore(data.id)}>
+                                                        View more <DownOutlined style={{ fontSize: "10px" }} />
+                                                    </Typography>
 
-                                                {renderViewMoreSection(data)}
+                                                    {renderViewMoreSection(data)}
 
-                                            </TableCell>
+                                                </TableCell>
 
-                                            <TableCell sx={{ color: "white", textAlign: 'center' }}>{data?.price}</TableCell>
+                                                <TableCell sx={{ color: "white", textAlign: 'center' }}>{data?.price}</TableCell>
 
-                                            <TableCell sx={{ color: "white", textAlign: 'center' }}>
-                                                <Select
-                                                    value={data.quantity}
-                                                    onChange={(e) => {
-                                                        formik.handleChange(e);
-                                                        handleQuantityChange(data.id, parseInt(e.target.value));
-                                                    }}
-                                                    size="small"
-                                                    inputProps={{ 'aria-label': 'Without label' }}
-                                                    sx={{ border: 1, color: "white", width: "80px" }}
-                                                    IconComponent={() => <DownOutlined style={{ color: 'white', marginRight: "7px" }} />}
-                                                >
-                                                    {[1, 2, 3, 4, 5].map(quantity => (
-                                                        <MenuItem key={quantity} value={quantity}>{quantity}</MenuItem>
-                                                    ))}
-                                                </Select>
-                                            </TableCell>
+                                                <TableCell sx={{ color: "white", textAlign: 'center' }}>
+                                                    <Select
+                                                        value={data.quantity}
+                                                        onChange={(e) => {
+                                                            formik.handleChange(e);
+                                                            handleQuantityChange(data.id, parseInt(e.target.value));
+                                                        }}
+                                                        size="small"
+                                                        inputProps={{ 'aria-label': 'Without label' }}
+                                                        sx={{ border: 1, color: "white", width: "80px" }}
+                                                        IconComponent={() => <DownOutlined style={{ color: 'white', marginRight: "7px" }} />}
+                                                    >
+                                                        {[1, 2, 3, 4, 5].map(quantity => (
+                                                            <MenuItem key={quantity} value={quantity}>{quantity}</MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </TableCell>
 
-                                            <TableCell sx={{ color: "white", textAlign: 'center' }}>₹{data?.price * formik.values.prodQuantity}</TableCell>
-                                            <TableCell sx={{ color: "white", textAlign: 'center' }} >
-                                                <DeleteOutlined style={{ color: 'red' }} onClick={() => { deleteProduct(data.id); }} />
-                                            </TableCell>
-                                        </TableRow>
-                                    ))
-                                }
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                                <TableCell sx={{ color: "white", textAlign: 'center' }}>₹{data?.price * data?.quantity}</TableCell>
+                                                <TableCell sx={{ color: "white", textAlign: 'center' }} >
+                                                    <DeleteOutlined style={{ color: 'red' }} onClick={() => { deleteProduct(data.id); }} />
+                                                </TableCell>
+                                            </TableRow>
+                                        ))
+                                    }
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
 
-                    <Grid container sx={{ display: "flex", justifyContent: { xs: "space-evenly", sm: "space-between" }, my: { xs: 3, lg: 5 } }}>
-                        <Grid item
-                            sx={{
-                                ml: { xs: 2, sm: 2 },
-                                width: { xs: "300px", sm: "auto" },
-                            }}>
-                            <Stack spacing={1}>
-                                <Button component={Link} to="/" variant="contained" color="error"><ArrowLeftOutlined style={{ fontSize: "16px" }} />Continue Shopping</Button>
-                            </Stack>
-                        </Grid>
-
-                        <Grid item
-                            sx={{
-                                ml: { xs: 2, sm: 2 },
-                                mt: { xs: 2, sm: 0 },
-                                pr: { sm: 2 },
-                                width: { xs: "300px", sm: "auto" },
-                            }}>
-                            <Stack spacing={1}>
-                                <Button variant="contained" color='error' onClick={handleClickOpen}>Proceed to Checkout<ArrowRightOutlined style={{ fontSize: "16px" }} /></Button>
-                            </Stack>
-                        </Grid>
-                    </Grid>
-
-                    <Grid>
-                        {
-                            openSignIn && hasToken === false && (
-                                <BootstrapDialog
-                                    onClose={false}
-                                    aria-labelledby="customized-dialog-title"
-                                    open={true}
-                                >
-                                    <Box sx={{ border: 2 }}>
-                                        <DialogTitle sx={{ m: 0, p: 2, color: "white", background: "black", textAlign: "center" }} id="customized-dialog-title">
-                                            SIGN IN
-                                        </DialogTitle>
-                                        <IconButton
-                                            aria-label="close"
-                                            onClick={() => setOpenSignIn(false)}
-                                            sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}
-                                        >
-                                            <CloseIcon />
-                                        </IconButton>
-                                        <DialogContent dividers sx={{ background: "black" }}>
-
-                                            <LoginForm location={"/cart"} />
-
-                                        </DialogContent>
-                                    </Box>
-                                </BootstrapDialog>
-                            )
-                        }
-                    </Grid>
-
-                </Grid>
-
-                <Grid item xs={12} lg={4} sx={{ pt: 4, pb: 3, bgcolor: "#171717" }}>
-                    <Grid item sx={{ px: 2, pb: 4 }}>
-                        <Box>
-                            <Typography align='center'>COUPON CODE</Typography>
-                        </Box>
-
-                        <Grid item sx={{ mt: 2 }}>
-                            <FormControl variant="outlined" fullWidth>
-                                <OutlinedInput
-                                    id="outlined-adornment-weight"
-                                    aria-describedby="outlined-weight-helper-text"
-                                    sx={{ width: "100%", border: "1px dashed white", color: "white" }}
-                                    placeholder='Enter coupon code'
-                                />
-                            </FormControl>
-                        </Grid>
-
-                        <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                            <Grid item sx={{ mt: 2, width: "300px" }}>
+                        <Grid container sx={{ display: "flex", justifyContent: { xs: "space-evenly", sm: "space-between" }, my: { xs: 3, lg: 5 } }}>
+                            <Grid item
+                                sx={{
+                                    ml: { xs: 2, sm: 2 },
+                                    width: { xs: "300px", sm: "auto" },
+                                }}>
                                 <Stack spacing={1}>
-                                    <Button variant="contained" color='error'>Apply</Button>
-                                </Stack>
-                            </Grid>
-                        </Box>
-                    </Grid>
-
-                    <Grid item sx={{ py: 4, backgroundColor: "#202020" }}>
-                        <Box sx={{ mb: 2 }}>
-                            <Typography align='center'>CHOOSE DELIVERY</Typography>
-                        </Box>
-
-                        <Grid item sx={{ display: "flex", justifyContent: "space-between", flexDirection: isBelow420px ? 'column' : is1200To1260px ? 'column' : 'row', px: 4, gap: 2 }}>
-                            <Grid sx={{ width: "100%" }}>
-                                <Stack spacing={1}>
-                                    <Button variant="contained" sx={{ background: "black", fontSize: "14px", px: 4, py: 2 }}>By Surface</Button>
+                                    <Button component={Link} to="/" variant="contained" color="error"><ArrowLeftOutlined style={{ fontSize: "16px" }} />Continue Shopping</Button>
                                 </Stack>
                             </Grid>
 
-                            <Grid sx={{ width: "100%" }}>
+                            <Grid item
+                                sx={{
+                                    ml: { xs: 2, sm: 2 },
+                                    mt: { xs: 2, sm: 0 },
+                                    pr: { sm: 2 },
+                                    width: { xs: "300px", sm: "auto" },
+                                }}>
                                 <Stack spacing={1}>
-                                    <Button variant="contained" sx={{ background: "black", fontSize: "14px", px: 4, py: 2 }}>By Air</Button>
+                                    <Button variant="contained" color='error' onClick={handleClickOpen}>Proceed to Checkout<ArrowRightOutlined style={{ fontSize: "16px" }} /></Button>
                                 </Stack>
                             </Grid>
                         </Grid>
                     </Grid>
 
-                    <Grid item sx={{ pt: 4 }}>
-                        <Box>
-                            <Typography align='center'>ORDER DETAILS</Typography>
-                        </Box>
-
-                        <Grid item sx={{ px: 2 }}>
-                            <Box sx={{ borderBottom: "1px solid rgba(255,255,255,.2)", display: "flex", justifyContent: "space-between", mb: "10px", pb: "4px" }}>
-                                <Typography>Product Total</Typography>
-                                <Typography>₹ {cartTotal}</Typography>
-                            </Box>
-                            <Box sx={{ borderBottom: "1px solid rgba(255,255,255,.2)", display: "flex", justifyContent: "space-between", mb: "10px", pb: "4px" }}>
-                                <Typography>Shipping Charges</Typography>
-                                <Typography>₹ 1800</Typography>
-                            </Box>
-                            <Box sx={{ borderBottom: "1px solid rgba(255,255,255,.2)", display: "flex", justifyContent: "space-between", mb: "10px", pb: "4px" }}>
-                                <Typography>Total</Typography>
-                                <Typography>₹ {cartTotal + 1800}</Typography>
+                    <Grid item xs={12} lg={4} sx={{ pt: 4, pb: 3, bgcolor: "#171717" }}>
+                        <Grid item sx={{ px: 2, pb: 4 }}>
+                            <Box>
+                                <Typography align='center'>COUPON CODE</Typography>
                             </Box>
 
-                            <Grid item sx={{ display: "flex", justifyContent: "center" }}>
-                                <Stack spacing={1}>
-                                    <Button variant="contained" color='error'>Proceed to Checkout<ArrowRightOutlined style={{ fontSize: "16px" }} /></Button>
-                                </Stack>
+                            <Grid item sx={{ mt: 2 }}>
+                                <FormControl variant="outlined" fullWidth>
+                                    <OutlinedInput
+                                        id="outlined-adornment-weight"
+                                        aria-describedby="outlined-weight-helper-text"
+                                        sx={{ width: "100%", border: "1px dashed white", color: "white" }}
+                                        placeholder='Enter coupon code'
+                                    />
+                                </FormControl>
                             </Grid>
 
+                            <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+                                <Grid item sx={{ mt: 2, width: "300px" }}>
+                                    <Stack spacing={1}>
+                                        <Button variant="contained" color='error'>Apply</Button>
+                                    </Stack>
+                                </Grid>
+                            </Box>
                         </Grid>
-                    </Grid>
 
+                        <Grid item sx={{ py: 4, backgroundColor: "#202020" }}>
+                            <Box sx={{ mb: 2 }}>
+                                <Typography align='center'>CHOOSE DELIVERY</Typography>
+                            </Box>
+
+                            <Grid item sx={{ display: "flex", justifyContent: "space-between", flexDirection: isBelow420px ? 'column' : is1200To1260px ? 'column' : 'row', px: 4, gap: 2 }}>
+                                <Grid sx={{ width: "100%" }}>
+                                    <Stack spacing={1}>
+                                        <Button variant="contained" sx={{ background: "black", fontSize: "14px", px: 4, py: 2 }}>By Surface</Button>
+                                    </Stack>
+                                </Grid>
+
+                                <Grid sx={{ width: "100%" }}>
+                                    <Stack spacing={1}>
+                                        <Button variant="contained" sx={{ background: "black", fontSize: "14px", px: 4, py: 2 }}>By Air</Button>
+                                    </Stack>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+
+                        <Grid item sx={{ pt: 4 }}>
+                            <Box>
+                                <Typography align='center'>ORDER DETAILS</Typography>
+                            </Box>
+
+                            <Grid item sx={{ px: 2 }}>
+                                <Box sx={{ borderBottom: "1px solid rgba(255,255,255,.2)", display: "flex", justifyContent: "space-between", mb: "10px", pb: "4px" }}>
+                                    <Typography>Product Total</Typography>
+                                    <Typography>₹ {cartTotal}</Typography>
+                                </Box>
+                                <Box sx={{ borderBottom: "1px solid rgba(255,255,255,.2)", display: "flex", justifyContent: "space-between", mb: "10px", pb: "4px" }}>
+                                    <Typography>Shipping Charges</Typography>
+                                    <Typography>₹ 1800</Typography>
+                                </Box>
+                                <Box sx={{ borderBottom: "1px solid rgba(255,255,255,.2)", display: "flex", justifyContent: "space-between", mb: "10px", pb: "4px" }}>
+                                    <Typography>Total</Typography>
+                                    <Typography>₹ {cartTotal + 1800}</Typography>
+                                </Box>
+
+                                <Grid item sx={{ display: "flex", justifyContent: "center" }}>
+                                    <Stack spacing={1}>
+                                        <Button variant="contained" color='error' onClick={handleClickOpen}>Proceed to Checkout<ArrowRightOutlined style={{ fontSize: "16px" }} /></Button>
+                                    </Stack>
+                                </Grid>
+
+                            </Grid>
+                        </Grid>
+
+                    </Grid >
                 </Grid >
-            </Grid >
+            }
         </>
     )
 }

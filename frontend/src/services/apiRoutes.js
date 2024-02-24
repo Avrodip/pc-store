@@ -4,6 +4,8 @@ export const apiRoutes = {
     // Authentication Routes
     login: 'api/auth/login',
     register: 'api/auth/register',
+
+    getUserDetailsByID: 'api/auth/getUserByID',
     // End
 
     // Cart Routes
@@ -22,5 +24,6 @@ export const apiRoutes = {
 
     getBillingAddressByID: "api/billingAddress/getBillingAddressList",
     getShippingAddressByID: "api/shippingAddress/getShippingAddressList",
+    getCartProductByArray: "api/cart/getProductByArrayList",
     // END
 }

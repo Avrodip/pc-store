@@ -32,7 +32,7 @@ const LoginAuth = () => {
                         </Button>
                     </Typography>
 
-                    <LoginForm location={"/"} />
+                    <LoginForm location={""} />
                 </Box>
             </Grid >
         </>

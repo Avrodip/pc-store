@@ -2,10 +2,8 @@ import { ArrowRightOutlined } from '@ant-design/icons'
 import { Grid, Stack, InputLabel, OutlinedInput, Select, MenuItem, Button, FormHelperText } from '@mui/material'
 import { createUpdateShippingAddress } from '../../../services/checkout'
 import { useFormik } from 'formik'
-import React, { useState } from 'react'
+import React from 'react'
 import * as Yup from 'yup'
-import { successToast } from '../../../components/ReactToastify'
-import ConfirmCheckout from './ConfirmCheckout'
 import { countries, indianStates } from '../../../utils/contant'
 import { useNavigate } from 'react-router-dom'
 const userID = localStorage.getItem('pc-store-user')
@@ -15,6 +13,11 @@ const ShippingAddress = ({ setIsOpenShipping, selectedBillingID }) => {
 
     const formik = useFormik({
         initialValues: {
+            actionType: 1,
+            id: null,
+            shippingStatus: null,
+            orderID: null,
+
             userID: userID,
             name: '',
             contactNumber: '',
@@ -37,17 +40,10 @@ const ShippingAddress = ({ setIsOpenShipping, selectedBillingID }) => {
         }),
         onSubmit: (values) => {
             const fetchAPI = async () => {
-                const response = await createUpdateShippingAddress({
-                    ...values,
-                    actionType: 1,
-                    id: null
-                });
-                console.log("Response : ", response, "   ", response.data[0][0].id)
+                const response = await createUpdateShippingAddress({ ...values });
                 if (response.statusCode == 200) {
                     console.log("Response dsdff ", response.data[0])
-                    // successToast("Address Saved Successfully", "top-right");
                     navigate(`/confirmCheckout/${selectedBillingID}/${response.data[0][0].id}`)
-                    // setIsOpenShipping(false)
                 }
             }
             fetchAPI();
@@ -204,8 +200,6 @@ const ShippingAddress = ({ setIsOpenShipping, selectedBillingID }) => {
                     </Grid>
                 </form>
             </Grid>
-
-            {/* {openPayment && (<ConfirmCheckout selectedBillingID={selectedBillingID} selectedShippingID={selectedShippingID} />)} */}
         </>
     )
 }

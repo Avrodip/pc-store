@@ -36,24 +36,32 @@ const ConfirmCheckout = () => {
     const navigate = useNavigate();
     const { shipping, billing } = params;
 
+    const checkIsAddressAvailable = (value) => {
+        console.log("Values : ", value)
+        if (!value) {
+            successToast("Please choose Address!", 'top-right')
+            // navigate('/checkout')
+        }
+    }
+
     useEffect(() => {
         getBilling();
         getShipping();
-    }, [])
+    }, [billingAddress, shippingAddress])
     const getBilling = async () => {
         const response = await getBillingAddressByID({ "userID": userID, "id": billing });
-
+        // console.log("Billing data : ", response.data[0])
         if (response.success) {
             setBillingAddress(response.data[0][0]);
-            setIsAddressPresent(response.data[0][0].length > 0 ? true : false)
+            // checkIsAddressAvailable(response.data[0].length > 0)
         }
     }
     const getShipping = async () => {
         const response = await getShippingAddressByID({ "userID": userID, "id": shipping });
-        console.log("userDfbvbf", response)
+        // console.log("Shipping data : ", response.data[0])
         if (response.success) {
             setShippingAddress(response.data[0][0]);
-            setIsAddressPresent(response.data[0][0].length > 0 ? true : false)
+            // checkIsAddressAvailable(response.data[0].length > 0)
         }
     }
 

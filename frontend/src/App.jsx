@@ -36,13 +36,9 @@ function App() {
                     <Route path="/gaming-pc/:subcategory/:product" element={<ConfigureCartGaming />} />
                     <Route path="/workstation/:subcategory/:product" element={<ConfigureCartWorkstation />} />
 
-                    {/* <ProtectedRoute isAuthenticated={isAuthenticated}>
-                    </ProtectedRoute> */}
-
-                    <Route path='/cart' element={<CartProductDetails />} />
-                    <Route path='/dashboard' element={<Dashboard />} />
-
                     <Route element={<ProtectedRoute />} >
+                        <Route path='/dashboard' element={<Dashboard />} />
+                        <Route path='/cart' element={<CartProductDetails />} />
                         <Route path='checkout' element={<Checkout />} />
                         <Route path="/confirmCheckout/:billing/:shipping" element={<ConfirmCheckout />} />
                         <Route path="/wrongAddress" element={<WrongAddress />} />

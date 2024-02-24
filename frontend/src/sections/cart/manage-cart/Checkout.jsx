@@ -23,6 +23,7 @@ const Checkout = () => {
     }, [])
     const fetchBillingAddress = async () => {
         const response = await getBillingAddressList({ "userID": userID });
+        console.log("Billing address : ", response)
         if (response.success) {
             setIsBillingAddress(response.data[0]);
             setIsBillingPresent(response.data[0].length > 0 ? true : false);

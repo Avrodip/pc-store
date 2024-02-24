@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         checkTokenValidity();
     }, []);
-
     const checkTokenValidity = async () => {
         const token = localStorage.getItem('pc-store');
         if (token) {
@@ -32,14 +31,20 @@ export const AuthProvider = ({ children }) => {
                 setIsLoggedIn(false);
                 localStorage.removeItem('pc-store');
                 localStorage.removeItem('pc-store-user');
+                return false;
             }
+        } else {
+            setIsLoggedIn(false);
+            localStorage.removeItem('pc-store');
+            localStorage.removeItem('pc-store-user');
+            return false;
         }
-        setIsLoading(false);
     };
 
     useEffect(() => {
         checkTokenValidity().finally(() => setIsLoading(false));
-    }, []);
+    }, [isLoading]);
+
 
     const getCartSize = () => {
 

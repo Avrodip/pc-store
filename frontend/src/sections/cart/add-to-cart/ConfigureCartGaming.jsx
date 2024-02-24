@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useFormik } from 'formik';
-import { Stack, Button, InputLabel, OutlinedInput, Select, FormHelperText, Grid, Typography, MenuItem, CardMedia } from "@mui/material"
+import { Stack, Button, InputLabel, Select, Grid, Typography, MenuItem, CardMedia } from "@mui/material"
 import { ArrowRightOutlined, DownloadOutlined, ShoppingCartOutlined, ShareAltOutlined } from "@ant-design/icons"
 import 'animate.css';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -8,6 +8,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createProductCart } from '../../../services/configureCart';
 import axios from 'axios';
+import { AuthContext } from '../../../context-api/userContext';
+import LoginPopup from '../../../components/common/LoginPopup';
+import { warningToast } from '../../../components/ReactToastify';
+import { ToastContainer } from 'react-toastify';
 
 const userID = localStorage.getItem('pc-store-user')
 const ConfigureCartGaming = () => {
@@ -16,7 +20,9 @@ const ConfigureCartGaming = () => {
     const [otherSpecs, setOtherSpecs] = useState([]);
     const [cpuID, setCpuID] = useState(1);
     const [tempData, setTempData] = useState([])
+    const [isOpenSignIn, setIsOpenSignIn] = useState(false);
     const { pathname } = useLocation();
+    const { checkTokenValidity } = useContext(AuthContext);
     const params = useParams();
     const navigate = useNavigate();
 
@@ -71,19 +77,9 @@ const ConfigureCartGaming = () => {
     ];
     const [selectedImage, setSelectedImage] = useState(images[0]);
 
-    const handleAddToCart = (prodID) => {
-        var products = JSON.parse(localStorage.getItem('prodID')) || [];
-        function addProduct(productId) {
-            if (!products.includes(productId)) {
-                products.push(productId);
-                localStorage.setItem('prodID', JSON.stringify(products));
-                console.log("Executed")
-                return;
-            } else {
-                console.log('Product already exists.');
-            }
-        }
-        addProduct(prodID);
+    const handleSignIn = () => {
+        warningToast("Please Login...", "bottom-right")
+        setIsOpenSignIn(!isOpenSignIn)
     }
 
     const manageCartProductSpecs = (values) => {
@@ -92,16 +88,26 @@ const ConfigureCartGaming = () => {
             values.processor = processorList[0]?.cpu_name
         }
 
-        const createCart = async () => {
-            const response = await createProductCart(values)
-            if (response.statusCode == 200) {
-                handleAddToCart(response.data[0][0].id)
-                navigate('/cart');
-            } else {
-                console.log("Something error happened")
-            }
-        }
-        createCart();
+        checkTokenValidity()
+            .then((isValid) => {
+                if (isValid) {
+                    const createCart = async () => {
+                        const response = await createProductCart({ ...values, userID: 11 })
+                        if (response.statusCode == 200) {
+                            // handleAddToCart(response.data[0][0].id)
+                            navigate('/cart');
+                        } else {
+                            console.log("Something error happened")
+                        }
+                    }
+                    createCart();
+                } else {
+                    handleSignIn();
+                }
+            })
+            .catch((error) => {
+                console.error("Error validating token:", error);
+            });
     }
 
     // Formik
@@ -159,6 +165,8 @@ const ConfigureCartGaming = () => {
     useEffect(() => {
         setCpuID(formik.values.processor)
     }, [formik.values.processor])
+
+
 
     return (
         <>
@@ -665,12 +673,12 @@ const ConfigureCartGaming = () => {
                                         <Grid container sx={{ display: "flex", justifyContent: "center", gap: 1, m: 5 }}>
                                             <Grid item>
                                                 <Stack spacing={1}>
-                                                    <Button variant="contained" color="error" >Download Quote  <DownloadOutlined style={{ fontSize: '20px', paddingLeft: 5 }} /></Button>
+                                                    <Button type='submit' variant="contained" color='error'>Add to Cart <ShoppingCartOutlined style={{ fontSize: '20px', paddingLeft: 5 }} /></Button>
                                                 </Stack>
                                             </Grid>
                                             <Grid item>
                                                 <Stack spacing={1}>
-                                                    <Button type='submit' variant="contained" color='error'>Add to Cart <ShoppingCartOutlined style={{ fontSize: '20px', paddingLeft: 5 }} /></Button>
+                                                    <Button variant="contained" color="error" >Download Quote  <DownloadOutlined style={{ fontSize: '20px', paddingLeft: 5 }} /></Button>
                                                 </Stack>
                                             </Grid>
                                         </Grid>
@@ -696,6 +704,10 @@ const ConfigureCartGaming = () => {
                     {/* <CartProductSpecs /> */}
                 </Grid>
             </form >
+
+            <ToastContainer />
+
+            {isOpenSignIn && (<LoginPopup location={"gaming-pc" + "/" + params.subcategory + "/" + params.product} handleSignIn={handleSignIn} />)}
         </>
     )
 }
