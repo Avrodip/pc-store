@@ -3,6 +3,7 @@ import { Grid, Table, TableBody, TableCell, TableContainer, Typography, TableHea
 import ShippingAddress from './ShippingAddress';
 import { getBillingAddressListDetails } from '../../../services/checkout';
 import BillingAddress from './BillingAddress';
+import { ArrowRightOutlined } from '@ant-design/icons';
 
 const userID = localStorage.getItem('pc-store-user')
 const Checkout = () => {
@@ -11,6 +12,7 @@ const Checkout = () => {
     const [selectedBillingID, setSelectedBillingID] = useState(null);
     const [isBillingAddress, setIsBillingAddress] = useState([]);
     const [isBillingPresent, setIsBillingPresent] = useState(false);
+    const [] = useState(false);
 
     useEffect(() => {
         fetchBillingAddress();
@@ -31,6 +33,10 @@ const Checkout = () => {
     const handleBillingAddressOpen = () => {
         setIsOpenAddress(!isOpenAddress);
         fetchBillingAddress()
+    }
+
+    const handleSameAsBilling = () => {
+        setIsOpenShipping(false)
     }
 
     return (
@@ -99,14 +105,11 @@ const Checkout = () => {
                                     </Grid>
                                 )
                             }
-
-                            {
-                                !isOpenAddress && !isBillingPresent && (
-                                    <Typography variant="h6" color="error" pb={2} align="center" sx={{ marginTop: 2 }}>
-                                        Please add a new address to proceed.
-                                    </Typography>
-                                )
-                            }
+                            {!isOpenAddress && !isBillingPresent && (
+                                <Typography variant="h6" color="error" pb={2} align="center" sx={{ marginTop: 2 }}>
+                                    Please add a new address to proceed.
+                                </Typography>
+                            )}
                         </Grid>
 
                         <Grid item > {isOpenAddress && (<BillingAddress handleBillingAddressOpen={handleBillingAddressOpen} />)} </Grid>
@@ -118,7 +121,7 @@ const Checkout = () => {
                     <br />
 
                     {/* FOR SHIPPING ADDRESS  */}
-                    <Grid item sx={{ background: "#171717", }}>
+                    <Grid item sx={{ background: "#171717" }}>
 
                         <Grid item xs={12} >
                             <Stack spacing={1} >
@@ -133,7 +136,7 @@ const Checkout = () => {
 
                             <Grid container sx={{ display: "flex", justifyContent: "center", pb: 4, }}>
                                 <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                                    <Button variant="contained" sx={{ borderRadius: 0, background: "black" }}>
+                                    <Button variant="contained" sx={{ borderRadius: 0, background: "black" }} onClick={() => handleSameAsBilling()}>
                                         Same As Billing Address
                                         <Radio value="primary" label="Primary" sx={{ color: "white" }} >
                                         </Radio>
@@ -144,9 +147,16 @@ const Checkout = () => {
                             </Grid>
                         </Grid>
 
+                        {!isOpenShipping && <Grid container mb={2}>
+                            <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+                                <Button type='submit' variant="contained" color='error'>Save Address & Checkout <ArrowRightOutlined /></Button>
+                            </Grid>
+                        </Grid>}
+
                         <Grid item>
                             {selectedBillingID && isOpenShipping && (<ShippingAddress selectedBillingID={selectedBillingID} />)}
                         </Grid>
+
 
                     </Grid>
 
