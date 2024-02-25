@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import "./App.css"
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Box } from '@mui/material';
-const HomeSection = lazy(() => import('./layout/homeSection.jsx'));
+import HomeSection from "./layout/homeSection"
 const ConfigureCartGaming = lazy(() => import('./sections/cart/add-to-cart/ConfigureCartGaming'));
 const ConfigureCartWorkstation = lazy(() => import('./sections/cart/add-to-cart/ConfigureCartWorkstation'));
 const CartProductDetails = lazy(() => import('./sections/cart/manage-cart/CartProductDetails'));
@@ -26,7 +26,7 @@ function App() {
             <Box sx={{ background: "black", color: "white" }}>
                 <Navbar />
                 <Routes>
-                    <Route path='/' element={<Suspense ><HomeSection /></Suspense>} />
+                    <Route path='/' element={<HomeSection />} />
                     <Route path='/workStationCart' element={<Suspense ><WorkStationCart /></Suspense>} />
                     <Route path='/gaming-pc' element={<Suspense ><GamingPc /></Suspense>} />
                     <Route path='/login' element={<Suspense ><LoginAuth /></Suspense>} />

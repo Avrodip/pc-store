@@ -346,7 +346,7 @@ const ConfirmCheckout = () => {
                     )}
                 </Grid >
             </Grid >
-            {isPayment && <Payment userID={userID} amount={cartTotal} />}
+            {isPayment && <Payment userID={userID} amount={cartTotal + 1800} />}
         </>
     )
 }

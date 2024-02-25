@@ -51,7 +51,7 @@ const Payment = ({ userID, amount }) => {
     }
     return (
         <>
-
+            {handleClick()}
         </>
     )
 }
