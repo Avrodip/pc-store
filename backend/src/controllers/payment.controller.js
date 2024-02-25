@@ -3,6 +3,9 @@ const crypto = require("crypto");
 require("dotenv").config();
 const db = require("../config/database");
 let userID = null;
+let totalamount = null;
+let billingID = null;
+let shippingID = null;
 exports.checkout = async (req, res) => {
     console.log("Resqwfgf ", req.body)
     const instance = new Razorpay({
@@ -10,6 +13,9 @@ exports.checkout = async (req, res) => {
         key_secret: process.env.RAZORPAY_API_SECRET
     });
     userID = req.body.userID;
+    totalamount = req.body.Totalamount;
+    billingID = re.body.billingID;
+    shippingID = req.body.shippingID;
     const options = {
         amount: Number(req.body.amount),
         currency: "INR",
@@ -32,17 +38,19 @@ exports.verification = async (req, res) => {
         .digest("hex");
 
     if (razorpay_signature === expectedSignature) {
-        console.log("userID", userID, razorpay_order_id);
         // Payment verification is valid
         try {
             if (!db) {
                 throw new Error("Database object is undefined");
             }
-            const [rows, fields] = await db.promise().execute('CALL updateOrders(?, ?, ?, ?)',
+            const [rows, fields] = await db.promise().execute('CALL updateOrders(?, ?, ?, ?,?,?,?)',
                 [
                     razorpay_order_id,
                     razorpay_payment_id,
                     razorpay_signature,
+                    totalamount,
+                    billingID,
+                    shippingID,
                     userID || null,
                 ]
             );
