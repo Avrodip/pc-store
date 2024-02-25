@@ -104,7 +104,6 @@ class CartManager {
                     productType || null,
                 ]
             );
-            console.log("Hi")
             return rows;
         } catch (error) {
             console.error("Error occurred:", error);
