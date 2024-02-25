@@ -18,7 +18,7 @@ const PhotoGallery = ({ photos, selectedButton }) => {
         <>
             <Grid container spacing={2} style={{ display: "flex", justifyContent: "center", backgroundColor: 'black', padding: '20px', borderRadius: '10px' }}>
                 {photos.map((photo, index) => (
-                    <Grid item key={index} className="animate__animated animate__slideInUp" onClick={() => handleImageClick(photo.label)} style={{ cursor: 'pointer' }}>
+                    <Grid item key={index} onClick={() => handleImageClick(photo.label)} style={{ cursor: 'pointer' }}>
                         <div style={{ width: '80px', height: '80px', overflow: 'hidden', borderRadius: '50%', margin: '0 auto', backgroundColor: 'white' }}>
                             <img src={photo.url} alt={photo.label} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
                         </div>
@@ -90,7 +90,7 @@ const MidSection = () => {
                                 transition: 'all 0.3s',
                             },
                         }}
-                        onMouseOver={() => handleButtonClick(gameCategories.gaming)}
+                        // onMouseOver={() => handleButtonClick(gameCategories.gaming)}
                         onClick={() => handleButtonClick(gameCategories.gaming)}
                     >
                         Gaming
@@ -116,7 +116,7 @@ const MidSection = () => {
                                 transition: 'all 0.3s',
                             },
                         }}
-                        onMouseOver={() => handleButtonClick(gameCategories.workstation)}
+                        // onMouseOver={() => handleButtonClick(gameCategories.workstation)}
                         onClick={() => handleButtonClick(gameCategories.workstation)}
                     >
                         Workstation

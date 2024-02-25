@@ -14,3 +14,19 @@ export const successToast = (msg, pos) => {
         transition: Bounce,
     });
 }
+
+
+export const warningToast = (msg, pos) => {
+    console.log("Warning executed...")
+    toast.warn(msg, {
+        position: pos,
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+    });
+}

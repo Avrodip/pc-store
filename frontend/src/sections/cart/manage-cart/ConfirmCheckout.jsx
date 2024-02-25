@@ -3,10 +3,11 @@ import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 import { ArrowRightOutlined, ArrowLeftOutlined, DownOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBill, faTruck } from '@fortawesome/free-solid-svg-icons';
-import { Link, useNavigate } from 'react-router-dom';
-import { getBillingAddressByID, getShippingAddressByID } from '../../../services/address';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { getBillingAddressByID, getShippingAddressByID } from '../../../services/checkout';
 import { displayCartProductDetails } from '../../../services/configureCart';
 import Payment from '../../payment/Payment';
+import { successToast } from '../../../components/ReactToastify';
 
 const styles = {
     section: {
@@ -16,38 +17,57 @@ const styles = {
         padding: "4px"
     },
 }
-
+const userID = localStorage.getItem('pc-store-user')
 const ConfirmCheckout = () => {
     const isBelow420px = useMediaQuery('(max-width:420px)');
     const is1200To1260px = useMediaQuery('(min-width: 1200px) and (max-width: 1260px)');
     const [cartProductDetails, setCartProductDetails] = useState([]);
-    const [hasToken, setHasToken] = useState(false);
     const [expandedProducts, setExpandedProducts] = useState({});
     const [cartTotal, setCartTotal] = useState(0);
     const [billingAddress, setBillingAddress] = useState([])
     const [shippingAddress, setShippingAddress] = useState([])
     const [selectedAddress, setSelectedAddress] = useState(true);
     const [isPayment, setIsPayment] = useState(false);
+    const [isAddressPresent, setIsAddressPresent] = useState(null);
+    const params = useParams();
     const navigate = useNavigate();
+    const { shipping, billing } = params;
+
+    const checkIsAddressAvailable = (value) => {
+        console.log("Values : ", value)
+        if (!value) {
+            successToast("Please choose Address!", 'top-right')
+            // navigate('/checkout')
+        }
+    }
 
     useEffect(() => {
         getBilling();
         getShipping();
     }, [])
     const getBilling = async () => {
-        const response = await getBillingAddressByID({ "userID": 5 });
-        // console.log("Billing Address : ", response.data[0][0])
+        const response = await getBillingAddressByID({ "userID": userID, "id": billing });
+        // console.log("Billing data : ", response.data[0])
         if (response.success) {
             setBillingAddress(response.data[0][0]);
+            // checkIsAddressAvailable(response.data[0].length > 0)
         }
     }
     const getShipping = async () => {
-        const response = await getShippingAddressByID({ "userID": 2 });
-        // console.log("Shipping Address : ", response.data[0][0])
+        const response = await getShippingAddressByID({ "userID": userID, "id": shipping });
+        // console.log("Shipping data : ", response.data[0])
         if (response.success) {
             setShippingAddress(response.data[0][0]);
+            // checkIsAddressAvailable(response.data[0].length > 0)
         }
     }
+
+    // useEffect(() => {
+    //     if (!isAddressPresent) {
+    //         successToast("Please choose Address!", 'top-right')
+    //         navigate('/checkout')
+    //     }
+    // }, [isAddressPresent])
 
     // Function to toggle the "View more" state for a specific product
     const toggleViewMore = (productId) => {
@@ -128,20 +148,11 @@ const ConfirmCheckout = () => {
     }
 
     useEffect(() => {
-        const token = localStorage.getItem('pc-store');
-        if (token) {
-            setHasToken(true);
-        } else {
-            setHasToken(false);
-        }
-    }, [])
-
-    useEffect(() => {
         fetchData()
     }, []);
     const fetchData = async () => {
         try {
-            const response = await displayCartProductDetails({ "userID": 11 });
+            const response = await displayCartProductDetails({ "userID": userID });
             let totalPrice = 0;
             response.data[0]?.forEach((data) => {
                 totalPrice += data?.price * data?.quantity;
@@ -335,7 +346,7 @@ const ConfirmCheckout = () => {
                     )}
                 </Grid >
             </Grid >
-            {isPayment && <Payment />}
+            {isPayment && <Payment userID={userID} amount={cartTotal} />}
         </>
     )
 }

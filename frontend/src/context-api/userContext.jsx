@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 // Create the context
@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         checkTokenValidity();
     }, []);
-
     const checkTokenValidity = async () => {
         const token = localStorage.getItem('pc-store');
         if (token) {
@@ -20,20 +19,37 @@ export const AuthProvider = ({ children }) => {
                 const response = await axios.post('http://localhost:5050/api/auth/validateToken', { token });
                 if (response.data.valid) {
                     setIsLoggedIn(true);
+                    localStorage.setItem('pc-store-user', response.data.userID);
+                    return { success: true, userID: response.data.userID };
                 } else {
                     setIsLoggedIn(false);
                     localStorage.removeItem('pc-store');
                     localStorage.removeItem('pc-store-user');
+                    return { success: false, userID: null };
                 }
             } catch (error) {
                 console.error('Error validating token:', error);
                 setIsLoggedIn(false);
                 localStorage.removeItem('pc-store');
                 localStorage.removeItem('pc-store-user');
+                return { success: false, userID: null };
             }
+        } else {
+            setIsLoggedIn(false);
+            localStorage.removeItem('pc-store');
+            localStorage.removeItem('pc-store-user');
+            return { success: false, userID: null };
         }
-        setIsLoading(false);
     };
+
+    useEffect(() => {
+        checkTokenValidity().finally(() => setIsLoading(false));
+    }, [isLoading]);
+
+
+    const getCartSize = () => {
+
+    }
 
     const login = (token, userID) => {
         setIsLoggedIn(true);
@@ -48,6 +64,8 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, login, logout, isLoading, checkTokenValidity }}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{ isLoggedIn, login, logout, isLoading, checkTokenValidity }}>
+            {children}
+        </AuthContext.Provider>
     );
 };

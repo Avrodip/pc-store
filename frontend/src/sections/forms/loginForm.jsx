@@ -15,7 +15,7 @@ const formValidation = Yup.object({
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
 });
 
-const LoginForm = ({ location }) => {
+const LoginForm = ({ location, handleSignIn }) => {
     const [errors, setErrors] = useState(false);
     const [errorMsg, setErrorMsg] = useState("")
     const navigate = useNavigate()
@@ -32,7 +32,8 @@ const LoginForm = ({ location }) => {
         if (result.statusCode == StatusCode.success) {
             login(result.data.token, result.data.userID);
             successToast("Login Success", "top-right");
-            navigate("/")
+            navigate('/' + location)
+            handleSignIn();
         } else {
             setErrorMsg(result.message);
             setErrors(true);
@@ -51,7 +52,6 @@ const LoginForm = ({ location }) => {
     return (
         <form onSubmit={formik.handleSubmit} >
             <Grid container spacing={2} sx={{ p: 2, backgroundColor: "black" }}>
-
                 <Grid item xs={12}>
                     <Stack spacing={1}>
                         <InputLabel htmlFor="emailID-signin" sx={{ color: "white" }}>Email ID</InputLabel>
