@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import { getUserDetailsByID } from '../../services/authService';
 
-const Payment = ({ userID, amount }) => {
-    console.log("UserID : ", userID)
-    console.log("Amout : ", amount)
+const Payment = ({ userID, amount, billing, shipping }) => {
     const [userDetails, setUserDetails] = useState(null)
 
     useEffect(() => (
@@ -12,14 +10,20 @@ const Payment = ({ userID, amount }) => {
     ), [])
     const fetchUserDetails = async () => {
         const response = await getUserDetailsByID({ userID: userID })
-        console.log("Response in cart : ", response.data[0])
         setUserDetails(response.data[0])
     }
 
     const data = {
         userID: userID,
-        amount: amount * 100
+        amount: amount * 100,
+        billingID: billing,
+        shippingID: shipping
     }
+
+    useEffect(() => {
+        handleClick();
+    }, [])
+
     const handleClick = async () => {
         const response = await axios.post("http://localhost:5050/api/payment/checkout", data);
 
@@ -51,7 +55,6 @@ const Payment = ({ userID, amount }) => {
     }
     return (
         <>
-            {handleClick()}
         </>
     )
 }
