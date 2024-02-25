@@ -4,7 +4,6 @@ import { apiRoutes } from './apiRoutes';
 const baseURL = "http://localhost:5050/"
 
 export const createProductCart = async (req) => {
-    console.log("Product cart : ", req)
     try {
         const response = await axios.post(baseURL + apiRoutes.addUpdateCart, req);
         return response.data;

@@ -89,10 +89,10 @@ const ConfigureCartGaming = () => {
         }
 
         checkTokenValidity()
-            .then((isValid) => {
-                if (isValid) {
+            .then((result) => {
+                if (result.success) {
                     const createCart = async () => {
-                        const response = await createProductCart({ ...values, userID: 11 })
+                        const response = await createProductCart({ ...values, userID: result.userID })
                         if (response.statusCode == 200) {
                             // handleAddToCart(response.data[0][0].id)
                             navigate('/cart');

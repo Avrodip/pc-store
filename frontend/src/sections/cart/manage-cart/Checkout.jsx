@@ -1,29 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, OutlinedInput, Button, Stack, TextField, FormControl, Typography, Select, MenuItem, Box, useMediaQuery, DialogContent, IconButton, DialogTitle, FormHelperText, InputLabel, Radio, RadioGroup } from '@mui/material'
+import React, { useContext, useEffect, useState } from 'react'
+import { Grid, Table, TableBody, TableCell, TableContainer, Typography, TableHead, TableRow, Button, Stack, FormHelperText, Radio } from '@mui/material'
 import ShippingAddress from './ShippingAddress';
-import { getBillingAddressList } from '../../../services/checkout';
+import { getBillingAddressListDetails } from '../../../services/checkout';
 import BillingAddress from './BillingAddress';
 
+const userID = localStorage.getItem('pc-store-user')
 const Checkout = () => {
-    const isBelow420px = useMediaQuery('(max-width:420px)');
-    const is1200To1260px = useMediaQuery('(min-width: 1200px) and (max-width: 1260px)');
-    const [openSignIn, setOpenSignIn] = useState(false);
-    const [hasToken, setHasToken] = useState(false);
-    const [isChangeForm, setIsChangeForm] = useState(true);
     const [isOpenAddress, setIsOpenAddress] = useState(false);
     const [isOpenShipping, setIsOpenShipping] = useState(false);
     const [selectedBillingID, setSelectedBillingID] = useState(null);
     const [isBillingAddress, setIsBillingAddress] = useState([]);
     const [isBillingPresent, setIsBillingPresent] = useState(false);
 
-    const userID = localStorage.getItem('pc-store-user')
-
     useEffect(() => {
         fetchBillingAddress();
     }, [])
     const fetchBillingAddress = async () => {
-        const response = await getBillingAddressList({ "userID": userID });
-        console.log("Billing address : ", response)
+        const response = await getBillingAddressListDetails({ "userID": userID });
         if (response.success) {
             setIsBillingAddress(response.data[0]);
             setIsBillingPresent(response.data[0].length > 0 ? true : false);
@@ -152,7 +145,7 @@ const Checkout = () => {
                         </Grid>
 
                         <Grid item>
-                            {selectedBillingID && isOpenShipping && (<ShippingAddress setIsOpenShipping={setIsOpenShipping} selectedBillingID={selectedBillingID} />)}
+                            {selectedBillingID && isOpenShipping && (<ShippingAddress selectedBillingID={selectedBillingID} />)}
                         </Grid>
 
                     </Grid>

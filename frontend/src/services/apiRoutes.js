@@ -22,8 +22,11 @@ export const apiRoutes = {
     addUpdateBillingAddress: "api/billingAddress/updateBillingAddress",
     addUpdateShippingAddress: "api/shippingAddress/updateShippingAddress",
 
-    getBillingAddressByID: "api/billingAddress/getBillingAddressList",
-    getShippingAddressByID: "api/shippingAddress/getShippingAddressList",
+    getBillingAddressList: "api/billingAddress/getBillingAddressList",
+    getShippingAddressList: "api/shippingAddress/getShippingAddressList",
+
+    getBillingAddressByID: "api/billingAddress/getBillingAddressByID",
+    getShippingAddressByID: "api/shippingAddress/getShippingAddressByID",
     getCartProductByArray: "api/cart/getProductByArrayList",
     // END
 }

@@ -102,8 +102,8 @@ const CartProductDetails = () => {
     };
 
     const handleClickOpen = () => {
-        checkTokenValidity().then((isValid) => {
-            if (isValid) {
+        checkTokenValidity().then((result) => {
+            if (result.success) {
                 navigate("/checkout")
             } else {
                 navigate('/login')
@@ -125,7 +125,6 @@ const CartProductDetails = () => {
                 productTotal += d.price * d.quantity
             })
             setCartTotal(productTotal)
-            // setCartSize()
         } catch (error) {
             console.log("Something error happened : ", error.message);
         }
@@ -134,7 +133,6 @@ const CartProductDetails = () => {
     const deleteProduct = async (productID) => {
         const response = await deleteCartProduct({ id: productID });
         if (response.statusCode === StatusCode.success) {
-            // const productID = handleLocalCart(productID)
             fetchData();
         }
     }
@@ -153,7 +151,7 @@ const CartProductDetails = () => {
             const updatedCartProductDetails = [...cartProductDetails];
 
             const productData = {
-                user: 123,
+                user: userID,
                 actionType: 2,
                 productType: 1,
 
