@@ -1,8 +1,8 @@
 {
     "development": {
         "host": "127.0.0.1",
-        "user": "ajay",
-        "password": "ajay",
+        "user": "root",
+        "password": "password",
         "database": "pc-store"
     }
 }
