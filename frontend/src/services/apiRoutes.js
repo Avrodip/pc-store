@@ -29,4 +29,9 @@ export const apiRoutes = {
     getShippingAddressByID: "api/shippingAddress/getShippingAddressByID",
     getCartProductByArray: "api/cart/getProductByArrayList",
     // END
+
+    // Orders
+    getOrderDetailsByUserID: ""
+    // END
+
 }

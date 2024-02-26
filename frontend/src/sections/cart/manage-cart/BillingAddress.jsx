@@ -61,7 +61,7 @@ const BillingAddress = ({ handleBillingAddressOpen }) => {
     return (
         <>
             <form onSubmit={formik.handleSubmit} >
-                <Grid container sx={{ display: "flex", justifyContent: "center", background: "#171717", mt: 3, pr: 2, }} spacing={2}>
+                <Grid container sx={{ display: "flex", justifyContent: "center", background: "#171717", mt: 2, p: 1, gap: 1 }} >
                     <Grid item xs={12} sm={6} md={4} lg={4} sx={{ mt: 1 }}>
                         <Stack spacing={1}>
                             <InputLabel sx={{ color: 'white', fontSize: "13px" }}>Full Name</InputLabel>
@@ -197,24 +197,23 @@ const BillingAddress = ({ handleBillingAddressOpen }) => {
                             <FormHelperText sx={{ color: "red" }}>{formik.touched.zipcode && formik.errors.zipcode ? formik.errors.zipcode : null}</FormHelperText>
                         </Stack>
                     </Grid>
+                </Grid>
 
-                    <Grid item sx={{ display: "flex", justifyContent: "center", pb: 2, gap: 2 }}>
-                        <Grid item>
-                            <Stack spacing={1}>
-                                <Button variant="contained" type='submit' color='error' onClick={handleBillingAddressOpen}>Back</Button>
-                            </Stack>
-                        </Grid>
-                        <Grid item>
-                            <Stack spacing={1}>
-                                <Button variant="contained" type='submit' color='error'>Next<ArrowRightOutlined style={{ fontSize: "16px" }} /></Button>
-                            </Stack>
-                        </Grid>
+                <Grid item sx={{ display: "flex", justifyContent: "center", pb: 2, gap: 2 }}>
+                    <Grid item>
+                        <Stack spacing={1}>
+                            <Button variant="contained" type='submit' color='error' onClick={handleBillingAddressOpen}>Back</Button>
+                        </Stack>
                     </Grid>
-
+                    <Grid item>
+                        <Stack spacing={1}>
+                            <Button variant="contained" type='submit' color='error'>Next<ArrowRightOutlined style={{ fontSize: "16px" }} /></Button>
+                        </Stack>
+                    </Grid>
                 </Grid>
             </form>
         </>
     )
 }
 
-export default BillingAddress
+export default BillingAddress;

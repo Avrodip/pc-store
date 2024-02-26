@@ -47,8 +47,4 @@ export const indianStates = [
 
 export const countries = [
     { name: 'India' },
-    { name: 'Pakistan' },
-    { name: 'Bangladesh' },
-    { name: 'Nepal' },
-    { name: 'Sri Lanka' }
 ];

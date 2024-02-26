@@ -3,6 +3,7 @@ import "./App.css"
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Box } from '@mui/material';
 import HomeSection from "./layout/homeSection"
+import MyOrders from './sections/dashboard/MyOrders.jsx';
 const ConfigureCartGaming = lazy(() => import('./sections/cart/add-to-cart/ConfigureCartGaming'));
 const ConfigureCartWorkstation = lazy(() => import('./sections/cart/add-to-cart/ConfigureCartWorkstation'));
 const CartProductDetails = lazy(() => import('./sections/cart/manage-cart/CartProductDetails'));
@@ -42,6 +43,7 @@ function App() {
                         <Route path='checkout' element={<Suspense ><Checkout /></Suspense>} />
                         <Route path="/confirmCheckout/:billing/:shipping" element={<Suspense ><ConfirmCheckout /></Suspense>} />
                         <Route path="/wrongAddress" element={<Suspense ><WrongAddress /></Suspense>} />
+                        <Route path="/my-orders/:userID" element={<Suspense ><MyOrders /></Suspense>} />
                     </Route>
 
                 </Routes>

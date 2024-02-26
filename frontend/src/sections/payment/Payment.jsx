@@ -5,6 +5,7 @@ import { getUserDetailsByID } from '../../services/authService';
 const Payment = ({ userID, amount, billing, shipping }) => {
     const [userDetails, setUserDetails] = useState(null)
 
+
     useEffect(() => (
         fetchUserDetails()
     ), [])
@@ -19,6 +20,9 @@ const Payment = ({ userID, amount, billing, shipping }) => {
         billingID: billing,
         shippingID: shipping
     }
+
+    console.log("Amoutn : ", data)
+
 
     useEffect(() => {
         handleClick();
