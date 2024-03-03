@@ -7,7 +7,7 @@ exports.checkout = async (req, res) => {
     key_secret: process.env.RAZORPAY_API_SECRET
   });
   const options = {
-    amount: Number(req.body.amount), // amount in the smallest currency unit
+    amount: Number(req.body.amount), 
     currency: "INR",
   };
 

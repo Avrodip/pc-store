@@ -70,7 +70,7 @@ const ConfigureCartGaming = () => {
         'https://www.ant-pc.com/Case/Corsair_3000D_RGB_Airflow3.png'
     ];
     const [selectedImage, setSelectedImage] = useState(images[0]);
-
+//constant
     const handleAddToCart = (prodID) => {
         var products = JSON.parse(localStorage.getItem('prodID')) || [];
         function addProduct(productId) {
