@@ -4,7 +4,7 @@ import { ArrowRightOutlined, ArrowLeftOutlined, DownOutlined } from '@ant-design
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBill, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getBillingAddressByID, getShippingAddressByID } from '../../../services/address';
+import { getBillingAddressByID, getShippingAddressByID } from '../../../services/checkout';
 import { displayCartProductDetails } from '../../../services/configureCart';
 import Payment from '../../payment/Payment';
 import { successToast } from '../../../components/ReactToastify';
@@ -22,7 +22,6 @@ const ConfirmCheckout = () => {
     const isBelow420px = useMediaQuery('(max-width:420px)');
     const is1200To1260px = useMediaQuery('(min-width: 1200px) and (max-width: 1260px)');
     const [cartProductDetails, setCartProductDetails] = useState([]);
-    const [hasToken, setHasToken] = useState(false);
     const [expandedProducts, setExpandedProducts] = useState({});
     const [cartTotal, setCartTotal] = useState(0);
     const [billingAddress, setBillingAddress] = useState([])
@@ -30,11 +29,17 @@ const ConfirmCheckout = () => {
     const [selectedAddress, setSelectedAddress] = useState(true);
     const [isPayment, setIsPayment] = useState(false);
     const [isAddressPresent, setIsAddressPresent] = useState(null);
-    // const [userID, setUserID] = useState(null);
-    const [amount, setAmount] = useState(1000);
     const params = useParams();
     const navigate = useNavigate();
     const { shipping, billing } = params;
+
+    const checkIsAddressAvailable = (value) => {
+        console.log("Values : ", value)
+        if (!value) {
+            successToast("Please choose Address!", 'top-right')
+            // navigate('/checkout')
+        }
+    }
 
     useEffect(() => {
         getBilling();
@@ -42,18 +47,18 @@ const ConfirmCheckout = () => {
     }, [])
     const getBilling = async () => {
         const response = await getBillingAddressByID({ "userID": userID, "id": billing });
-
+        // console.log("Billing data : ", response.data[0])
         if (response.success) {
             setBillingAddress(response.data[0][0]);
-            setIsAddressPresent(response.data[0][0].length > 0 ? true : false)
+            // checkIsAddressAvailable(response.data[0].length > 0)
         }
     }
     const getShipping = async () => {
         const response = await getShippingAddressByID({ "userID": userID, "id": shipping });
-        console.log("userDfbvbf", response)
+        // console.log("Shipping data : ", response.data[0])
         if (response.success) {
             setShippingAddress(response.data[0][0]);
-            setIsAddressPresent(response.data[0][0].length > 0 ? true : false)
+            // checkIsAddressAvailable(response.data[0].length > 0)
         }
     }
 
@@ -141,15 +146,6 @@ const ConfirmCheckout = () => {
     const handlePayment = () => {
         setIsPayment(true);
     }
-
-    useEffect(() => {
-        const token = localStorage.getItem('pc-store');
-        if (token) {
-            setHasToken(true);
-        } else {
-            setHasToken(false);
-        }
-    }, [])
 
     useEffect(() => {
         fetchData()
@@ -350,7 +346,7 @@ const ConfirmCheckout = () => {
                     )}
                 </Grid >
             </Grid >
-            {isPayment && <Payment userID={userID} amount={amount} />}
+            {isPayment && <Payment userID={userID} amount={cartTotal + 1800} billing={billing} shipping={shipping} />}
         </>
     )
 }

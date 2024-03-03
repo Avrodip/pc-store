@@ -11,5 +11,6 @@ const router = express.Router();
 
 router.post("/register", userValidation, authController.userRegistration)
 router.post("/login", loginValidation, authController.userLogin)
+router.post("/getUserByID", authController.getUserDetailsByID)
 
 module.exports = router;

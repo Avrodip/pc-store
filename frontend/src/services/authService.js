@@ -27,3 +27,16 @@ export const userRegistration = async (req) => {
         return { success: false, message: 'An error occurred during Register' };
     }
 }
+
+
+export const getUserDetailsByID = async (req) => {
+    try {
+        const response = await axios.post(baseURL + apiRoutes.getUserDetailsByID, req);
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            return { success: false, message: error.response.data.message };
+        }
+        return { success: false, message: 'An error occurred during Register' };
+    }
+}

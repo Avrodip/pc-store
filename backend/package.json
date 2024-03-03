@@ -21,7 +21,8 @@
         "jsonwebtoken": "^9.0.2",
         "mysql": "^2.18.1",
         "mysql2": "^3.9.0",
-        "razorpay": "^2.9.2"
+        "razorpay": "^2.9.2",
+        "uuid": "^9.0.1"
     },
     "devDependencies": {
         "nodemon": "^3.0.3"

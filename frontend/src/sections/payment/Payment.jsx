@@ -1,12 +1,29 @@
-import React, { useEffect } from 'react'
-// import { Box, Typography, Grid, Button } from '@mui/material';
+import React, { useEffect, useState } from 'react'
 import axios from "axios";
+import { getUserDetailsByID } from '../../services/authService';
 
-const Payment = ({ userID, amount }) => {
+const Payment = ({ userID, amount, billing, shipping }) => {
+    const [userDetails, setUserDetails] = useState(null)
+
+    useEffect(() => (
+        fetchUserDetails()
+    ), [])
+    const fetchUserDetails = async () => {
+        const response = await getUserDetailsByID({ userID: userID })
+        setUserDetails(response.data[0])
+    }
+
     const data = {
         userID: userID,
-        amount: amount
+        amount: amount * 100,
+        billingID: billing,
+        shippingID: shipping
     }
+
+    useEffect(() => {
+        handleClick();
+    }, [])
+
     const handleClick = async () => {
         const response = await axios.post("http://localhost:5050/api/payment/checkout", data);
 
@@ -17,14 +34,14 @@ const Payment = ({ userID, amount }) => {
             currency: "INR",
             name: "Sachin",
             description: "Test Transaction",
-            image:
-                "https://media.licdn.com/dms/image/D4D03AQFC-JYSU_Uhag/profile-displayphoto-shrink_200_200/0/1665776397118?e=1704326400&v=beta&t=TGuuKEI7uCmSm9Ji1geeQbsQUw2oujCxcaihHNg_JEs",
+            image: "https://media.licdn.com/dms/image/D4D03AQFC-JYSU_Uhag/profile-displayphoto-shrink_200_200/0/1665776397118?e=1704326400&v=beta&t=TGuuKEI7uCmSm9Ji1geeQbsQUw2oujCxcaihHNg_JEs",
             order_id: response.data.order.id,
             callback_url: "http://localhost:5050/api/payment/paymentverification",
             prefill: {
-                name: "Sachin Kumar",
-                email: "sachin.kumar@example.com",
-                contact: "9000090000",
+                userID: userDetails?.userID,
+                name: userDetails?.firstName + userDetails?.lastName,
+                email: userDetails?.email,
+                contact: userDetails?.contact,
             },
             notes: {
                 address: "Razorpay Corporate Office",
@@ -38,7 +55,6 @@ const Payment = ({ userID, amount }) => {
     }
     return (
         <>
-            {handleClick()}
         </>
     )
 }

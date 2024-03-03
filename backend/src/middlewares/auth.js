@@ -8,7 +8,7 @@ router.post('/validateToken', (req, res) => {
 
     try {
         const decoded = jwt.verify(token, SECRET_KEY);
-        res.json({ valid: true });
+        res.json({ valid: true, userID: decoded.userID });
     } catch (error) {
         // Token is invalid
         res.status(401).json({ valid: false });

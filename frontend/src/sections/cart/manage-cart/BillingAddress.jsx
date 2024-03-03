@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Grid, OutlinedInput, Stack, InputLabel, Select, MenuItem, Button, FormHelperText } from '@mui/material'
 import { useFormik } from 'formik';
 import { indianStates, countries, StatusCode } from "../../../utils/contant";
 import { ArrowRightOutlined } from '@ant-design/icons';
 import * as Yup from 'yup';
 import { createUpdateBillingAddress } from '../../../services/checkout';
+import { AuthContext } from '../../../context-api/userContext';
+import { useNavigate } from 'react-router-dom';
 
 
 const validationSchema = Yup.object({
@@ -21,12 +23,15 @@ const validationSchema = Yup.object({
 
 const userID = localStorage.getItem('pc-store-user')
 const BillingAddress = ({ handleBillingAddressOpen }) => {
+    const { checkTokenValidity } = useContext(AuthContext)
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
             actionType: 1,
             userID: userID,
             id: null,
+            orderID: null,
 
             fullName: '',
             telephoneNumber: '',
@@ -41,9 +46,14 @@ const BillingAddress = ({ handleBillingAddressOpen }) => {
         },
         validationSchema,
         onSubmit: async (values) => {
-            const response = await createUpdateBillingAddress(values);
-            if (response.statusCode === StatusCode.success) {
-                handleBillingAddressOpen();
+            const result = await checkTokenValidity();
+            if (result.success) {
+                const response = await createUpdateBillingAddress({ ...values, userID: result.userID });
+                if (response.statusCode === StatusCode.success) {
+                    handleBillingAddressOpen();
+                }
+            } else {
+                navigate("/login")
             }
         }
     })
