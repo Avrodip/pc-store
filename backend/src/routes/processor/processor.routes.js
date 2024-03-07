@@ -12,5 +12,5 @@ router.post("/getPcKrakenDetails", processorController.getPcKrakenDetails)
 router.post("/getPcBehemothDetails", processorController.getPcBehemothDetails)
 router.post("/getPcSlayerDetails", processorController.getPcSlayerDetails)
 router.post("/getGamingCpuList/", processorController.getGamingCpuList)
-
+router.post("/getWorkstationCpuList/", processorController.getWorkstationCpuList)
 module.exports = router;
