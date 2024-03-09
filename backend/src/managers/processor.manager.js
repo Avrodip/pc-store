@@ -80,7 +80,7 @@ class ProcessorManager {
         }
     }
     
-    async getWorkstationCpuList(req, res) {
+    async getWorkstationCpuList(req, res) {wer
         try {
             const type_id = req.body.type_id;
 
@@ -105,6 +105,22 @@ class ProcessorManager {
             }
 
             const [rows, fields] = await db.promise().query('CALL getPcDetails(?)', [cpu_id]);
+            return rows;
+        } catch (error) {
+            console.error("Error occurred:", error);
+            throw error;
+        }
+    }
+
+    async getPcEditingDetails(req, res) {
+        try {
+            const cpu_id = req.body.cpu_id;
+
+            if (!db) {
+                throw new Error("Database object is undefined");
+            }
+            
+            const [rows, fields] = await db.promise().query('CALL getPcEditingDetails(?)', [cpu_id]);
             return rows;
         } catch (error) {
             console.error("Error occurred:", error);

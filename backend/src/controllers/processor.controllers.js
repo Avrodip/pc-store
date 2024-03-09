@@ -98,6 +98,20 @@ class ProcessorController {
             return apiResponse.expectationFailedResponse(res, error);
         }
     }
+
+    async getPcEditingDetails(req, res) {
+        try {
+            const result = await processorManager.getPcEditingDetails(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
 }
 
 module.exports = { ProcessorController };
