@@ -112,6 +112,48 @@ class ProcessorController {
             return apiResponse.expectationFailedResponse(res, error);
         }
     }
+
+    async getPcAIDetails(req, res) {
+        try {
+            const result = await processorManager.getPcAIDetails(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
+
+    async getPcTradingDualDetails(req, res) {
+        try {
+            const result = await processorManager.getPcTradingDualDetails(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
+
+    async getPcTradingFourDetails(req, res) {
+        try {
+            const result = await processorManager.getPcTradingFourDetails(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
 }
 
 module.exports = { ProcessorController };
