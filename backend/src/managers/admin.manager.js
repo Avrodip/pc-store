@@ -52,7 +52,67 @@ class AdminManager {
             
         }
     }
+    async  insert_gaming_predator(req, res) {
+        try {
+            const { cpu_name, gpu_name, ram_name, motherboard_name, storage_name, cooler_name, cabinet_name } = req.body;
+            if (!db) {
+                throw new Error("Database object is undefined");
+            }
+            
+            const [rows, fields] = await db.promise().query('CALL insert_gaming_predator(?, ?, ?, ?, ?, ?, ?)', [cpu_name, gpu_name, ram_name, motherboard_name, storage_name, cooler_name, cabinet_name]);
+            console.log(rows)
+            return rows;
+        } catch (error) {
+            console.error("Error occurred:", error);
+            throw error;
+        }
+    }
 
+    async  insert_gaming_kraken(req, res) {
+        try {
+            const { cpu_name, gpu_name, ram_name, motherboard_name, storage_name, cooler_name, cabinet_name } = req.body;
+            if (!db) {
+                throw new Error("Database object is undefined");
+            }
+            
+            const [rows, fields] = await db.promise().query('CALL insert_gaming_kraken(?, ?, ?, ?, ?, ?, ?)', [cpu_name, gpu_name, ram_name, motherboard_name, storage_name, cooler_name, cabinet_name]);
+            console.log(rows)
+            return rows;
+        } catch (error) {
+            console.error("Error occurred:", error);
+            throw error;
+        }
+    }
+    async  insert_gaming_behemoth(req, res) {
+        try {
+            const { cpu_name, gpu_name, ram_name, motherboard_name, storage_name, cooler_name, cabinet_name } = req.body;
+            if (!db) {
+                throw new Error("Database object is undefined");
+            }
+            
+            const [rows, fields] = await db.promise().query('CALL insert_gaming_behemoth(?, ?, ?, ?, ?, ?, ?)', [cpu_name, gpu_name, ram_name, motherboard_name, storage_name, cooler_name, cabinet_name]);
+            console.log(rows)
+            return rows;
+        } catch (error) {
+            console.error("Error occurred:", error);
+            throw error;
+        }
+    }
+    async  insert_gaming_slayer(req, res) {
+        try {
+            const { cpu_name, gpu_name, ram_name, motherboard_name, storage_name, cooler_name, cabinet_name } = req.body;
+            if (!db) {
+                throw new Error("Database object is undefined");
+            }
+            
+            const [rows, fields] = await db.promise().query('CALL insert_gaming_slayer(?, ?, ?, ?, ?, ?, ?)', [cpu_name, gpu_name, ram_name, motherboard_name, storage_name, cooler_name, cabinet_name]);
+            console.log(rows)
+            return rows;
+        } catch (error) {
+            console.error("Error occurred:", error);
+            throw error;
+        }
+    }
 }
 
 module.exports = { AdminManager };
