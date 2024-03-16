@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { displayCartProductDetails } from '../services/configureCart';
+import { StatusCode } from '../utils/contant';
 
 // Create the context
 export const AuthContext = createContext();
@@ -46,10 +48,14 @@ export const AuthProvider = ({ children }) => {
         checkTokenValidity().finally(() => setIsLoading(false));
     }, [isLoading]);
 
-
-    const getCartSize = () => {
-
+    const getCartSize = async () => {
+        const response = await displayCartProductDetails({ userID: "e406c9cd-eecd-47df-a45e-dbd4d5a4305d" })
+        if (response.statusCode === StatusCode.success) {
+            return response.data[0].length;
+        }
+        return 0;
     }
+
 
     const login = (token, userID) => {
         setIsLoggedIn(true);
@@ -64,7 +70,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, login, logout, isLoading, checkTokenValidity }}>
+        <AuthContext.Provider value={{ isLoggedIn, login, logout, isLoading, checkTokenValidity, getCartSize }}>
             {children}
         </AuthContext.Provider>
     );

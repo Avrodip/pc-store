@@ -26,6 +26,10 @@ const ConfigureCartGaming = () => {
     const params = useParams();
     const navigate = useNavigate();
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
     const getSubCategoryID = (subcategory) => {
         switch (subcategory) {
             case 'Predator':
@@ -41,10 +45,6 @@ const ConfigureCartGaming = () => {
         }
     };
     const subCategoryID = getSubCategoryID(params.subcategory);
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [pathname]);
 
     useEffect(() => {
         const fetchData = async () => {

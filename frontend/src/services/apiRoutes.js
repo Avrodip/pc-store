@@ -31,7 +31,8 @@ export const apiRoutes = {
     // END
 
     // Orders
-    getOrderDetailsByUserID: ""
+    getOrderDetailsByUserID: "api/order/getSuccessfullOrderDetailsByUserID",
+    cancelOrderByUserID: "api/order/cancleSuccessfullOrderByUserID"
     // END
 
 }

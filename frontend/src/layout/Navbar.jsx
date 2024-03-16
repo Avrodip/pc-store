@@ -15,14 +15,14 @@ const Navbar = () => {
     const [isHovered3, setIsHovered3] = useState(false);
     const [isHovered4, setIsHovered4] = useState(false);
     const [cartSize, setCartSize] = useState(0);
-    const { isLoggedIn, logout } = useContext(AuthContext);
+    const { isLoggedIn, logout, getCartSize } = useContext(AuthContext);
     const navigate = useNavigate()
 
-    useEffect(() => {
-        let products = localStorage.getItem('prodID')
-        products = JSON.parse(products)
-        setCartSize(products?.length)
-    }, [])
+    const fetchCartSize = async () => {
+        const size = await getCartSize();
+        setCartSize(size)
+    };
+    fetchCartSize();
 
     const handleMouseEnter = (buttonNumber) => {
         if (buttonNumber === 3) {

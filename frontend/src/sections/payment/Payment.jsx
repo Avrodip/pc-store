@@ -21,13 +21,9 @@ const Payment = ({ userID, amount, billing, shipping }) => {
         shippingID: shipping
     }
 
-    console.log("Amoutn : ", data)
-
-
     useEffect(() => {
         handleClick();
     }, [])
-
     const handleClick = async () => {
         const response = await axios.post("http://localhost:5050/api/payment/checkout", data);
 

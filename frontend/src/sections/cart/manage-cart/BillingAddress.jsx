@@ -8,7 +8,6 @@ import { createUpdateBillingAddress } from '../../../services/checkout';
 import { AuthContext } from '../../../context-api/userContext';
 import { useNavigate } from 'react-router-dom';
 
-
 const validationSchema = Yup.object({
     fullName: Yup.string().required('This field is Required'),
     telephoneNumber: Yup.string().required('This field is Required'),

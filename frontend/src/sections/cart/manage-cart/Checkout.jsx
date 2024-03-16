@@ -157,7 +157,6 @@ const Checkout = () => {
                             {selectedBillingID && isOpenShipping && (<ShippingAddress selectedBillingID={selectedBillingID} />)}
                         </Grid>
 
-
                     </Grid>
 
                 </Grid>

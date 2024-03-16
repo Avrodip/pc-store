@@ -11,8 +11,7 @@ const styles = {
         maxWidth: 345,
         backgroundColor: '#212529',
         color: 'white',
-        margin: 'auto',
-        marginTop: '50px',
+        marginY: '50px',
         padding: '20px',
         transition: 'transform 0.15s ease-in-out',
         '&:hover': { transform: 'scale3d(1.05, 1.05, 1)', borderColor: '#FFFFFF' },
@@ -23,13 +22,13 @@ const styles = {
     gridContainer: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-evenly',
     },
     lizardTypography: {
         color: '#FFFFFF',
         fontSize: '18px',
         fontFamily: 'Roboto, sans-serif',
-        margin: '50px 0 20px 0',  // Add margin-bottom to create space
+        margin: '50px 0 20px 0',
     },
     mainTypography: {
         fontSize: '16px',
@@ -55,47 +54,49 @@ const styles = {
 export default function ActionAreaCard() {
     return (
         <Grid container sx={styles.gridContainer}>
-            <Card
-                sx={styles.card}
-                elevation={5}
-                onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
-                onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
-            >
-                <CardMedia
-                    component="img"
-                    height="140"
-                    image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
-                    alt="green iguana"
-                />
-                <CardContent>
-                    <Grid container direction="column" alignItems="center" justifyContent="center">
-                        <Typography gutterBottom variant="h5" component="div" sx={styles.mainTypography}>
-                            Workstation
-                        </Typography>
-                        <Button sx={styles.viewMoreButton} component={Link} to="/workStationCart">
-                            View More
-                        </Button>
-                    </Grid>
+            <Grid item sx={{ display: 'flex', gap: 8 }}>
+                <Card
+                    sx={styles.card}
+                    elevation={5}
+                    onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
+                    onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
+                >
+                    <CardMedia
+                        component="img"
+                        height="140"
+                        image="https://www.ant-pc.com/assets/2022-theme/images/workstation-sm.png"
+                        alt="green iguana"
+                    />
+                    <CardContent>
+                        <Grid container direction="column" alignItems="center" justifyContent="center">
+                            <Typography gutterBottom variant="h5" component="div" sx={styles.mainTypography}>
+                                Workstation
+                            </Typography>
+                            <Button sx={styles.viewMoreButton} component={Link} to="/workStationCart">
+                                View More
+                            </Button>
+                        </Grid>
 
-                </CardContent>
-            </Card>
+                    </CardContent>
+                </Card>
 
-            <Card
-                sx={styles.card}
-                elevation={5}
-                onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
-                onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
-            >
-                <CardMedia component="img" height="140" image="https://www.ant-pc.com/assets/2022-theme/images/gaming-sm.png" alt="green iguana" />
-                <CardContent>
-                    <Grid container direction="column" alignItems="center" justifyContent="center">
-                        <Typography gutterBottom variant="h5" component="div" sx={styles.mainTypography} >
-                            Gaming PC
-                        </Typography>
-                        <Button sx={styles.viewMoreButton} component={Link} to="/gaming-pc">View More</Button>
-                    </Grid>
-                </CardContent>
-            </Card>
+                <Card
+                    sx={styles.card}
+                    elevation={5}
+                    onMouseOver={(e) => (e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)')}
+                    onMouseOut={(e) => (e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)')}
+                >
+                    <CardMedia component="img" height="140" image="https://www.ant-pc.com/assets/2022-theme/images/gaming-sm.png" alt="green iguana" />
+                    <CardContent>
+                        <Grid container direction="column" alignItems="center" justifyContent="center">
+                            <Typography gutterBottom variant="h5" component="div" sx={styles.mainTypography} >
+                                Gaming PC
+                            </Typography>
+                            <Button sx={styles.viewMoreButton} component={Link} to="/gaming-pc">View More</Button>
+                        </Grid>
+                    </CardContent>
+                </Card>
+            </Grid>
         </Grid>
     );
 }

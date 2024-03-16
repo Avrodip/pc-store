@@ -3,7 +3,7 @@ import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 import { DeleteOutlined, ArrowRightOutlined, ArrowLeftOutlined, DownOutlined } from '@ant-design/icons';
 import { deleteCartProduct, displayCartProductDetails, createProductCart } from '../../../services/configureCart';
 import { useFormik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { StatusCode } from '../../../utils/contant';
 import { AuthContext } from '../../../context-api/userContext';
 
@@ -16,7 +16,6 @@ const styles = {
     },
 }
 
-const userID = localStorage.getItem('pc-store-user')
 const CartProductDetails = () => {
     const isBelow420px = useMediaQuery('(max-width:420px)');
     const is1200To1260px = useMediaQuery('(min-width: 1200px) and (max-width: 1260px)');
@@ -24,8 +23,14 @@ const CartProductDetails = () => {
     const [expandedProducts, setExpandedProducts] = useState({});
     const [cartTotal, setCartTotal] = useState(0);
     const [cartSize, setCartSize] = useState(0);
-    const { checkTokenValidity } = useContext(AuthContext);
+    const { checkTokenValidity, getCartSize } = useContext(AuthContext);
+    const { pathname } = useLocation();
     const navigate = useNavigate();
+    const userID = localStorage.getItem('pc-store-user')
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
     // Function to toggle the "View more" state for a specific product
     const toggleViewMore = (productId) => {
@@ -134,6 +139,7 @@ const CartProductDetails = () => {
         const response = await deleteCartProduct({ id: productID });
         if (response.statusCode === StatusCode.success) {
             fetchData();
+            getCartSize();
         }
     }
 

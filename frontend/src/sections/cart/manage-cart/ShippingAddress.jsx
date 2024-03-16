@@ -46,7 +46,7 @@ const ShippingAddress = ({ selectedBillingID }) => {
                 if (result.success) {
                     const response = await createUpdateShippingAddress({ ...values });
                     if (response.statusCode == 200) {
-                        console.log("Response dsdff ", response.data[0])
+                        // console.log("Response dsdff ", response.data[0])
                         navigate(`/confirmCheckout/${selectedBillingID}/${response.data[0][0].id}`)
                     }
                 } else {

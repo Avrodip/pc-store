@@ -67,7 +67,7 @@ const MidSection = () => {
     const photos = selectedButton === gameCategories.gaming ? gamingPhotos : workstationPhotos;
 
     return (
-        <Grid sx={{ my: 4 }}>
+        <Grid >
             <AppBar position="static" style={{ backgroundColor: '#212529' }}>
                 <Toolbar style={{ justifyContent: 'center' }}>
                     <Button

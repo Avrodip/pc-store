@@ -8,13 +8,12 @@ import Grid from '@mui/material/Grid';
 
 const ImageSlider = () => {
     const images = [
-        '/Images/banner/Banner-2 Dark.png',
-        '/Images/banner/Banner-3-Dark.png',
-        '/Images/banner/Banner-3-High-FInal.png',
-        '/Images/banner/Banner-4-Dark.png',
-        '/Images/banner/Banner-4-High-Final.png',
-        '/Images/banner/Banner-5-High-Final.png',
-        '/Images/banner/Website Banner 1.png',
+        '/Images/banner1/Budget Gaming/1.jpg',
+        '/Images/banner1/Budget Gaming/2.jpg',
+        '/Images/banner1/Budget Gaming/3.jpg',
+        '/Images/banner1/Budget Gaming/4.jpg',
+        '/Images/banner1/Budget Gaming/5.jpg',
+        '/Images/banner1/Budget Gaming/6.jpg',
         // Add more image URLs as needed
     ];
 
@@ -44,7 +43,7 @@ const ImageSlider = () => {
                         <img
                             src={image}
                             alt={`Slide ${index + 1}`}
-                            style={{ width: '100%', height: '600px', objectFit: 'cover' }}
+                            style={{ width: '100%', height: '700px', objectFit: 'cover' }}
                         />
                     </Grid>
                 ))}
