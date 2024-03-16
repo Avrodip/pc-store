@@ -1,12 +1,12 @@
 const apiResponse = require("../helpers/apiResponse");
-const { ProcessorManager } = require("../managers/processor.manager")
-const processorManager = new ProcessorManager();
+const { AdminManager } = require("../managers/admin.manager")
+const adminManager = new AdminManager();
 
-class ProcessorController {
+class AdminController {
 
-    async getGamingPcDetails(req, res) {
+    async getKrakenList(req, res) {
         try {
-            const result = await processorManager.getGamingPcDetails(req, res);
+            const result = await adminManager.getKrakenList(req, res);
 
             if (result.length > 0) {
                 return apiResponse.successResponseWithData(res, result.message, result);
@@ -17,48 +17,9 @@ class ProcessorController {
             return apiResponse.expectationFailedResponse(res, error);
         }
     }
-    async getPcPredatorDetails(req, res) {
+    async getBehemothList(req, res) {
         try {
-            const result = await processorManager.getPcPredatorDetails(req, res);
-
-            if (result.length > 0) {
-                return apiResponse.successResponseWithData(res, result.message, result);
-            } else {
-                return apiResponse.conflictRequest(res, result.message);
-            }
-        } catch (error) {
-            return apiResponse.expectationFailedResponse(res, error);
-        }
-    }
-    async getPcKrakenDetails(req, res) {
-        try {
-            const result = await processorManager.getPcKrakenDetails(req, res);
-
-            if (result.length > 0) {
-                return apiResponse.successResponseWithData(res, result.message, result);
-            } else {
-                return apiResponse.conflictRequest(res, result.message);
-            }
-        } catch (error) {
-            return apiResponse.expectationFailedResponse(res, error);
-        }
-    }
-    async getPcBehemothDetails(req, res) {
-        try {
-            const result = await processorManager.getPcBehemothDetails(req, res);
-
-            if (result.length > 0) {
-                return apiResponse.successResponseWithData(res, result.message, result);
-            } else {
-                return apiResponse.conflictRequest(res, result.message);
-            }
-        } catch (error) {
-            return apiResponse.expectationFailedResponse(res, error);
-        }
-    }
-    async getPcSlayerDetails(req, res) {
-        try {
-            const result = await processorManager.getPcSlayerDetails(req, res);
+            const result = await adminManager.getBehemothList(req, res);
 
             if (result.length > 0) {
                 return apiResponse.successResponseWithData(res, result.message, result);
@@ -70,10 +31,9 @@ class ProcessorController {
         }
     }
 
-
-    async getGamingCpuList(req, res) {
+    async getPredatorList(req, res) {
         try {
-            const result = await processorManager.getGamingCpuList(req, res);
+            const result = await adminManager.getPredatorList(req, res);
 
             if (result.length > 0) {
                 return apiResponse.successResponseWithData(res, result.message, result);
@@ -84,10 +44,10 @@ class ProcessorController {
             return apiResponse.expectationFailedResponse(res, error);
         }
     }
-
-    async getWorkstationCpuList(req, res) {
+    
+    async getSlayerList(req, res) {
         try {
-            const result = await processorManager.getWorkstationCpuList(req, res);
+            const result = await adminManager.getSlayerList(req, res);
 
             if (result.length > 0) {
                 return apiResponse.successResponseWithData(res, result.message, result);
@@ -98,10 +58,9 @@ class ProcessorController {
             return apiResponse.expectationFailedResponse(res, error);
         }
     }
-
-    async getPcEditingDetails(req, res) {
+    async insert_gaming_predator(req, res) {
         try {
-            const result = await processorManager.getPcEditingDetails(req, res);
+            const result = await adminManager.insert_gaming_predator(req, res);
 
             if (result.length > 0) {
                 return apiResponse.successResponseWithData(res, result.message, result);
@@ -112,10 +71,9 @@ class ProcessorController {
             return apiResponse.expectationFailedResponse(res, error);
         }
     }
-
-    async getPcAIDetails(req, res) {
+    async insert_gaming_kraken(req, res) {
         try {
-            const result = await processorManager.getPcAIDetails(req, res);
+            const result = await adminManager.insert_gaming_kraken(req, res);
 
             if (result.length > 0) {
                 return apiResponse.successResponseWithData(res, result.message, result);
@@ -126,10 +84,9 @@ class ProcessorController {
             return apiResponse.expectationFailedResponse(res, error);
         }
     }
-
-    async getPcTradingDualDetails(req, res) {
+    async insert_gaming_behemoth(req, res) {
         try {
-            const result = await processorManager.getPcTradingDualDetails(req, res);
+            const result = await adminManager.insert_gaming_behemoth(req, res);
 
             if (result.length > 0) {
                 return apiResponse.successResponseWithData(res, result.message, result);
@@ -140,10 +97,87 @@ class ProcessorController {
             return apiResponse.expectationFailedResponse(res, error);
         }
     }
-
-    async getPcTradingFourDetails(req, res) {
+    async insert_gaming_slayer(req, res) {
         try {
-            const result = await processorManager.getPcTradingFourDetails(req, res);
+            const result = await adminManager.insert_gaming_slayer(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
+    async insert_trading_four_monitor(req, res) {
+        try {
+            const result = await adminManager.insert_trading_four_monitor(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
+    async insert_trading_dual_monitor(req, res) {
+        try {
+            const result = await adminManager.insert_trading_dual_monitor(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
+    async insert_workstation_ai(req, res) {
+        try {
+            const result = await adminManager.insert_workstation_ai(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
+    async workstation_trading_dual_monitor_details(req, res) {
+        try {
+            const result = await adminManager.workstation_trading_dual_monitor_details(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
+    async workstation_trading_four_monitor_details(req, res) {
+        try {
+            const result = await adminManager.workstation_trading_four_monitor_details(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
+    async workstation_ai_series_details(req, res) {
+        try {
+            const result = await adminManager.workstation_ai_series_details(req, res);
 
             if (result.length > 0) {
                 return apiResponse.successResponseWithData(res, result.message, result);
@@ -156,4 +190,4 @@ class ProcessorController {
     }
 }
 
-module.exports = { ProcessorController };
+module.exports = { AdminController };
