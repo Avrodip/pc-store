@@ -110,6 +110,84 @@ class AdminController {
             return apiResponse.expectationFailedResponse(res, error);
         }
     }
+    async insert_trading_four_monitor(req, res) {
+        try {
+            const result = await adminManager.insert_trading_four_monitor(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
+    async insert_trading_dual_monitor(req, res) {
+        try {
+            const result = await adminManager.insert_trading_dual_monitor(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
+    async insert_workstation_ai(req, res) {
+        try {
+            const result = await adminManager.insert_workstation_ai(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
+    async workstation_trading_dual_monitor_details(req, res) {
+        try {
+            const result = await adminManager.workstation_trading_dual_monitor_details(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
+    async workstation_trading_four_monitor_details(req, res) {
+        try {
+            const result = await adminManager.workstation_trading_four_monitor_details(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
+    async workstation_ai_series_details(req, res) {
+        try {
+            const result = await adminManager.workstation_ai_series_details(req, res);
+
+            if (result.length > 0) {
+                return apiResponse.successResponseWithData(res, result.message, result);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
 }
 
 module.exports = { AdminController };
