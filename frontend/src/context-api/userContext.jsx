@@ -5,7 +5,6 @@ import { StatusCode } from '../utils/contant';
 
 // Create the context
 export const AuthContext = createContext();
-
 // Create the provider component
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,13 +48,13 @@ export const AuthProvider = ({ children }) => {
     }, [isLoading]);
 
     const getCartSize = async () => {
-        const response = await displayCartProductDetails({ userID: "e406c9cd-eecd-47df-a45e-dbd4d5a4305d" })
+        const result = await checkTokenValidity();
+        const response = await displayCartProductDetails({ userID: result.userID })
         if (response.statusCode === StatusCode.success) {
             return response.data[0].length;
         }
         return 0;
     }
-
 
     const login = (token, userID) => {
         setIsLoggedIn(true);

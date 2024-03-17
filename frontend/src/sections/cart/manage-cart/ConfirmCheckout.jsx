@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Stack, Typography, Box, useMediaQuery } from '@mui/material'
 import { ArrowRightOutlined, ArrowLeftOutlined, DownOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,6 +8,7 @@ import { getBillingAddressByID, getShippingAddressByID } from '../../../services
 import { displayCartProductDetails } from '../../../services/configureCart';
 import Payment from '../../payment/Payment';
 import { successToast } from '../../../components/ReactToastify';
+import { AuthContext } from '../../../context-api/userContext';
 
 const styles = {
     section: {
@@ -28,46 +29,42 @@ const ConfirmCheckout = () => {
     const [shippingAddress, setShippingAddress] = useState([])
     const [selectedAddress, setSelectedAddress] = useState(true);
     const [isPayment, setIsPayment] = useState(false);
-    const [isAddressPresent, setIsAddressPresent] = useState(null);
     const params = useParams();
-    const navigate = useNavigate();
     const { shipping, billing } = params;
-
-    const checkIsAddressAvailable = (value) => {
-        console.log("Values : ", value)
-        if (!value) {
-            successToast("Please choose Address!", 'top-right')
-            // navigate('/checkout')
-        }
-    }
+    const { checkTokenValidity } = useContext(AuthContext)
 
     useEffect(() => {
         getBilling();
         getShipping();
     }, [])
     const getBilling = async () => {
-        const response = await getBillingAddressByID({ "userID": userID, "id": billing });
-        // console.log("Billing data : ", response.data[0])
-        if (response.success) {
-            setBillingAddress(response.data[0][0]);
-            // checkIsAddressAvailable(response.data[0].length > 0)
-        }
-    }
-    const getShipping = async () => {
-        const response = await getShippingAddressByID({ "userID": userID, "id": shipping });
-        // console.log("Shipping data : ", response.data[0])
-        if (response.success) {
-            setShippingAddress(response.data[0][0]);
-            // checkIsAddressAvailable(response.data[0].length > 0)
+        try {
+            const result = await checkTokenValidity();
+            if (result.success) {
+                const response = await getBillingAddressByID({ "userID": result.userID, "id": billing });
+                if (response.success) {
+                    setBillingAddress(response.data[0][0]);
+                }
+            }
+        } catch (error) {
+            console.error("Error fetching billing data:", error);
         }
     }
 
-    // useEffect(() => {
-    //     if (!isAddressPresent) {
-    //         successToast("Please choose Address!", 'top-right')
-    //         navigate('/checkout')
-    //     }
-    // }, [isAddressPresent])
+
+    const getShipping = async () => {
+        try {
+            const result = await checkTokenValidity();
+            if (result.success) {
+                const response = await getShippingAddressByID({ "userID": result.userID, "id": shipping });
+                if (response.success) {
+                    setShippingAddress(response.data[0][0]);
+                }
+            }
+        } catch (error) {
+            console.error("Error fetching shipping data:", error);
+        }
+    }
 
     // Function to toggle the "View more" state for a specific product
     const toggleViewMore = (productId) => {
@@ -152,13 +149,16 @@ const ConfirmCheckout = () => {
     }, []);
     const fetchData = async () => {
         try {
-            const response = await displayCartProductDetails({ "userID": userID });
-            let totalPrice = 0;
-            response.data[0]?.forEach((data) => {
-                totalPrice += data?.price * data?.quantity;
-            });
-            setCartTotal(totalPrice);
-            setCartProductDetails(response.data[0]);
+            const result = await checkTokenValidity();
+            if (result.success) {
+                const response = await displayCartProductDetails({ "userID": userID });
+                let totalPrice = 0;
+                response.data[0]?.forEach((data) => {
+                    totalPrice += data?.price * data?.quantity;
+                });
+                setCartTotal(totalPrice);
+                setCartProductDetails(response.data[0]);
+            }
         } catch (error) {
             console.log("Something error happened : ", error.message);
         }
@@ -346,6 +346,7 @@ const ConfirmCheckout = () => {
                     )}
                 </Grid >
             </Grid >
+
             {isPayment && <Payment userID={userID} amount={cartTotal + 1800} billing={billing} shipping={shipping} />}
         </>
     )

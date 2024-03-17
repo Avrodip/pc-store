@@ -6,6 +6,7 @@ class OrderController {
     async getSuccessfullOrderDetailsByUserID(req, res) {
         try {
             const result = await orderManager.getSuccessfullOrderDetailsByUserID(req, res);
+            console.log("Result", result)
             if (result.length > 0) {
                 return apiResponse.successResponseWithData(res, result.message, result);
             } else {
@@ -14,7 +15,7 @@ class OrderController {
         } catch (error) {
             return apiResponse.expectationFailedResponse(res, error);
         }
-    } 
+    }
     async cancleSuccessfullOrderByUserID(req, res) {
         try {
             const result = await orderManager.cancleSuccessfullOrderByUserID(req, res);
@@ -26,7 +27,7 @@ class OrderController {
         } catch (error) {
             return apiResponse.expectationFailedResponse(res, error);
         }
-    } 
+    }
 }
 
 module.exports = { OrderController };

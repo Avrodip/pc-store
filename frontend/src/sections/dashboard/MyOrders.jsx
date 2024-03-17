@@ -1,25 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Box, Typography, Grid, Button, Table, TableCell, TableRow, TableHead, TableBody } from '@mui/material';
+import { Typography, Grid, Button, Table, TableCell, TableRow, TableHead, TableBody } from '@mui/material';
 import { StatusCode } from '../../utils/contant';
 import { cancelOrderByUserID, getOrderDetailsByUserID } from '../../services/orders';
-import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../context-api/userContext';
 
 const MyOrders = () => {
     const [orderDetails, setOrderDetails] = useState(null)
-    const params = useParams();
     const { checkTokenValidity } = useContext(AuthContext);
-
-    const { userID } = params;
 
     useEffect(() => {
         productOrderDetails()
     }, [])
     const productOrderDetails = async () => {
-        const response = await getOrderDetailsByUserID({ userID });
-        if (response.statusCode === StatusCode.success) {
-            setOrderDetails(response.data[0])
-        }
+        checkTokenValidity().then((result) => {
+            if (result.success) {
+                const orderDetails = async () => {
+                    const response = await getOrderDetailsByUserID({ userID: result.userID });
+                    if (response.statusCode === StatusCode.success) {
+                        setOrderDetails(response.data[0])
+                    }
+                }
+                orderDetails();
+            }
+        })
     }
 
     const handleCancelOrder = async (productID) => {
@@ -66,7 +69,6 @@ const MyOrders = () => {
 
                         <TableBody>
                             {orderDetails && orderDetails.map((product, index) => {
-                                // Convert UTC date string to IST
                                 const utcDate = new Date(product.date);
                                 const istDate = new Date(utcDate.getTime() + (5.5 * 60 * 60 * 1000));
                                 const formattedISTDate = istDate.toLocaleString("en-IN", {

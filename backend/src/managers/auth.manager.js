@@ -98,7 +98,7 @@ class AuthManager {
 
             // User Already Exist
             if (userDetails.length > 0) {
-                return { success: true, message: "User Details", data: userDetails };
+                return { success: true, message: "User Details", data: userDetails[0] };
             }
 
             return {

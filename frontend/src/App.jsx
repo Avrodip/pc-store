@@ -45,7 +45,7 @@ function App() {
                         <Route path='checkout' element={<Checkout />} />
                         <Route path="/confirmCheckout/:billing/:shipping" element={<ConfirmCheckout />} />
                         <Route path="/wrongAddress" element={<WrongAddress />} />
-                        <Route path="/my-orders/:userID" element={<MyOrders />} />
+                        <Route path="/my-orders" element={<MyOrders />} />
                     </Route>
 
                     <Route path='*' element={<Not_found />} />

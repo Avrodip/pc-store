@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { StatusCode } from '../../../utils/contant';
 import { AuthContext } from '../../../context-api/userContext';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const styles = {
     section: {
@@ -140,6 +141,7 @@ const CartProductDetails = () => {
         if (response.statusCode === StatusCode.success) {
             fetchData();
             getCartSize();
+            window.location.reload();
         }
     }
 
@@ -199,7 +201,22 @@ const CartProductDetails = () => {
             </Grid>
 
             {!cartSize ? (
-                <h2>CART IS EMPTY</h2>
+                <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    height="70vh"
+                >
+                    <Box textAlign="center">
+                        <Typography variant="h4" gutterBottom>
+                            Your Cart is Empty
+                        </Typography>
+                        <ShoppingCartIcon sx={{ fontSize: 100, color: '#aaa' }} />
+                        <Typography variant="body1">
+                            Add items to your cart to continue shopping.
+                        </Typography>
+                    </Box>
+                </Box>
             )
                 :
                 <Grid container

@@ -10,7 +10,7 @@ class OrderManager {
             if (!db) {
                 throw new Error("Database object is undefined");
             }
-            const [rows, fields] = await db.promise().query('CALL getSuccessfullOrderDetailsByUserID(?)', [userID]);
+            const [rows] = await db.promise().query('CALL getSuccessfullOrderDetailsByUserID(?)', [userID]);
             return rows;
         } catch (error) {
             console.error("Error occurred:", error);
@@ -26,7 +26,7 @@ class OrderManager {
             if (!db) {
                 throw new Error("Database object is undefined");
             }
-            const [rows, fields] = await db.promise().query('CALL cancleSuccessfullOrderByUserID(?,?)', [id,userID]);
+            const [rows, fields] = await db.promise().query('CALL cancleSuccessfullOrderByUserID(?,?)', [id, userID]);
             return rows;
         } catch (error) {
             console.error("Error occurred:", error);

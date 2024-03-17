@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Grid, Table, TableBody, TableCell, TableContainer, Typography, TableHead, TableRow, Button, Stack, FormHelperText, Radio } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Grid, Table, TableBody, TableCell, TableContainer, Typography, TableHead, TableRow, Button, Stack, FormHelperText, Radio, RadioGroup } from '@mui/material'
 import ShippingAddress from './ShippingAddress';
 import { getBillingAddressListDetails } from '../../../services/checkout';
 import BillingAddress from './BillingAddress';
-import { ArrowRightOutlined } from '@ant-design/icons';
 
-const userID = localStorage.getItem('pc-store-user')
+
 const Checkout = () => {
     const [isOpenAddress, setIsOpenAddress] = useState(false);
     const [isOpenShipping, setIsOpenShipping] = useState(false);
@@ -13,6 +12,7 @@ const Checkout = () => {
     const [isBillingAddress, setIsBillingAddress] = useState([]);
     const [isBillingPresent, setIsBillingPresent] = useState(false);
     const [] = useState(false);
+    const userID = localStorage.getItem('pc-store-user')
 
     useEffect(() => {
         fetchBillingAddress();
@@ -33,10 +33,6 @@ const Checkout = () => {
     const handleBillingAddressOpen = () => {
         setIsOpenAddress(!isOpenAddress);
         fetchBillingAddress()
-    }
-
-    const handleSameAsBilling = () => {
-        setIsOpenShipping(false)
     }
 
     return (
@@ -71,36 +67,38 @@ const Checkout = () => {
                                 !isOpenAddress && isBillingPresent && (
                                     <Grid container sx={{ mt: 2, pb: 2 }}>
                                         <TableContainer sx={{ pr: 2 }}>
-                                            <Table aria-label="simple table">
-                                                <TableHead sx={{ border: 2 }}>
-                                                    <TableRow sx={{ borderTop: 1 }} >
-                                                        <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Choose</TableCell>
-                                                        <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Name</TableCell>
-                                                        <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Email</TableCell>
-                                                        <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Street</TableCell>
-                                                        <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>City</TableCell>
-                                                        <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>State</TableCell>
-                                                        <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>ZipCode</TableCell>
-                                                        <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Phone</TableCell>
-                                                    </TableRow>
-                                                </TableHead>
-                                                <TableBody sx={{ border: 1 }} >
-                                                    {isBillingAddress.length > 0 && isBillingAddress.slice(0, 3).map((address, index) => (
-                                                        <TableRow key={index} alignItems={"center"} >
-                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>
-                                                                <Radio align={"center"} key={index} value={address?.id} onChange={() => handleBillingID(address?.id)} name="radio-buttons-group" sx={{ color: "white" }} />
-                                                            </TableCell>
-                                                            <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.fullName}</TableCell>
-                                                            <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.email}</TableCell>
-                                                            <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.streetAddress}</TableCell>
-                                                            <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.city}</TableCell>
-                                                            <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.state}</TableCell>
-                                                            <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.zipCode}</TableCell>
-                                                            <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.telephoneNumber}</TableCell>
+                                            <RadioGroup>
+                                                <Table aria-label="simple table">
+                                                    <TableHead sx={{ border: 2 }}>
+                                                        <TableRow sx={{ borderTop: 1 }} >
+                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Choose</TableCell>
+                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Name</TableCell>
+                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Email</TableCell>
+                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Street</TableCell>
+                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>City</TableCell>
+                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>State</TableCell>
+                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>ZipCode</TableCell>
+                                                            <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Phone</TableCell>
                                                         </TableRow>
-                                                    ))}
-                                                </TableBody>
-                                            </Table>
+                                                    </TableHead>
+                                                    <TableBody sx={{ border: 1 }} >
+                                                        {isBillingAddress.length > 0 && isBillingAddress.slice(0, 3).map((address, index) => (
+                                                            <TableRow key={index} alignItems={"center"} >
+                                                                <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>
+                                                                    <Radio align={"center"} key={index} value={address?.id} onChange={() => handleBillingID(address?.id)} name="radio-buttons-group" sx={{ color: "white" }} />
+                                                                </TableCell>
+                                                                <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.fullName}</TableCell>
+                                                                <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.email}</TableCell>
+                                                                <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.streetAddress}</TableCell>
+                                                                <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.city}</TableCell>
+                                                                <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.state}</TableCell>
+                                                                <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.zipCode}</TableCell>
+                                                                <TableCell sx={{ textAlign: 'center', color: "white" }}>{address?.telephoneNumber}</TableCell>
+                                                            </TableRow>
+                                                        ))}
+                                                    </TableBody>
+                                                </Table>
+                                            </RadioGroup>
                                         </TableContainer>
                                     </Grid>
                                 )
@@ -136,22 +134,23 @@ const Checkout = () => {
 
                             <Grid container sx={{ display: "flex", justifyContent: "center", pb: 4, }}>
                                 <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                                    <Button variant="contained" sx={{ borderRadius: 0, background: "black" }} onClick={() => handleSameAsBilling()}>
+                                    {/* <Button variant="contained" sx={{ borderRadius: 0, background: "black" }} onClick={() => handleSameAsBilling()}>
                                         Same As Billing Address
                                         <Radio value="primary" label="Primary" sx={{ color: "white" }} >
                                         </Radio>
-                                    </Button>
+                                    </Button> */}
                                     {/* <FormHelperText>{selectedBillingID ? null : 'Please Select the Billing Address'}</FormHelperText> */}
                                     <Button variant="contained" color='error' onClick={() => setIsOpenShipping(!isOpenShipping)} sx={{ borderRadius: 0 }}>Add New Shipping Address</Button>
                                 </Grid>
                             </Grid>
                         </Grid>
 
-                        {!isOpenShipping && <Grid container mb={2}>
-                            <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+                        {/* {!isOpenShipping && <Grid container >
+                            <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", my: 3 }}>
                                 <Button type='submit' variant="contained" color='error'>Save Address & Checkout <ArrowRightOutlined /></Button>
                             </Grid>
-                        </Grid>}
+                        </Grid>} 
+                        */}
 
                         <Grid item>
                             {selectedBillingID && isOpenShipping && (<ShippingAddress selectedBillingID={selectedBillingID} />)}
