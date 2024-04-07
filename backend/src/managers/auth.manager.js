@@ -177,10 +177,9 @@ class AuthManager {
 
     async setNewPassword(req) {
         const email = req.body.email;
-        const new_password=req.body.password;
-      
+        const newPassword = req.body.password;
         let password = await new Promise((resolve, reject) => {
-            bcrypt.hash(new_password, 10, function (err, hash) {
+            bcrypt.hash(newPassword, 10, function (err, hash) {
                 if (err) {
                     reject(err);
                 } else {
@@ -189,14 +188,20 @@ class AuthManager {
             });
         });
         try {
-            const [results] = await db.promise().query('CALL setNewPassword(?, ?)', [email, password]);
-            console.log("results",results[0].message)
-        }
-        catch (error) {
-            console.error("Error during fetching user Details: ", error);
-            return { success: false, message: 'An error occurred during fetching user Details' };
+            const [rows] = await db.promise().query('CALL setNewPassword(?, ?)', [email, password]);
+            
+            // Extract the message from the response
+            const message = rows[0][0].message;
+            
+            console.log("Message:", message); // Log the message
+            
+            return { success: true, message: message }; // Return the message in the response
+        } catch (error) {
+            console.error("Error during updating password: ", error);
+            return { success: false, message: 'An error occurred during updating password' };
         }
     }
+    
 }
 
 
