@@ -17,7 +17,6 @@ export const successToast = (msg, pos) => {
 
 
 export const warningToast = (msg, pos) => {
-    console.log("Warning executed...")
     toast.warn(msg, {
         position: pos,
         autoClose: 2000,
