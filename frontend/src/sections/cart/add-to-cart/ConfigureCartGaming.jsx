@@ -106,7 +106,6 @@ const ConfigureCartGaming = () => {
         if (values.processor === undefined) {
             values.processor = processorList[0]?.cpu_name
         }
-
         checkTokenValidity()
             .then((result) => {
                 if (result.success) {

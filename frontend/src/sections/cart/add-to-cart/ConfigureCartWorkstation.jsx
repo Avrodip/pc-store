@@ -1,18 +1,24 @@
 import { Stack, Button, InputLabel, OutlinedInput, Select, FormHelperText, Grid, Typography, MenuItem, CardMedia } from "@mui/material"
 import { useFormik } from "formik";
 import axios from "axios";
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLocation } from "react-router-dom";
 import { ArrowRightOutlined, DownloadOutlined, ShoppingCartOutlined, ShareAltOutlined } from "@ant-design/icons"
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../context-api/userContext";
+import LoginPopup from "../../../components/common/LoginPopup";
+import { createProductCart } from "../../../services/configureCart";
 
 
 const ConfigureCartWorkstation = () => {
     const [isChangeForm, setIsChangeForm] = useState(true);
     const [processorList, setProcessorList] = useState(null)
-    const [tempData, setTempData] = useState([])
+    const [tempData, setTempData] = useState(null)
+    const { checkTokenValidity } = useContext(AuthContext);
     const [cpuID, setCpuID] = useState(1);
+    const [isOpenSignIn, setIsOpenSignIn] = useState(false);
     const { pathname } = useLocation();
+    const navigate = useNavigate();
     const params = useParams();
 
     useEffect(() => {
@@ -20,7 +26,35 @@ const ConfigureCartWorkstation = () => {
     }, [pathname]);
 
     const manageWorkStationProducts = (values) => {
-        console.log("Values : ", values)
+        values.processor = processorList.find((pro => pro.cpu_id === values.processor))?.cpu_name
+        if (values.processor === undefined) {
+            values.processor = processorList[0]?.cpu_name
+        }
+        checkTokenValidity()
+            .then((result) => {
+                if (result.success) {
+                    const createCart = async () => {
+                        debugger;
+                        const response = await createProductCart({ ...values, userID: result.userID })
+                        if (response.statusCode == 200) {
+                            // handleAddToCart(response.data[0][0].id)
+                            navigate('/cart');
+                        } else {
+                            console.log("Something error happened")
+                        }
+                    }
+                    createCart();
+                } else {
+                    handleSignIn();
+                }
+            })
+            .catch((error) => {
+                console.error("Error validating token:", error);
+            });
+    }
+
+    const handleSignIn = () => {
+        setIsOpenSignIn(!isOpenSignIn)
     }
 
     const getSubCategoryID = (subcategory) => {
@@ -44,23 +78,27 @@ const ConfigureCartWorkstation = () => {
     // Formik
     const formik = useFormik({
         initialValues: {
+            actionType: 1,
+            id: null,
             processor: '',
             motherBoard: '',
+            price: "1000.00",
+            quantity: 5,
             ram: '',
-            ramQty: '',
+            ramQty: 1,
             graphics: '',
+            graphicsQty: 1,
             primaryStorage: '',
+            primaryStorageQty: 1,
             secondaryStorage: '',
-            secondaryQty: '',
+            secondaryQty: 1,
             case: '',
             cpuCooler: '',
             psu: '',
             support: ""
         },
-        // validationSchema: formValidation,
         onSubmit: (values) => { manageWorkStationProducts(values) }
     })
-
 
     useEffect(() => {
         fetchData();
@@ -77,7 +115,6 @@ const ConfigureCartWorkstation = () => {
             const fetchData = async () => {
                 const requestedData2 = { "cpu_id": cpuID == '' ? 1 : cpuID }
                 let getOtherDetails;
-                debugger;
                 switch (subCategoryID) {
                     case 1:
                         getOtherDetails = await axios.post("http://localhost:5050/api/processor/getPcAIDetails", requestedData2);
@@ -104,12 +141,20 @@ const ConfigureCartWorkstation = () => {
     }, [processorList, cpuID]);
 
     useEffect(() => {
-        setCpuID(formik.values.processor)
-    }, [formik.values.processor])
-
+        if (tempData) {
+            formik.setFieldValue('graphics', tempData[0]?.[0]?.gpu_name)
+            formik.setFieldValue('ram', tempData[1]?.[0]?.ram_name)
+            formik.setFieldValue('motherBoard', tempData[2]?.[0]?.motherboard_name)
+            formik.setFieldValue('ramQuantity', 1)
+            formik.setFieldValue('primaryStorage', tempData[3]?.[0]?.storage_name)
+            formik.setFieldValue('hddQuantity', 1)
+            formik.setFieldValue('psu', tempData[4]?.[0]?.smps_name)
+            formik.setFieldValue('cpuCooler', tempData[5]?.[0]?.cooler_name)
+        }
+    }, [tempData])
 
     return (
-        <Grid container sx={{ pt: 14, px: { xs: 0, sm: 1 } }}>
+        <Grid container sx={{ pt: 14, px: { xs: 0, sm: 1 } }} component={'form'} onSubmit={formik.handleSubmit}>
 
             {/* 1st Grid  */}
             <Grid item xs={12} md={6} lg={6} >
@@ -182,9 +227,12 @@ const ConfigureCartWorkstation = () => {
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="processor" sx={{ color: 'white' }}>PROCESSOR</InputLabel>
                                     <Select
-                                        value={formik.values.processor || Array.isArray(processorList) ? processorList[0].cpu_id : ''}
+                                        value={formik.values.processor || (Array.isArray(processorList) ? processorList[0].cpu_id : '')}
                                         name='processor'
-                                        onChange={formik.handleChange}
+                                        onChange={(e) => {
+                                            formik.handleChange(e);
+                                            setCpuID(e.target.value);
+                                        }}
                                         size="small"
                                         inputProps={{ 'aria-label': 'Without label' }}
                                         sx={{ border: 1, color: 'white', width: '100%' }}
@@ -199,6 +247,7 @@ const ConfigureCartWorkstation = () => {
                                             ))
                                         }
                                     </Select>
+
                                 </Stack>
                             </Grid>
 
@@ -207,16 +256,22 @@ const ConfigureCartWorkstation = () => {
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="password-signup" sx={{ color: "white" }}>RAM</InputLabel>
                                         <Select
-                                            value={formik.values.processor}
+                                            value={formik.values.ram}
+                                            name="ram"
                                             onChange={formik.handleChange}
-                                            displayEmpty
                                             size="small"
                                             inputProps={{ 'aria-label': 'Without label' }}
                                             sx={{ border: 1, color: "white" }}
                                         >
-                                            <MenuItem value={10}>Ten</MenuItem>
-                                            <MenuItem value={20}>Twenty</MenuItem>
-                                            <MenuItem value={30}>Thirty</MenuItem>
+                                            {
+                                                tempData && tempData[1]?.map((specs) => (
+                                                    <MenuItem
+                                                        key={specs.ram_id}
+                                                        value={specs.ram_name}>
+                                                        {specs.ram_name}
+                                                    </MenuItem>
+                                                ))
+                                            }
                                         </Select>
                                     </Stack>
                                 </Grid>
@@ -224,16 +279,24 @@ const ConfigureCartWorkstation = () => {
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="password-signup" sx={{ color: "white" }}>Qty : </InputLabel>
                                         <Select
-                                            value={formik.values.processor}
+                                            value={formik.values.ramQty}
+                                            name="ramQty"
                                             onChange={formik.handleChange}
                                             displayEmpty
                                             size="small"
                                             inputProps={{ 'aria-label': 'Without label' }}
                                             sx={{ border: 1, color: "white" }}
                                         >
-                                            <MenuItem value={10}>Ten</MenuItem>
-                                            <MenuItem value={20}>Twenty</MenuItem>
-                                            <MenuItem value={30}>Thirty</MenuItem>
+                                            <MenuItem value="1">1</MenuItem>
+                                            <MenuItem value="2">2</MenuItem>
+                                            <MenuItem value="3">3</MenuItem>
+                                            <MenuItem value="4">4</MenuItem>
+                                            <MenuItem value="5">5</MenuItem>
+                                            <MenuItem value="6">6</MenuItem>
+                                            <MenuItem value="7">7</MenuItem>
+                                            <MenuItem value="8">8</MenuItem>
+                                            <MenuItem value="9">9</MenuItem>
+                                            <MenuItem value="10">10</MenuItem>
                                         </Select>
                                     </Stack>
                                 </Grid>
@@ -244,16 +307,23 @@ const ConfigureCartWorkstation = () => {
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="password-signup" sx={{ color: "white" }}>GRAPHIC CARD</InputLabel>
                                         <Select
-                                            value={formik.values.processor}
+                                            value={formik.values.graphics}
+                                            name="graphics"
                                             onChange={formik.handleChange}
                                             displayEmpty
                                             size="small"
                                             inputProps={{ 'aria-label': 'Without label' }}
                                             sx={{ border: 1, color: "white" }}
                                         >
-                                            <MenuItem value={10}>Ten</MenuItem>
-                                            <MenuItem value={20}>Twenty</MenuItem>
-                                            <MenuItem value={30}>Thirty</MenuItem>
+                                            {
+                                                tempData && tempData[0]?.map((specs) => (
+                                                    <MenuItem
+                                                        key={specs.gpu_id}
+                                                        value={specs.gpu_name}>
+                                                        {specs.gpu_name}
+                                                    </MenuItem>
+                                                ))
+                                            }
                                         </Select>
                                     </Stack>
                                 </Grid>
@@ -262,16 +332,24 @@ const ConfigureCartWorkstation = () => {
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="password-signup" sx={{ color: "white" }}>Qty : </InputLabel>
                                         <Select
-                                            value={formik.values.processor}
+                                            value={formik.values.graphicsQty}
+                                            name="graphicsQty"
                                             onChange={formik.handleChange}
                                             displayEmpty
                                             size="small"
                                             inputProps={{ 'aria-label': 'Without label' }}
                                             sx={{ border: 1, color: "white" }}
                                         >
-                                            <MenuItem value={10}>Ten</MenuItem>
-                                            <MenuItem value={20}>Twenty</MenuItem>
-                                            <MenuItem value={30}>Thirty</MenuItem>
+                                            <MenuItem value="1">1</MenuItem>
+                                            <MenuItem value="2">2</MenuItem>
+                                            <MenuItem value="3">3</MenuItem>
+                                            <MenuItem value="4">4</MenuItem>
+                                            <MenuItem value="5">5</MenuItem>
+                                            <MenuItem value="6">6</MenuItem>
+                                            <MenuItem value="7">7</MenuItem>
+                                            <MenuItem value="8">8</MenuItem>
+                                            <MenuItem value="9">9</MenuItem>
+                                            <MenuItem value="10">10</MenuItem>
                                         </Select>
                                     </Stack>
                                 </Grid>
@@ -282,16 +360,23 @@ const ConfigureCartWorkstation = () => {
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="password-signup" sx={{ color: "white" }}>SSD :</InputLabel>
                                         <Select
-                                            value={formik.values.processor}
+                                            value={formik.values.primaryStorage}
+                                            name="primaryStorage"
                                             onChange={formik.handleChange}
                                             displayEmpty
                                             size="small"
                                             inputProps={{ 'aria-label': 'Without label' }}
                                             sx={{ border: 1, color: "white" }}
                                         >
-                                            <MenuItem value={10}>Ten</MenuItem>
-                                            <MenuItem value={20}>Twenty</MenuItem>
-                                            <MenuItem value={30}>Thirty</MenuItem>
+                                            {
+                                                tempData && tempData[3]?.map((specs) => (
+                                                    <MenuItem
+                                                        key={specs.storage_id}
+                                                        value={specs.storage_name}>
+                                                        {specs.storage_name}
+                                                    </MenuItem>
+                                                ))
+                                            }
                                         </Select>
                                     </Stack>
                                 </Grid>
@@ -300,16 +385,24 @@ const ConfigureCartWorkstation = () => {
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="password-signup" sx={{ color: "white" }}>Qty : </InputLabel>
                                         <Select
-                                            value={formik.values.processor}
+                                            value={formik.values.primaryStorageQty}
+                                            name="primaryStorageQty"
                                             onChange={formik.handleChange}
                                             displayEmpty
                                             size="small"
                                             inputProps={{ 'aria-label': 'Without label' }}
                                             sx={{ border: 1, color: "white" }}
                                         >
-                                            <MenuItem value={10}>Ten</MenuItem>
-                                            <MenuItem value={20}>Twenty</MenuItem>
-                                            <MenuItem value={30}>Thirty</MenuItem>
+                                            <MenuItem value="1">1</MenuItem>
+                                            <MenuItem value="2">2</MenuItem>
+                                            <MenuItem value="3">3</MenuItem>
+                                            <MenuItem value="4">4</MenuItem>
+                                            <MenuItem value="5">5</MenuItem>
+                                            <MenuItem value="6">6</MenuItem>
+                                            <MenuItem value="7">7</MenuItem>
+                                            <MenuItem value="8">8</MenuItem>
+                                            <MenuItem value="9">9</MenuItem>
+                                            <MenuItem value="10">10</MenuItem>
                                         </Select>
                                     </Stack>
                                 </Grid>
@@ -320,16 +413,23 @@ const ConfigureCartWorkstation = () => {
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="password-signup" sx={{ color: "white" }}>HDD :</InputLabel>
                                         <Select
-                                            value={formik.values.processor}
+                                            value={formik.values.primaryStorage}
+                                            name="primaryStorage"
                                             onChange={formik.handleChange}
                                             displayEmpty
                                             size="small"
                                             inputProps={{ 'aria-label': 'Without label' }}
                                             sx={{ border: 1, color: "white" }}
                                         >
-                                            <MenuItem value={10}>Ten</MenuItem>
-                                            <MenuItem value={20}>Twenty</MenuItem>
-                                            <MenuItem value={30}>Thirty</MenuItem>
+                                            {
+                                                tempData && tempData[3]?.map((specs) => (
+                                                    <MenuItem
+                                                        key={specs.storage_id}
+                                                        value={specs.storage_name}>
+                                                        {specs.storage_name}
+                                                    </MenuItem>
+                                                ))
+                                            }
                                         </Select>
                                     </Stack>
                                 </Grid>
@@ -338,16 +438,24 @@ const ConfigureCartWorkstation = () => {
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="password-signup" sx={{ color: "white" }}>Qty : </InputLabel>
                                         <Select
-                                            value={formik.values.processor}
+                                            value={formik.values.secondaryQty}
+                                            name="secondaryQty"
                                             onChange={formik.handleChange}
                                             displayEmpty
                                             size="small"
                                             inputProps={{ 'aria-label': 'Without label' }}
                                             sx={{ border: 1, color: "white" }}
                                         >
-                                            <MenuItem value={10}>Ten</MenuItem>
-                                            <MenuItem value={20}>Twenty</MenuItem>
-                                            <MenuItem value={30}>Thirty</MenuItem>
+                                            <MenuItem value="1">1</MenuItem>
+                                            <MenuItem value="2">2</MenuItem>
+                                            <MenuItem value="3">3</MenuItem>
+                                            <MenuItem value="4">4</MenuItem>
+                                            <MenuItem value="5">5</MenuItem>
+                                            <MenuItem value="6">6</MenuItem>
+                                            <MenuItem value="7">7</MenuItem>
+                                            <MenuItem value="8">8</MenuItem>
+                                            <MenuItem value="9">9</MenuItem>
+                                            <MenuItem value="10">10</MenuItem>
                                         </Select>
                                     </Stack>
                                 </Grid>
@@ -441,7 +549,7 @@ const ConfigureCartWorkstation = () => {
                                 <Grid container sx={{ display: "flex", justifyContent: "center", gap: 1, m: 5 }}>
                                     <Grid item>
                                         <Stack spacing={1}>
-                                            <Button variant="contained" color='error'>Add to Cart <ShoppingCartOutlined style={{ fontSize: '20px', paddingLeft: 5 }} /></Button>
+                                            <Button variant="contained" type="submit" color='error'>Add to Cart <ShoppingCartOutlined style={{ fontSize: '20px', paddingLeft: 5 }} /></Button>
                                         </Stack>
                                     </Grid>
 
@@ -471,6 +579,7 @@ const ConfigureCartWorkstation = () => {
                 </Grid>
             </Grid>
 
+            {isOpenSignIn && (<LoginPopup location={"workstation" + "/" + params.subcategory + "/" + params.product} handleSignIn={handleSignIn} />)}
         </Grid >
     )
 }
