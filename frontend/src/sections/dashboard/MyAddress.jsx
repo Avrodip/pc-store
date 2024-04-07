@@ -39,7 +39,7 @@ const MyAddress = () => {
                         const response = await axios.post("http://localhost:5050/api/shippingAddress/getShippingAddressList", { userID: result.userID })
                         if (response.status === StatusCode.success) {
                             const length = response.data.data.length
-                            setShippingAddressList(response.data.data[0][length - 1])
+                            setShippingAddressList(response.data.data[0][length - 2])
                         }
                     }
                     handleShiping();
