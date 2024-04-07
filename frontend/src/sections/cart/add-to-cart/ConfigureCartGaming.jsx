@@ -17,7 +17,7 @@ const userID = localStorage.getItem('pc-store-user')
 const ConfigureCartGaming = () => {
     const [isChangeForm, setIsChangeForm] = useState(true);
     const [processorList, setProcessorList] = useState([])
-    const [otherSpecs, setOtherSpecs] = useState([]);
+    const [otherSpecs, setOtherSpecs] = useState(null);
     const [cpuID, setCpuID] = useState(1);
     const [tempData, setTempData] = useState([])
     const [isOpenSignIn, setIsOpenSignIn] = useState(false);
@@ -59,8 +59,27 @@ const ConfigureCartGaming = () => {
         if (processorList.length > 0) {
             const fetchData = async () => {
                 const requestedData2 = { "cpu_id": cpuID == '' ? 1 : cpuID }
-                const getOtherDetails = await axios.post("http://localhost:5050/api/processor/getGamingPcDetails", requestedData2);
-                setTempData(getOtherDetails.data.data)
+                let getOtherDetails;
+                switch (subCategoryID) {
+                    case 1:
+                        getOtherDetails = await axios.post("http://localhost:5050/api/processor/getPcPredatorDetails", requestedData2);
+                        setTempData(getOtherDetails.data.data)
+                        break;
+                    case 2:
+                        getOtherDetails = await axios.post("http://localhost:5050/api/processor/getPcKrakenDetails", requestedData2);
+                        setTempData(getOtherDetails.data.data)
+                        break;
+                    case 3:
+                        getOtherDetails = await axios.post("http://localhost:5050/api/processor/getPcBehemothDetails", requestedData2);
+                        setTempData(getOtherDetails.data.data)
+                        break;
+                    case 4:
+                        getOtherDetails = await axios.post("http://localhost:5050/api/processor/getPcSlayerDetails", requestedData2);
+                        setTempData(getOtherDetails.data.data)
+                        break;
+                    default:
+                        break;
+                }
             }
             fetchData();
         }
@@ -150,12 +169,12 @@ const ConfigureCartGaming = () => {
     })
 
     useEffect(() => {
-        if (otherSpecs.length > 0) {
+        if (otherSpecs) {
             formik.setFieldValue('ram', otherSpecs[1]?.[0]?.ram_name)
             formik.setFieldValue('motherBoard', otherSpecs[2]?.[0]?.motherboard_name)
             formik.setFieldValue('ramQuantity', 1)
             formik.setFieldValue('graphicCard', otherSpecs[0]?.[0]?.gpu_name)
-            formik.setFieldValue('ssd', otherSpecs[3]?.[0]?.storage_name)
+            formik.setFieldValue('primaryStorage', otherSpecs[3]?.[0]?.storage_name)
             formik.setFieldValue('hddQuantity', 1)
             formik.setFieldValue('psu', otherSpecs[4]?.[0]?.smps_name)
             formik.setFieldValue('cpuCooler', otherSpecs[5]?.[0]?.cooler_name)
@@ -261,13 +280,15 @@ const ConfigureCartGaming = () => {
                                                 sx={{ border: 1, color: 'white', width: '100%' }}
                                             >
                                                 {
-                                                    processorList.map(processor => (
-                                                        <MenuItem
-                                                            key={processor.cpu_id}
-                                                            value={processor.cpu_id}>
-                                                            {processor.cpu_name}
-                                                        </MenuItem>
-                                                    ))
+                                                    processorList && processorList.map(processor => {
+                                                        return (
+                                                            <MenuItem
+                                                                key={processor.cpu_id}
+                                                                value={processor.cpu_id}>
+                                                                {processor.cpu_name}
+                                                            </MenuItem>
+                                                        )
+                                                    })
                                                 }
                                             </Select>
                                         </Stack>
@@ -286,7 +307,7 @@ const ConfigureCartGaming = () => {
                                                 IconComponent={() => <ExpandMoreIcon style={{ color: 'white' }} />}
                                             >
                                                 {
-                                                    otherSpecs.length > 0 && otherSpecs[2]?.map((specs) => (
+                                                    otherSpecs && otherSpecs[2]?.map((specs) => (
                                                         <MenuItem
                                                             key={specs.motherboard_id}
                                                             value={specs.motherboard_name}>
@@ -311,7 +332,7 @@ const ConfigureCartGaming = () => {
                                                     sx={{ border: 1, color: "white" }}
                                                 >
                                                     {
-                                                        otherSpecs.length > 0 && otherSpecs[1]?.map((specs) => (
+                                                        otherSpecs && otherSpecs[1]?.map((specs) => (
                                                             <MenuItem
                                                                 key={specs.ram_id}
                                                                 value={specs.ram_name}>
@@ -361,7 +382,7 @@ const ConfigureCartGaming = () => {
                                                 sx={{ border: 1, color: "white" }}
                                             >
                                                 {
-                                                    otherSpecs.length > 0 && otherSpecs[0]?.map((specs) => (
+                                                    otherSpecs && otherSpecs[0]?.map((specs) => (
                                                         <MenuItem
                                                             key={specs.gpu_id}
                                                             value={specs.gpu_name}>
@@ -377,21 +398,24 @@ const ConfigureCartGaming = () => {
                                         <Stack spacing={1}>
                                             <InputLabel htmlFor="password-signup" sx={{ color: "white" }}>Primary Storage For OS</InputLabel>
                                             <Select
-                                                value={formik.values.ssd}
-                                                name='ssd'
+                                                value={formik.values.primaryStorage}
+                                                name='primaryStorage'
+                                                displayEmpty
                                                 onChange={formik.handleChange}
                                                 size="small"
                                                 inputProps={{ 'aria-label': 'Without label' }}
                                                 sx={{ border: 1, color: "white" }}
                                             >
                                                 {
-                                                    otherSpecs.length > 0 && otherSpecs[3]?.map((specs) => (
-                                                        <MenuItem
-                                                            key={specs.storage_id}
-                                                            value={specs.storage_name}>
-                                                            {specs.storage_name}
-                                                        </MenuItem>
-                                                    ))
+                                                    otherSpecs && otherSpecs[3]?.map((specs) => {
+                                                        return (
+                                                            <MenuItem
+                                                                key={specs.storage_id}
+                                                                value={specs.storage_name}>
+                                                                {specs.storage_name}
+                                                            </MenuItem>
+                                                        )
+                                                    })
                                                 }
                                             </Select>
                                         </Stack>
@@ -410,7 +434,7 @@ const ConfigureCartGaming = () => {
                                                     sx={{ border: 1, color: "white" }}
                                                 >
                                                     {
-                                                        otherSpecs.length > 0 && otherSpecs[3]?.map((specs) => (
+                                                        otherSpecs && otherSpecs[3]?.map((specs) => (
                                                             <MenuItem
                                                                 key={specs.storage_id}
                                                                 value={specs.storage_name}>
@@ -476,7 +500,7 @@ const ConfigureCartGaming = () => {
                                                 sx={{ border: 1, color: "white" }}
                                             >
                                                 {
-                                                    otherSpecs.length > 0 && otherSpecs[5]?.map((specs) => (
+                                                    otherSpecs && otherSpecs[5]?.map((specs) => (
                                                         <MenuItem
                                                             key={specs.cooler_id}
                                                             value={specs.cooler_name}>
@@ -501,7 +525,7 @@ const ConfigureCartGaming = () => {
                                                 sx={{ border: 1, color: "white" }}
                                             >
                                                 {
-                                                    otherSpecs.length > 0 && otherSpecs[4]?.map((specs) => (
+                                                    otherSpecs && otherSpecs[4]?.map((specs) => (
                                                         <MenuItem
                                                             key={specs.smps_id}
                                                             value={specs.smps_name}>

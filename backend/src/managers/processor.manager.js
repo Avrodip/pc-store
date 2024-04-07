@@ -79,8 +79,8 @@ class ProcessorManager {
             throw error;
         }
     }
-    
-    async getWorkstationCpuList(req, res) {wer
+
+    async getWorkstationCpuList(req, res) {
         try {
             const type_id = req.body.type_id;
 
@@ -119,7 +119,7 @@ class ProcessorManager {
             if (!db) {
                 throw new Error("Database object is undefined");
             }
-            
+
             const [rows, fields] = await db.promise().query('CALL getPcEditingDetails(?)', [cpu_id]);
             return rows;
         } catch (error) {
@@ -134,7 +134,7 @@ class ProcessorManager {
             if (!db) {
                 throw new Error("Database object is undefined");
             }
-            
+
             const [rows, fields] = await db.promise().query('CALL getPcAIDetails(?)', [cpu_id]);
             return rows;
         } catch (error) {
@@ -149,7 +149,7 @@ class ProcessorManager {
             if (!db) {
                 throw new Error("Database object is undefined");
             }
-            
+
             const [rows, fields] = await db.promise().query('CALL getPcTradingDualDetails(?)', [cpu_id]);
             return rows;
         } catch (error) {
@@ -165,7 +165,7 @@ class ProcessorManager {
             if (!db) {
                 throw new Error("Database object is undefined");
             }
-            
+
             const [rows, fields] = await db.promise().query('CALL getPcTradingFourDetails(?)', [cpu_id]);
             return rows;
         } catch (error) {

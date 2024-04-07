@@ -1,13 +1,19 @@
 import { Stack, Button, InputLabel, OutlinedInput, Select, FormHelperText, Grid, Typography, MenuItem, CardMedia } from "@mui/material"
 import { useFormik } from "formik";
+import axios from "axios";
 import React, { useEffect, useState } from 'react'
 import { useLocation } from "react-router-dom";
 import { ArrowRightOutlined, DownloadOutlined, ShoppingCartOutlined, ShareAltOutlined } from "@ant-design/icons"
+import { useParams } from "react-router-dom";
 
 
 const ConfigureCartWorkstation = () => {
     const [isChangeForm, setIsChangeForm] = useState(true);
+    const [processorList, setProcessorList] = useState(null)
+    const [tempData, setTempData] = useState([])
+    const [cpuID, setCpuID] = useState(1);
     const { pathname } = useLocation();
+    const params = useParams();
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -16,6 +22,24 @@ const ConfigureCartWorkstation = () => {
     const manageWorkStationProducts = (values) => {
         console.log("Values : ", values)
     }
+
+    const getSubCategoryID = (subcategory) => {
+        switch (subcategory) {
+            case 'AI&DeepLearning':
+                return 1;
+            case 'Home':
+                return 2;
+            case 'Editing':
+                return 3;
+            case 'Trading':
+                return 4;
+            case 'CAD':
+                return 5;
+            default:
+                return 1;
+        }
+    };
+    const subCategoryID = getSubCategoryID(params.subcategory);
 
     // Formik
     const formik = useFormik({
@@ -36,6 +60,53 @@ const ConfigureCartWorkstation = () => {
         // validationSchema: formValidation,
         onSubmit: (values) => { manageWorkStationProducts(values) }
     })
+
+
+    useEffect(() => {
+        fetchData();
+    }, [])
+    const fetchData = async () => {
+        const requestedData = { "type_id": 1 }
+        const response = await axios.post("http://localhost:5050/api/processor/getWorkstationCpuList", requestedData);
+        setProcessorList(response.data.data[0])
+    }
+
+    // GET Workstation Other List
+    useEffect(() => {
+        if (processorList) {
+            const fetchData = async () => {
+                const requestedData2 = { "cpu_id": cpuID == '' ? 1 : cpuID }
+                let getOtherDetails;
+                debugger;
+                switch (subCategoryID) {
+                    case 1:
+                        getOtherDetails = await axios.post("http://localhost:5050/api/processor/getPcAIDetails", requestedData2);
+                        setTempData(getOtherDetails.data.data)
+                        break;
+                    case 2:
+                        getOtherDetails = await axios.post("http://localhost:5050/api/processor/getPcAIDetails", requestedData2);
+                        setTempData(getOtherDetails.data.data)
+                        break;
+                    case 3:
+                        getOtherDetails = await axios.post("http://localhost:5050/api/processor/getPcEditingDetails", requestedData2);
+                        setTempData(getOtherDetails.data.data)
+                        break;
+                    case 4:
+                        getOtherDetails = await axios.post("http://localhost:5050/api/processor/getPcTradingFourDetails", requestedData2);
+                        setTempData(getOtherDetails.data.data)
+                        break;
+                    default:
+                        break;
+                }
+            }
+            fetchData();
+        }
+    }, [processorList, cpuID]);
+
+    useEffect(() => {
+        setCpuID(formik.values.processor)
+    }, [formik.values.processor])
+
 
     return (
         <Grid container sx={{ pt: 14, px: { xs: 0, sm: 1 } }}>
@@ -111,15 +182,22 @@ const ConfigureCartWorkstation = () => {
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="processor" sx={{ color: 'white' }}>PROCESSOR</InputLabel>
                                     <Select
-                                        value={formik.values.processor}
+                                        value={formik.values.processor || Array.isArray(processorList) ? processorList[0].cpu_id : ''}
+                                        name='processor'
                                         onChange={formik.handleChange}
                                         size="small"
                                         inputProps={{ 'aria-label': 'Without label' }}
                                         sx={{ border: 1, color: 'white', width: '100%' }}
                                     >
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
+                                        {
+                                            processorList && processorList.map(processor => (
+                                                <MenuItem
+                                                    key={processor.cpu_id}
+                                                    value={processor.cpu_id}>
+                                                    {processor.cpu_name}
+                                                </MenuItem>
+                                            ))
+                                        }
                                     </Select>
                                 </Stack>
                             </Grid>
@@ -393,7 +471,7 @@ const ConfigureCartWorkstation = () => {
                 </Grid>
             </Grid>
 
-        </Grid>
+        </Grid >
     )
 }
 
