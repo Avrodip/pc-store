@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Typography, Grid, Button, Table, TableCell, TableRow, TableHead, TableBody } from '@mui/material';
+import { Typography, Grid, Button, Table, TableCell, TableRow, TableHead, TableBody, TableContainer, colors } from '@mui/material';
 import { StatusCode } from '../../utils/contant';
 import { cancelOrderByUserID, getOrderDetailsByUserID } from '../../services/orders';
 import { AuthContext } from '../../context-api/userContext';
@@ -25,35 +25,35 @@ const MyOrders = () => {
         })
     }
 
-    const handleCancelOrder = async (productID) => {
-        checkTokenValidity().then((result) => {
-            if (result.success) {
-                const createCart = async () => {
-                    const response = await cancelOrderByUserID({ userID: result.userID, id: productID });
-                    if (response.statusCode == 200) {
-                        productOrderDetails();
-                    } else {
-                        console.log("Something error happened")
-                    }
-                }
-                createCart();
-            } else {
-                handleSignIn();
-            }
-        })
-            .catch((error) => {
-                console.error("Error validating token:", error);
-            });
-    }
+    // const handleCancelOrder = async (productID) => {
+    //     checkTokenValidity().then((result) => {
+    //         if (result.success) {
+    //             const createCart = async () => {
+    //                 const response = await cancelOrderByUserID({ userID: result.userID, id: productID });
+    //                 if (response.statusCode == 200) {
+    //                     productOrderDetails();
+    //                 } else {
+    //                     console.log("Something error happened")
+    //                 }
+    //             }
+    //             createCart();
+    //         } else {
+    //             handleSignIn();
+    //         }
+    //     })
+    //         .catch((error) => {
+    //             console.error("Error validating token:", error);
+    //         });
+    // }
 
     return (
         <>
-            <Grid sx={{ mt: 15, p: 5, bgcolor: "#171717" }}>
-                <Typography sx={{ color: "white", textAlign: "center", fontSize: "25px", fontWeight: "bold" }}>My Orders</Typography>
+            <Grid >
+                <Typography sx={{ color: "white", textAlign: "center", fontSize: "15px", fontWeight: "bold" }}>My Orders</Typography>
             </Grid>
 
             <Grid container my={5} justifyContent={'center'}>
-                <Grid>
+                <TableContainer sx={{ marginRight: 0 }}>
                     <Table sx={{ border: 1 }}>
                         <TableHead>
                             <TableRow sx={{ borderTop: 1 }} >
@@ -63,7 +63,6 @@ const MyOrders = () => {
                                 <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Order Total</TableCell>
                                 <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Date</TableCell>
                                 <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Status</TableCell>
-                                <TableCell sx={{ fontWeight: "bold", textAlign: 'center', color: "white" }}>Cancel?</TableCell>
                             </TableRow>
                         </TableHead>
 
@@ -87,17 +86,20 @@ const MyOrders = () => {
                                         <TableCell sx={{ color: "white", textAlign: 'center', width: "100px" }}>{product?.orderID}</TableCell>
                                         <TableCell sx={{ color: "white", textAlign: 'center' }}>ANT PC DORYLUS CL940N</TableCell>
                                         <TableCell sx={{ color: "white", textAlign: 'center' }}>&#8377; {product?.price / 100}</TableCell>
-                                        <TableCell sx={{ color: "white", textAlign: 'center' }}>{formattedISTDate}</TableCell>
+                                        <TableCell sx={{ color: "white", textAlign: 'center', color: 'yellow' }}>{formattedISTDate}</TableCell>
                                         <TableCell sx={{ color: "white", textAlign: 'center', fontWeight: "bold" }}>{product?.status}</TableCell>
-                                        <TableCell sx={{ color: "white", textAlign: 'center' }}>
-                                            <Button variant="contained" color='error' onClick={() => handleCancelOrder(product?.id)}>Cancel</Button>
-                                        </TableCell>
                                     </TableRow>
                                 );
                             })}
                         </TableBody>
                     </Table>
-                </Grid>
+                </TableContainer>
+            </Grid>
+
+            <Grid>
+                <Typography>If you want to cancel the Order then pls contact to the Support team</Typography>
+                <Typography>Support Team Details are here</Typography>
+                <Typography>Email at : <span style={{ color: 'yellow' }}>pc-store@support.com</span></Typography>
             </Grid>
         </>
     )
