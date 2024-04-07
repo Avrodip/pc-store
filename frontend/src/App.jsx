@@ -19,6 +19,7 @@ import LoginAuth from './sections/auth/loginAuth';
 import Navbar from './layout/Navbar';
 import Footer from './layout/footer';
 import Not_found from './error/not-found.jsx';
+import GetProduct from './layout/adminPanel/getProduct.jsx';
 
 
 function App() {
@@ -38,7 +39,7 @@ function App() {
                     {/* To do the routing based on the Categories, SubCategories and Products*/}
                     <Route path="/gaming-pc/:subcategory/:product" element={<ConfigureCartGaming />} />
                     <Route path="/workstation/:subcategory/:product" element={<ConfigureCartWorkstation />} />
-
+                    <Route path='/getProduct' element={<GetProduct />} />
                     <Route element={<ProtectedRoute />} >
                         <Route path='/dashboard' element={<Dashboard />} />
                         <Route path='/cart' element={<CartProductDetails />} />

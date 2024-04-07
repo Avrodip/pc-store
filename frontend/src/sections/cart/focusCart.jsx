@@ -49,27 +49,23 @@ const styles = {
 const cardsData = [
   {
     title: 'Ultimate Craftsmanship',
-    description:
-      'Every system, at Ant PC, is assembled & quality checked by experts who handle only one PC at a time to ensure that your dream PC is up to the mark.',
-    imageUrl: 'https://www.ant-pc.com/assets/2022-theme/images/focus-icon1h.png',
+    description: 'At 6gigahertz, each system is meticulously assembled and undergoes rigorous quality checks by our team of experts. Our specialists handle only one PC at a time, ensuring that each system meets our high standards, guaranteeing that your dream PC is nothing short of perfection."',
+    imageUrl: './Images/card/technical-support.png',
   },
   {
     title: 'Peak Performance',
-    description:
-      'Each machine over here from high-end workstations to entry-level systems is equipped with the most reliable components to ensure that they’re operating at peak performance.',
-    imageUrl: 'https://www.ant-pc.com/assets/2022-theme/images/focus-icon2h.png',
+    description:'From high-end workstations to entry-level systems, each machine here is outfitted with dependable components to ensure peak performance.',
+    imageUrl: './Images/card/performance.png',
   },
   {
     title: 'Precise Testing',
-    description:
-      'We strive to deliver quality builds with utmost precision. And, that’s why before we dispatch any product, we take it through various significant benchmark tests.',
-    imageUrl: 'https://www.ant-pc.com/assets/2022-theme/images/focus-icon3h.png',
+    description:"We are committed to providing high-quality constructions with meticulous attention to detail. Therefore, prior to sending out any product, we subject it to rigorous benchmark testing to ensure excellence.",
+    imageUrl: './Images/card/testing.png',
   },
   {
     title: 'Designed to Be Unique',
-    description:
-      'Ant PC knows the true power of uniqueness, and thus we work hard to encourage it. Hence, we bring you limitless custom solutions designed to your specifications.',
-    imageUrl: 'https://www.ant-pc.com/assets/2022-theme/images/focus-icon4nh.png',
+    description:'At Ant PC, we recognize the immense potential of individuality, which is why we dedicate ourselves to promoting it. As a result, we offer an extensive range of personalized solutions tailored precisely to your needs.',
+    imageUrl: './Images/card/idea.png',
   },
 ];
 
