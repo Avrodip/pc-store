@@ -15,6 +15,7 @@ import Dashboard from "./sections/dashboard/Dashboard";
 import WorkStationCart from './sections/cart/workStationCart/index';
 import GamingPc from './sections/cart/gamePcCart/index';
 import Register from './sections/auth/register';
+import ForgetPassword from './sections/auth/forgetPassword.jsx';
 import LoginAuth from './sections/auth/loginAuth';
 import Navbar from './layout/Navbar';
 import Footer from './layout/footer';
@@ -34,7 +35,7 @@ function App() {
                     <Route path='/gaming-pc' element={<GamingPc />} />
                     <Route path='/login' element={<LoginAuth />} />
                     <Route path='/register' element={<Register />} />
-
+                    <Route path='/forgetPassword' element={<ForgetPassword />} />
                     {/* To do the routing based on the Categories, SubCategories and Products*/}
                     <Route path="/gaming-pc/:subcategory/:product" element={<ConfigureCartGaming />} />
                     <Route path="/workstation/:subcategory/:product" element={<ConfigureCartWorkstation />} />
