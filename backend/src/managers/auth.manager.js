@@ -174,6 +174,29 @@ class AuthManager {
             throw error;
         }
     }
+
+    async setNewPassword(req) {
+        const email = req.body.email;
+        const new_password=req.body.password;
+      
+        let password = await new Promise((resolve, reject) => {
+            bcrypt.hash(new_password, 10, function (err, hash) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(hash);
+                }
+            });
+        });
+        try {
+            const [results] = await db.promise().query('CALL setNewPassword(?, ?)', [email, password]);
+            console.log("results",results[0].message)
+        }
+        catch (error) {
+            console.error("Error during fetching user Details: ", error);
+            return { success: false, message: 'An error occurred during fetching user Details' };
+        }
+    }
 }
 
 

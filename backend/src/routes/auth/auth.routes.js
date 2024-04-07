@@ -14,4 +14,5 @@ router.post("/login", loginValidation, authController.userLogin)
 router.post("/getUserByID", authController.getUserDetailsByID)
 router.post("/forgetPassword", authController.forgetPassword)
 router.post("/verifyOtp",authController.verifyOtp)
+router.post("/setNewPassword",authController.setNewPassword)
 module.exports = router;
