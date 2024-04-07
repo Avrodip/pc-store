@@ -34,10 +34,8 @@ const ConfigureCartWorkstation = () => {
             .then((result) => {
                 if (result.success) {
                     const createCart = async () => {
-                        debugger;
                         const response = await createProductCart({ ...values, userID: result.userID })
                         if (response.statusCode == 200) {
-                            // handleAddToCart(response.data[0][0].id)
                             navigate('/cart');
                         } else {
                             console.log("Something error happened")

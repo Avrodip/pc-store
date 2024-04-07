@@ -5,7 +5,7 @@ export const apiRoutes = {
     login: 'api/auth/login',
     register: 'api/auth/register',
 
-    changePassword: 'api/auth/changePassword',
+    changePassword: 'api/auth/setNewPassword',
     getUserDetailsByID: 'api/auth/getUserByID',
     // End
 
