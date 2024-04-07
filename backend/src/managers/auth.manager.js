@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const SecretKey = process.env.JWT_SECRET_KEY;
 const expiresIn = process.env.JWT_TIMEOUT_DURATION;
-
+const nodemailer = require('nodemailer');
 class AuthManager {
 
     // User Login
@@ -110,6 +110,99 @@ class AuthManager {
             return { success: false, message: 'An error occurred during fetching user Details' };
         }
     }
+
+    
+    async forgetPassword(req) {
+        const { email } = req.body;
+
+        try {
+            // Generate OTP
+            const otp = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit OTP
+
+            // Create transporter
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: process.env.GMAIL_USER,
+                    pass: process.env.GMAIL_PASS,
+                },
+            });
+
+            const mailOptions = {
+                from: ' process.env.GMAIL_USER', 
+                to: email,
+                subject: 'Password Reset OTP',
+                text: `Your OTP for password reset is: ${otp}`,
+            };
+
+            await transporter.sendMail(mailOptions);
+            await this.storeOtpInDatabase(email, otp);
+
+            return { success: true, message: 'OTP sent to your email for password reset' };
+        } catch (error) {
+            console.error('Error sending OTP for password reset:', error);
+            return { success: false, message: 'An error occurred while sending OTP for password reset' };
+        }
+    }
+
+    async storeOtpInDatabase(email, otp) {
+        try {
+            console.log("email",email,otp)
+            const [results] = await db.promise().query('CALL storeotp(?, ?)', [email, otp]);
+            console.log(results);
+        } catch (error) {
+            console.error('Error storing OTP in database:', error);
+            throw error; // Handle or propagate the error as needed
+        }
+    }
+
+    async verifyOtp(req) {
+        const email = req.body.email;
+        const otp = req.body.otp;
+        
+        try {
+            const [results] = await db.promise().query('CALL verifyotp(?, ?)', [email, otp]);
+            
+            if (results && results.length > 0 && results[0][0].message === 'OTP verified successfully') {
+                return { success: true, message: 'OTP verification successful' };
+            } else {
+                // OTP verification failed
+                return { success: false, message: 'OTP verification failed' };
+            }
+        } catch (error) {
+            console.error('Error verifying OTP:', error);
+            throw error;
+        }
+    }
+
+    async setNewPassword(req) {
+        const email = req.body.email;
+        const newPassword = req.body.password;
+        let password = await new Promise((resolve, reject) => {
+            bcrypt.hash(newPassword, 10, function (err, hash) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(hash);
+                }
+            });
+        });
+        try {
+            const [rows] = await db.promise().query('CALL setNewPassword(?, ?)', [email, password]);
+            
+            // Extract the message from the response
+            const message = rows[0][0].message;
+            
+            console.log("Message:", message); // Log the message
+            
+            return { success: true, message: message }; // Return the message in the response
+        } catch (error) {
+            console.error("Error during updating password: ", error);
+            return { success: false, message: 'An error occurred during updating password' };
+        }
+    }
+    
 }
+
 
 module.exports = AuthManager;

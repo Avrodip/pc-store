@@ -52,6 +52,52 @@ class AuthController {
             return apiResponse.expectationFailedResponse(res, error);
         }
     }
+
+    async forgetPassword(req, res) {
+        try {
+            const result = await authManager.forgetPassword(req);
+
+            console.log("Results getting : ", result)
+
+            if (result.success) {
+                return apiResponse.successResponseWithData(res, result.message, result.data);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
+
+    async verifyOtp(req, res){
+        try {
+            const result = await authManager.verifyOtp(req);
+    
+            if (result.success) {
+                return apiResponse.successResponseWithData(res, result.message, result.data);
+            } else {
+                return apiResponse.errorResponse(res, result.message, 400);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    };
+
+    async setNewPassword(req, res) {
+        try {
+            const result = await authManager.setNewPassword(req);
+
+            console.log("Results getting : ", result)
+
+            if (result.success) {
+                return apiResponse.successResponseWithData(res, result.message, result.data);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
 }
 
 module.exports = { AuthController };
