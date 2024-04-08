@@ -43,7 +43,7 @@ const ImageSlider = () => {
                         <img
                             src={image}
                             alt={`Slide ${index + 1}`}
-                            style={{ width: '100%', height: '700px', objectFit: 'cover' }}
+                            style={{ width: '100%', height: '600px'}}
                         />
                     </Grid>
                 ))}

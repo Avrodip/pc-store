@@ -9,7 +9,7 @@ const DetailsComponent = () => {
                 <Paper style={{ padding: '20px', textAlign: 'center', backgroundColor: 'black' }}>
                     {/* Replace 'your_image_url' with the actual image URL */}
                     <img
-                        src="https://www.ant-pc.com/assets/2022-theme/images/Difference-pc.png"
+                        src="\Images\500x500\1.png"
                         alt="Details"
                         style={{ width: '100%', height: 'auto', maxWidth: '100%', border: 'none' }}
                     />
@@ -68,7 +68,7 @@ const DetailsComponent = () => {
                 <Paper style={{ padding: '20px', textAlign: 'center', backgroundColor: 'black' }}>
                     {/* Replace 'your_image_url' with the actual image URL */}
                     <img
-                        src="https://www.ant-pc.com/assets/2022-theme/images/Bring-Home.jpg"
+                        src="\Images\500x500\3.png"
                         alt="Bring Home"
                         style={{ width: '100%', height: 'auto', maxWidth: '85%', border: 'none' }}
                     />

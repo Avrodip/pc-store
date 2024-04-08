@@ -5,7 +5,7 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import "../css/footer.css"
-import Copyright from "./Copyright";
+import Copyright from "./copyright";
 
 const styles = {
     footerContact: {
@@ -31,7 +31,7 @@ const styles = {
         padding: '10px',
         color: 'white',
         marginTop: '10px',
-        fontSize: '0.9rem',
+        fontSize: '1.1rem',
         transition: 'border-bottom 0.3s ease-in-out, margin-left 0.3s ease-in-out',
         '&:hover': {
             borderBottom: '2px solid #ABABAB',
@@ -39,8 +39,9 @@ const styles = {
         }
     },
     arrowIcon: {
-        width: '12px',
-        height: '12px',
+        width: '20px',
+        height: '20px',
+        marginTop:'2px',
         paddingRight: '5px'
     }
 }
@@ -52,9 +53,9 @@ const Footer = () => {
                 <Grid container display={'flex'}>
                     <Grid xs={12} sm={4} sx={styles.footerContact} backgroundColor={"#313134"}>
                         <Grid sx={styles.footerContact}>
-                            <img src="images/Logo-idea-white.png"
-                                width={50}
-                                height={50}
+                            <img src="./Images/qr.jpg"
+                                width={70}
+                                height={70}
                                 alt="logo"
                                 responsive lazy />
                         </Grid>
@@ -64,26 +65,26 @@ const Footer = () => {
                     </Grid>
                     <Grid xs={12} sm={4} sx={styles.footerContact} backgroundColor={"#1D1D1F"}>
                         <Grid sx={styles.footerContact}>
-                            <img src="images/Logo-idea-white.png"
+                            <img src="./Images/phone.png"
                                 width={50}
                                 height={50}
                                 alt="logo"
                                 responsive lazy />
                         </Grid>
                         <Grid sx={styles.footerContact} className="roboto-medium">
-                            <span style={{ fontSize: '1.4rem', fontWeight: '700' }}>Call us<br /> +91-8889766565</span>
+                            <span style={{ fontSize: '1.4rem', fontWeight: '700' }}>Call us<br /> +91-7054300844</span>
                         </Grid>
                     </Grid>
                     <Grid xs={12} sm={4} sx={styles.footerContact} backgroundColor={"#313134"}>
                         <Grid sx={styles.footerContact}>
-                            <img src="images/Logo-idea-white.png"
+                            <img src="./Images/postcard.png"
                                 width={50}
                                 height={50}
                                 alt="logo"
                                 responsive lazy />
                         </Grid>
                         <Grid sx={styles.footerContact} className="roboto-medium">
-                            <span style={{ fontSize: '1.4rem', fontWeight: '700' }}>Mail us<br />sales@ant-pc.com </span>
+                            <span style={{ fontSize: '1.4rem', fontWeight: '700' }}>Mail us<br /><a href="mailto:  admin@6gigahertz.com " style={{textDecoration: "none", color: 'white'}}>admin@6gigahertz.com</a></span>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -111,11 +112,11 @@ const Footer = () => {
                     </Grid>
 
                     <Grid xs={12} sm={3} style={{ padding: '20px' }}>
-                        <span style={{ fontWeight: '500' }}>Info Links </span>
+                        <span style={{ fontWeight: '500' }}>Sitemap </span>
                         <Grid sx={styles.quickContent}>
                             <a href="#" style={{ textDecoration: "none", color: "white", display: 'flex' }}>
                                 <span style={{ color: '#BB020D' }}><PlayArrowIcon sx={styles.arrowIcon} /></span>
-                                <span>Our Clients</span>
+                                <span>Home</span>
                             </a>
                         </Grid>
                         <Grid sx={styles.quickContent}>
@@ -133,19 +134,25 @@ const Footer = () => {
                         <Grid sx={styles.quickContent}>
                             <a href="#" style={{ textDecoration: "none", color: "white", display: 'flex' }}>
                                 <span style={{ color: '#BB020D' }}><PlayArrowIcon sx={styles.arrowIcon} /></span>
-                                <span>Blog</span>
+                                <span>My Account</span>
                             </a>
                         </Grid>
                         <Grid sx={styles.quickContent}>
                             <a href="#" style={{ textDecoration: "none", color: "white", display: 'flex' }}>
                                 <span style={{ color: '#BB020D' }}><PlayArrowIcon sx={styles.arrowIcon} /></span>
-                                <span>Support</span>
+                                <span>Affiliate</span>
+                            </a>
+                        </Grid>
+                        <Grid sx={styles.quickContent}>
+                            <a href="#" style={{ textDecoration: "none", color: "white", display: 'flex' }}>
+                                <span style={{ color: '#BB020D' }}><PlayArrowIcon sx={styles.arrowIcon} /></span>
+                                <span>Blog</span>
                             </a>
                         </Grid>
                     </Grid>
 
                     <Grid xs={12} sm={3} style={{ padding: '20px' }}>
-                        <span style={{ fontWeight: '500' }}>Help</span>
+                        <span style={{ fontWeight: '500' }}>Support</span>
                         <Grid sx={styles.quickContent}>
                             <a href="#" style={{ textDecoration: "none", color: "white", display: 'flex' }}>
                                 <span style={{ color: '#BB020D' }}><PlayArrowIcon sx={styles.arrowIcon} /></span>
@@ -155,25 +162,25 @@ const Footer = () => {
                         <Grid sx={styles.quickContent}>
                             <a href="#" style={{ textDecoration: "none", color: "white", display: 'flex' }}>
                                 <span style={{ color: '#BB020D' }}><PlayArrowIcon sx={styles.arrowIcon} /></span>
-                                <span>Privacy Policy</span>
+                                <span>Privacy</span>
                             </a>
                         </Grid>
                         <Grid sx={styles.quickContent}>
                             <a href="#" style={{ textDecoration: "none", color: "white", display: 'flex' }}>
                                 <span style={{ color: '#BB020D' }}><PlayArrowIcon sx={styles.arrowIcon} /></span>
-                                <span>Return & Refund Policy</span>
+                                <span>Shipping & Return</span>
                             </a>
                         </Grid>
                         <Grid sx={styles.quickContent}>
                             <a href="#" style={{ textDecoration: "none", color: "white", display: 'flex' }}>
                                 <span style={{ color: '#BB020D' }}><PlayArrowIcon sx={styles.arrowIcon} /></span>
-                                <span>Shipping Policy</span>
+                                <span>Refund & Cancellation</span>
                             </a>
                         </Grid>
                         <Grid sx={styles.quickContent}>
                             <a href="#" style={{ textDecoration: "none", color: "white", display: 'flex' }}>
                                 <span style={{ color: '#BB020D' }}><PlayArrowIcon sx={styles.arrowIcon} /></span>
-                                <span>E-waste management</span>
+                                <span>Order Tracking</span>
                             </a>
                         </Grid>
                     </Grid>
@@ -190,10 +197,10 @@ const Footer = () => {
                                     justifyContent: 'center',
                                     alignItems: 'center'
                                 }}><LocationOnIcon /></span>
-                            <span style={{ fontWeight: '500', padding: '5px' }}>Coorporate Address</span>
+                            <span style={{ fontWeight: '500', padding: '5px' }}>Contact</span>
                         </Grid>
                         <Grid style={{ padding: '10px', marginLeft: '40px', fontWeight: '200', fontSize: '0.9rem' }}>
-                            <span>Ant Engineering Private Limited, Z-41, Okhla Phase II, New Delhi, 110020</span>
+                            <span>Lucknow</span>
                         </Grid>
 
                         <Grid container display={'flex'}>

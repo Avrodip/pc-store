@@ -45,16 +45,17 @@ const Navbar = () => {
             return (
                 <Box
                     sx={{
-                        display: "flex",
-                        flexWrap: "wrap",
+                        
                         position: "absolute",
-                        paddingLeft: "60px",
                         top: "60px",
-                        border: "2px solid red",
+                        right: '100px',
+                        border: "2px solid rgba(187, 2, 13, 0.6)",
                         backgroundColor: "#171717",
-                        width: "100%",
-                        height: "400px",
-                        borderBottom: "2px solid red",
+                        minWidth: "10%",
+                        minHeight: "100px",
+                        justifyContent: 'center',
+                        alignItems: "center",
+                        margin: '0px auto',
                         fontFamily: "Roboto, sans-serif",
                         marginRight: "-15px",
                         marginLeft: "-15px",
@@ -64,109 +65,25 @@ const Navbar = () => {
                     onMouseEnter={() => handleMouseEnter(3)}
                     onMouseLeave={() => handleMouseLeave(3)}
                 >
-                    <Box sx={{ marginRight: "20px", marginLeft: "20px", maxWidth: "25%", height: "200px" }}>
+                    <Box sx={{ marginRight: "20px", marginLeft: "20px", padding: '20px'}}>
                         <Typography component="h3">AI & DEEP LEARNING</Typography>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Box>
-                                <img
-                                    src="/Images/Logo-Idea-white.png"
-                                    alt="Logo"
-                                    className="logo"
-                                    style={{ width: "50px", height: "auto" }}
-                                />
-                            </Box>
-                            <Box>
-                                <ul style={{ listStyleType: "none", paddingLeft: "15px" }}>
-                                    <li>Single GPU Solutions</li>
-                                    <li>Dual GPU Solutions</li>
-                                    <li>Quad GPU Solutions</li>
-                                    <li>Octa GPU Solutions</li>
-                                </ul>
-                            </Box>
-                        </Box>
+                        
                     </Box>
 
-                    <Box sx={{ marginRight: "20px", marginLeft: "20px", maxWidth: "25%", height: "200px" }}>
-                        <h3>ARCHITECTURE & ENGINEERING</h3>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Box>
-                                <img
-                                    src="/Images/Logo-Idea-white.png"
-                                    alt="Logo"
-                                    className="logo"
-                                    style={{ width: "50px", height: "auto" }}
-                                />
-                            </Box>
-                            <Box>
-                                <ul style={{ listStyleType: "none", paddingLeft: "15px" }}>
-                                    <li>Rendering</li>
-                                    <li>Engineering</li>
-                                    <li>3D Design & Animation</li>
-                                </ul>
-                            </Box>
-                        </Box>
+                    <Box sx={{ marginRight: "20px", marginLeft: "20px", padding: '20px'}}>
+                        <Typography component="h3">ARCHITECTURE & ENGINEERING</Typography>
                     </Box >
 
-                    <Box sx={{ marginRight: "20px", marginLeft: "20px", maxWidth: "25%", height: "200px" }}>
-                        <h3>VISUAL DESIGNING & AUDIO EFFECTS</h3>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Box>
-                                <img
-                                    src="/Images/Logo-Idea-white.png"
-                                    alt="Logo"
-                                    className="logo"
-                                    style={{ width: "50px", height: "auto" }}
-                                />
-                            </Box>
-                            <Box>
-                                <ul style={{ listStyleType: "none", paddingLeft: "15px" }}>
-                                    <li>Video Editing</li>
-                                    <li>Graphic Design</li>
-                                    <li>Audio Production</li>
-                                </ul>
-                            </Box>
-                        </Box>
+                    <Box sx={{ marginRight: "20px", marginLeft: "20px", padding: '20px'}}>
+                        <Typography component="h3">VISUAL DESIGNING & AUDIO EFFECTS</Typography>
                     </Box>
 
-                    <Box sx={{ marginRight: "20px", marginLeft: "20px", maxWidth: "25%", height: "200px" }}>
-                        <h3>TRADING PC</h3>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Box>
-                                <img
-                                    src="/Images/Logo-Idea-white.png"
-                                    alt="Logo"
-                                    className="logo"
-                                    style={{ width: "50px", height: "auto" }}
-                                />
-                            </Box>
-                            <Box>
-                                <ul style={{ listStyleType: "none", paddingLeft: "15px" }}>
-                                    <li>2 Display Solution</li>
-                                    <li>4 Display Solution</li>
-                                    <li>8 Display Solution</li>
-                                </ul>
-                            </Box>
-                        </Box>
+                    <Box sx={{ marginRight: "20px", marginLeft: "20px", padding: '20px'}}>
+                        <Typography component="h3">TRADING PC</Typography>
                     </Box>
 
-                    <Box sx={{ marginRight: "20px", marginLeft: "20px", maxWidth: "25%", height: "200px" }}>
-                        <h3>NAS</h3>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Box>
-                                <img
-                                    src="/Images/Logo-Idea-white.png"
-                                    alt="Logo"
-                                    className="logo"
-                                    style={{ width: "50px", height: "auto" }}
-                                />
-                            </Box>
-                            <Box >
-                                <ul style={{ listStyleType: "none", paddingLeft: "15px" }}>
-                                    <li>Rackmout</li>
-                                    <li>Tower</li>
-                                </ul>
-                            </Box>
-                        </Box>
+                    <Box sx={{ marginRight: "20px", marginLeft: "20px", padding: '20px'}}>
+                        <Typography component="h3">NAS</Typography>
                     </Box>
                 </Box >
             );
@@ -174,66 +91,33 @@ const Navbar = () => {
         } else if (buttonNumber === 4 && isHovered4) {
             return (
                 <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        flexWrap: "wrap",
-                        position: "absolute",
-                        paddingLeft: "60px",
-                        top: "60px",
-                        backgroundColor: "#171717",
-                        width: "100%",
-                        height: "400px",
-                        borderBottom: "2px solid red",
-                        fontFamily: "Roboto, sans-serif",
-                        marginRight: "-15px",
-                        marginLeft: "-15px",
-                        boxSizing: "border-box",
-                    }
-                    }
+                sx={{
+                        
+                    position: "absolute",
+                    top: "60px",
+                    right: '100px',
+                    border: "2px solid rgba(187, 2, 13, 0.6)",
+                    backgroundColor: "#171717",
+                    minWidth: "10%",
+                    minHeight: "100px",
+                    justifyContent: 'center',
+                    alignItems: "center",
+                    margin: '0px auto',
+                    fontFamily: "Roboto, sans-serif",
+                    marginRight: "-15px",
+                    marginLeft: "-15px",
+                    boxSizing: "border-box",
+                }
+                }
                     onMouseEnter={() => handleMouseEnter(3)}
                     onMouseLeave={() => handleMouseLeave(3)}
                 >
-                    <Box sx={{ marginRight: "20px", marginLeft: "20px", maxWidth: "25%", height: "200px" }}>
-                        <h3>Gaming PC Series</h3>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Box>
-                                <img
-                                    src="/Images/Logo-Idea-white.png"
-                                    alt="Logo"
-                                    className="logo"
-                                    style={{ width: "50px", height: "auto" }}
-                                />
-                            </Box>
-                            <Box>
-                                <ul style={{ listStyleType: "none", paddingLeft: "15px" }}>
-                                    <li>Dorylus Series (Budget Gaming)</li>
-                                    <li>Pharach Series (Enthusiast Gaming)</li>
-                                    <li>Solenopsis Series (Extreme Gaming)</li>
-                                    <li>Metallica Series (Streaming)</li>
-                                </ul>
-                            </Box>
-                        </Box>
+                    <Box sx={{ marginRight: "20px", marginLeft: "20px", padding: '20px'}}>
+                        <Typography component="h3">Gaming PC Series</Typography>
                     </Box>
 
-                    <Box sx={{ marginRight: "20px", marginLeft: "20px", maxWidth: "25%", height: "200px" }}>
-                        <h3>Gaming PC Series</h3>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Box>
-                                <img
-                                    src="/Images/Logo-Idea-white.png"
-                                    alt="Logo"
-                                    className="logo"
-                                    style={{ width: "50px", height: "auto" }}
-                                />
-                            </Box>
-                            <Box>
-                                <ul style={{ listStyleType: "none", paddingLeft: "15px" }}>
-                                    <li>AMD RYZEN PCs</li>
-                                    <li>NVIDIA 40 SERIES</li>
-                                </ul>
-                            </Box>
-                        </Box>
+                    <Box sx={{ marginRight: "20px", marginLeft: "20px", padding: '20px'}}>
+                        <Typography component="h3">AMD Ryzen PCs</Typography>
                     </Box >
 
                 </Box >
