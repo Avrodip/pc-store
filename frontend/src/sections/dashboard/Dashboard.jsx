@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, Button, Typography } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faHouse, faShoppingCart, faKey } from '@fortawesome/free-solid-svg-icons';
@@ -7,6 +7,7 @@ import MyOrders from "./MyOrders"
 import MyProfile from "./MyPofile"
 import MyAddress from "./MyAddress"
 import ChangePassword from "./ChangePassword"
+import { useLocation } from 'react-router-dom';
 
 
 const useStyles = makeStyles({
@@ -43,6 +44,12 @@ const useStyles = makeStyles({
 const Dashboard = () => {
     const classes = useStyles();
     const [currentPage, setCurrentPage] = useState('profile');
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
 
     const handleClick = (page) => {
         setCurrentPage(page);

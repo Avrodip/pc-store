@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useFormik } from 'formik';
-import { Stack, FormHelperText, Button, InputLabel, OutlinedInput, Grid } from "@mui/material"
+import { Stack, FormHelperText, Button, InputLabel, OutlinedInput, Grid, Typography } from "@mui/material"
 import * as Yup from 'yup';
 import { userLogin } from '../../services/authService';
 import { ToastContainer } from 'react-toastify';
@@ -48,6 +48,10 @@ const LoginForm = ({ location, handleSignIn }) => {
         validationSchema: formValidation,
         onSubmit: (values) => { customerLogin(values) }
     })
+
+    const handleResetPassword = () => {
+        navigate('/reset-password')
+    }
 
     return (
         <form onSubmit={formik.handleSubmit} >
@@ -112,6 +116,10 @@ const LoginForm = ({ location, handleSignIn }) => {
                         </Grid>
                     )
                 }
+
+                <Grid item xs={12} sx={{ textAlign: 'center', mt: 2 }}>
+                    <Typography onClick={handleResetPassword} color="error" variant="contained">forgot password?</Typography>
+                </Grid>
 
                 <Grid item xs={12} sx={{ textAlign: 'center', mt: 2 }}>
                     <Button type="submit" color="error" variant="contained">Sign IN</Button>

@@ -66,7 +66,7 @@ exports.verification = async (req, res) => {
             //     message: `Payment verification is valid ${razorpay_order_id}`,
             //     redirectUrl: "http://localhost:5173/",
             // });
-            res.redirect(`http://localhost:5173/my-orders`)
+            res.redirect(`http://localhost:5174/dashboard`)
         } catch (error) {
             console.error("Error occurred:", error);
             throw error;

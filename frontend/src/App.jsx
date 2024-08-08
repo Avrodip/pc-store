@@ -35,7 +35,7 @@ function App() {
                     <Route path='/gaming-pc' element={<GamingPc />} />
                     <Route path='/login' element={<LoginAuth />} />
                     <Route path='/register' element={<Register />} />
-                    <Route path='/forgetPassword' element={<ForgetPassword />} />
+                    <Route path='/reset-password' element={<ForgetPassword />} />
                     {/* To do the routing based on the Categories, SubCategories and Products*/}
                     <Route path="/gaming-pc/:subcategory/:product" element={<ConfigureCartGaming />} />
                     <Route path="/workstation/:subcategory/:product" element={<ConfigureCartWorkstation />} />

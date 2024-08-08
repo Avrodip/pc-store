@@ -174,6 +174,34 @@ class AuthManager {
             throw error;
         }
     }
+
+    async setNewPassword(req) {
+        const email = req.body.email;
+        const newPassword = req.body.password;
+        let password = await new Promise((resolve, reject) => {
+            bcrypt.hash(newPassword, 10, function (err, hash) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(hash);
+                }
+            });
+        });
+        try {
+            const [rows] = await db.promise().query('CALL setNewPassword(?, ?)', [email, password]);
+            
+            // Extract the message from the response
+            const message = rows[0][0].message;
+            
+            console.log("Message:", message); // Log the message
+            
+            return { success: true, message: message }; // Return the message in the response
+        } catch (error) {
+            console.error("Error during updating password: ", error);
+            return { success: false, message: 'An error occurred during updating password' };
+        }
+    }
+    
 }
 
 

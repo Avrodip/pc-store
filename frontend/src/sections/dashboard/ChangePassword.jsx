@@ -1,12 +1,15 @@
 import { Button, FormHelperText, Grid, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { StatusCode } from '../../utils/contant';
-import { warningToast } from '../../components/ReactToastify';
 import { changePassword } from '../../services/dashboard';
 import { ToastContainer } from 'react-toastify';
+import { AuthContext } from '../../context-api/userContext';
+import { useContext } from 'react';
+import axios from 'axios';
 
 function PasswordResetForm() {
+    const { checkTokenValidity } = useContext(AuthContext);
+
     const formik = useFormik({
         initialValues: {
             password: '',
@@ -26,12 +29,28 @@ function PasswordResetForm() {
         },
     });
     const formSubmit = async (values) => {
-        const response = await changePassword({ password: values.password, confirmPassword: values.confirmPassword });
-        if (response.statusCode === StatusCode.success) {
-            alert("Password Changed Successfully");
-        } else {
-            warningToast(response.message, "bottom-right")
-        }
+        checkTokenValidity()
+            .then((result) => {
+                if (result.success) {
+                    const changePass = async () => {
+                        const res = await axios.post('http://localhost:5050/api/auth/getUserByID', { userID: result.userID })
+                        if (res.status === 200) {
+                            const response = await changePassword({ password: values.password, email: res.data.data[0].email })
+                            if (response.statusCode == 200) {
+                                alert("Password Changed Successfully");
+                            } else {
+                                console.log("Something error happened")
+                            }
+                        }
+                    }
+                    changePass();
+                } else {
+                    handleSignIn();
+                }
+            })
+            .catch((error) => {
+                console.error("Error validating token:", error);
+            });
     }
 
     return (

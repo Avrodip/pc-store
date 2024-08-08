@@ -82,6 +82,22 @@ class AuthController {
             return apiResponse.expectationFailedResponse(res, error);
         }
     };
+
+    async setNewPassword(req, res) {
+        try {
+            const result = await authManager.setNewPassword(req);
+
+            console.log("Results getting : ", result)
+
+            if (result.success) {
+                return apiResponse.successResponseWithData(res, result.message, result.data);
+            } else {
+                return apiResponse.conflictRequest(res, result.message);
+            }
+        } catch (error) {
+            return apiResponse.expectationFailedResponse(res, error);
+        }
+    }
 }
 
 module.exports = { AuthController };
